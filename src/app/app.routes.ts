@@ -1,13 +1,16 @@
 import { Routes } from '@angular/router';
 import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
-
+import { LandingComponent } from './pages/landing/landing.component';
+import { MoviesComponent } from './pages/movies/movies.component';
+import { MovieInfoComponent } from './pages/movie-info/movie-info.component';
+import { MovieComponent } from './pages/movie/movie.component';
 
 export const routes: Routes = [
   // Ruta a la landing
-  // {
-  //   path: 'landing',
-  //   //component: Landing,
-  // },
+  {
+    path: 'landing',
+    component: LandingComponent,
+  },
   //Rutas a auth para login y register
   {
     path: 'auth',
@@ -19,30 +22,28 @@ export const routes: Routes = [
   //Ruta a la front-page/home
   // {
   //   path: 'home',
-  //   //component: Home
+  //   component: Home
   // },
-  // // Ruta donde ver las peliculas
-  // {
-  //   path: 'movies',
-  //   //component: movies
-  //   children: [
-  //     // Ruta donde ver la info de cada pelicula
-  //     {
-  //       path: 'info/:id',
-  //       //component: info
-  //     },
-  //     {
-  //       path: ':id',
-  //       //component: editar/crear
-  //       canMatch: [
-  //     //NotAuthenticatedGuard,
-  //   ],
-  //     },
-  //   ]
-  // },
-  // //Ruta por si no se encuentra algo que redirija a home
-  // {
-  //   path: '**',
-  //   redirectTo: 'landing'
-  // }
+  // Ruta donde ver las peliculas
+  {
+    path: 'movies',
+    component: MoviesComponent,
+    children: [
+      // Ruta donde ver la info de cada pelicula
+      {
+        path: 'info/:id',
+        component: MovieInfoComponent,
+      },
+      {
+        path: ':id',
+        component: MovieComponent,
+        canMatch: [
+          //NotAuthenticatedGuard,
+        ],
+      },
+    ],
+  },
+  //Ruta por si no se encuentra algo que redirija a home
+  { path: '', redirectTo: '/landing', pathMatch: 'full' }, // Página de inicio por defecto
+  { path: '**', redirectTo: '/landing' }, // Redirección en caso de ruta no encontrada
 ];
