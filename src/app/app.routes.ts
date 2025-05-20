@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  // Ruta a la landing page
+  // Ruta a la landing
   {
     path: 'landing',
     //component: Landing,
