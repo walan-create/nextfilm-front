@@ -14,7 +14,6 @@ const baseUrl = environment.baseUrl;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
   //--------------- Señales y estado reactivo -------------------
   private _authStatus = signal<AuthStatus>('checking'); // Estado de autenticación
   private _user = signal<User | null>(null); // Datos del usuario autenticado
@@ -22,6 +21,8 @@ export class AuthService {
 
   // Inyección del servicio HttpClient para realizar solicitudes HTTP
   private http = inject(HttpClient);
+
+  private checkStatusCache = new Map<AuthResponse, number>();
 
   //--------------- Recursos y computados -------------------
   // Recurso para verificar el estado de autenticación al montar el servicio
@@ -45,39 +46,101 @@ export class AuthService {
   //--------------- Métodos principales -------------------
 
   // Método para iniciar sesión
-  login(mail: string, password: string): Observable<boolean> {
-    return this.http
-      .post<AuthResponse>(`${baseUrl}/auth/login`, {
-        mail: mail,
-        password: password,
-      })
-      .pipe(
-        map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
-        catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
-      );
+  login(email: string, password: string): Observable<boolean> {
+    const auth: AuthResponse = {
+      token: 'hola',
+      user: {
+        email: '',
+        id: '',
+        name: '',
+        isAdmin: false,
+      },
+    };
+
+    this.handleAuthSuccess(auth);
+    return of(true);
+    // return this.http
+    //   .post<AuthResponse>(`${baseUrl}/auth/login`, {
+    //     email: email,
+    //     password: password,
+    //   })
+    //   .pipe(
+    //     tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
+    //     map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
+    //     catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
+    //   );
   }
 
   // Método para registrar un nuevo usuario
-  register(userData: User): Observable<boolean> {
-    return this.http
-      .post<AuthResponse>(`${baseUrl}/auth/register`, userData)
-      .pipe(
-        map((resp) => this.handleAuthSuccess(resp)),
-        catchError((error: any) => this.handleAuthError(error))
-      );
+  register(email: string, password: string, name: string): Observable<boolean> {
+    const auth: AuthResponse = {
+      token: 'hola',
+      user: {
+        email: '',
+        id: '',
+        name: '',
+        isAdmin: false,
+      },
+    };
+
+    this.handleAuthSuccess(auth);
+    return of(true);
+    // return this.http
+    //   .post<AuthResponse>(`${baseUrl}/auth/register`, {
+    //     email: email,
+    //     password: password,
+    //     name: name,
+    //   })
+    //   .pipe(
+    //     tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
+    //     map((resp) => this.handleAuthSuccess(resp)),
+    //     catchError((error: any) => this.handleAuthError(error))
+    //   );
   }
 
   // Método para verificar el estado de autenticación
   checkStatus(): Observable<boolean> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      this.logout();
-      return of(false);
+    // const token = localStorage.getItem('token');
+    // if (!token) {
+    //   this.logout();
+    //   return of(false);
+    // }
+
+    //  
+    // return this.http.get<AuthResponse>(`${baseUrl}/auth/checkStatus`).pipe(
+    //     tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
+    //   map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
+    //   catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
+    // );
+
+    const auth: AuthResponse = {
+      token: 'hola',
+      user: {
+        email: '',
+        id: '',
+        name: '',
+        isAdmin: false,
+      },
+    };
+
+    this.handleAuthSuccess(auth);
+    return of(true);
+  }
+
+
+  private comprobarCache(token: string){
+    const minutes = 15*60*1000;
+    const now = new Date().getTime();
+
+    for(let key of this.checkStatusCache.keys()) {
+      if(key.token === token){
+        const past = now - this.checkStatusCache.get(key)!
+        if(past < minutes) {
+          return key;
+        }
+      }
     }
-    return this.http.get<AuthResponse>(`${baseUrl}/auth/checkStatus`).pipe(
-      map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
-      catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
-    );
+    return false;
   }
 
   //----------------------------------
