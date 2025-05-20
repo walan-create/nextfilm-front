@@ -4,40 +4,42 @@
 
       <!-- Logo -->
       <div class="navbar-brand me-auto ms-3">
+
         <a [routerLink]="'/'" class="d-flex align-items-center no-decoration" href="#">
-          <img src="./assets/images/nextfilm-logo.png" alt="Bootstrap" height="50" class="me-2">
+          <img src="assets/images/nextfilm-logo.png" alt="Bootstrap" height="50" class="me-2">
         </a>
       </div>
 
-      <!-- Login y registro buttons -->
+      <!-- Login y register buttons -->
       <div class="justify-content-end d-none d-md-flex">
 
         <!--  -->
-        <!-- @if (authService.authStatus() === 'authenticated') { -->
+        @if (authService.authStatus() === 'authenticated') {
           <div class="d-flex gap-2">
             <a  class="btn btn-primary d-flex py-2 px-3">
               <i class="fa-solid fa-house fs-3 m-0 d-flex align-items-center" style="width:32px;"></i>
               <p class="my-0 ms-2 align-items-center d-flex"> <b>Entrar</b> </p>
             </a>
-            <a class="btn btn-danger d-flex py-2 px-3">
+
+            <a [routerLink]="'/landing'" (click)="authService.logout()" class="btn btn-danger d-flex py-2 px-3">
               <i class="fa-solid fa-arrow-right-from-bracket fs-3 m-0 d-flex align-items-center" style="width:32px;"></i>
               <p class="my-0 ms-2 align-items-center d-flex"> <b>Salir</b> </p>
             </a>
           </div>
-        <!-- } -->
+        }
         <!--  -->
-        <!-- @else if (authService.authStatus() === 'not-authenticated'){ -->
+        @else if (authService.authStatus() === 'not-authenticated'){
           <div class="d-flex gap-2">
-            <a class="btn btn-primary d-flex py-2 px-3">
+            <a [routerLink]="'/auth/login'" class="btn btn-primary d-flex py-2 px-3">
               <i class="fa-solid fa-user fs-3 m-0 d-flex align-items-center"></i>
               <p class="my-0 ms-2 align-items-center d-flex"> <b>Iniciar Sesión</b> </p>
             </a>
-            <a class="btn btn-success d-flex py-2 px-3">
+            <a [routerLink]="'/auth/register'" class="btn btn-success d-flex py-2 px-3">
               <i class="fa-solid fa-pen-to-square fs-3 m-0 d-flex align-items-center"></i>
               <p class="my-0 ms-2 align-items-center d-flex"> <b>Registrarse</b> </p>
             </a>
           </div>
-        <!-- } -->
+        }
 
 
       </div>
