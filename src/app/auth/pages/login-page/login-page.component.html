@@ -1,0 +1,89 @@
+<form
+  class="d-flex flex-column gap-2"
+  [formGroup]="loginForm"
+  (ngSubmit)="onSubmit()"
+>
+  <label class="form-control position-relative mb-2">
+    <svg
+      class="position-absolute top-50 start-0 translate-middle-y opacity-50 me-2"
+      style="height: 1em;"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+    >
+      <g
+        stroke-linejoin="round"
+        stroke-linecap="round"
+        stroke-width="2.5"
+        fill="none"
+        stroke="currentColor"
+      >
+        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+      </g>
+    </svg>
+    <input
+      type="email"
+      placeholder="Correo Electrónico"
+      class="form-control ps-5"
+      formControlName="email"
+      required
+    />
+  </label>
+
+  <label class="form-control position-relative mb-2">
+    <svg
+      class="position-absolute top-50 start-0 translate-middle-y opacity-50 me-2"
+      style="height: 1em;"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+    >
+      <g
+        stroke-linejoin="round"
+        stroke-linecap="round"
+        stroke-width="2.5"
+        fill="none"
+        stroke="currentColor"
+      >
+        <path
+          d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"
+        ></path>
+        <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+      </g>
+    </svg>
+    <input
+      type="password"
+      placeholder="Contraseña"
+      class="form-control ps-5"
+      formControlName="password"
+    />
+  </label>
+
+  <button class="btn btn-secondary" type="submit">Log IN</button>
+
+  @if (hasError()) {
+
+  <div role="alert" class="alert alert-danger mt-2 d-flex align-items-center">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="me-2"
+      style="height: 1.5em; width: 1.5em;"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+    <span>Email o Contraseña Incorrectos</span>
+  </div>
+
+  }
+
+  <p class="text-dark mt-3">
+    ¿No tienes cuenta?
+    <a routerLink="/auth/register" class="text-primary">Regístrate</a>
+  </p>
+</form>
