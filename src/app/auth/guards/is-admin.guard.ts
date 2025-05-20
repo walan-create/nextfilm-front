@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { CanMatchFn, Route, Router, UrlSegment } from '@angular/router';
 import { AuthService } from '@auth/services/auth.service';
-import authRoutes from '../auth.routes';
 import { firstValueFrom } from 'rxjs';
 
 export const IsAdminGuard: CanMatchFn = async (
@@ -16,9 +15,9 @@ export const IsAdminGuard: CanMatchFn = async (
 
   await firstValueFrom(authService.checkStatus());
 
-  const roles =  authService.user()?.roles;
+  const isAdmin =  authService.user()?.isAdmin;
 
-  if(!roles?.includes('admin')) {
+  if(isAdmin) {
     router.navigateByUrl('/');
     return false;
   }
