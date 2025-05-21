@@ -4,6 +4,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { MovieInfoComponent } from './pages/movie-info/movie-info.component';
 import { MovieComponent } from './pages/movie/movie.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
   // Ruta a la landing
@@ -19,11 +20,11 @@ export const routes: Routes = [
       // NotAuthenticatedGuard,
     ],
   },
-  //Ruta a la front-page/home
-  // {
-  //   path: 'home',
-  //   component: Home
-  // },
+  // Ruta a la home
+  {
+    path: 'home',
+    component: HomeComponent,
+  },
   // Ruta donde ver las peliculas
   {
     path: 'movies',
@@ -44,6 +45,6 @@ export const routes: Routes = [
     ],
   },
   //Ruta por si no se encuentra algo que redirija a home
-  { path: '', redirectTo: '/landing', pathMatch: 'full' }, // Página de inicio por defecto
-  { path: '**', redirectTo: '/landing' }, // Redirección en caso de ruta no encontrada
+  { path: '', redirectTo: 'landing', pathMatch: 'full' }, // Página de inicio por defecto
+  { path: '**', redirectTo: 'landing' }, // Redirección en caso de ruta no encontrada
 ];
