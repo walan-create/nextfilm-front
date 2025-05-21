@@ -25,10 +25,6 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
   },
-  {
-    path: 'info',
-    component: MovieInfoComponent,
-  },
   // Ruta donde ver las peliculas
   {
     path: 'movies',
