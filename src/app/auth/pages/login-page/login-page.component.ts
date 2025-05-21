@@ -42,8 +42,9 @@ export class LoginPageComponent {
     if (this.loginForm.invalid) {
       this.mostrarError();
     }
+    else{
 
-    const { email = '', password = '' } = this.loginForm.value;
+      const { email = '', password = '' } = this.loginForm.value;
 
     this.authService.login(email!, password!).subscribe((isAuth) => {
       if(isAuth){
@@ -54,5 +55,9 @@ export class LoginPageComponent {
       this.mostrarError();
 
     });
+
+    }
+
+
   }
 }

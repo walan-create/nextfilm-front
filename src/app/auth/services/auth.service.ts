@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Observable, map, catchError, of } from 'rxjs';
+import { Observable, map, catchError, of, tap } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 import { User } from '../interfaces/user.interface';
@@ -47,84 +47,93 @@ export class AuthService {
 
   // Método para iniciar sesión
   login(email: string, password: string): Observable<boolean> {
-    const auth: AuthResponse = {
-      token: 'hola',
-      user: {
-        email: '',
-        id: '',
-        name: '',
-        isAdmin: false,
-      },
-    };
+    // const auth: AuthResponse = {
+    //   token: 'hola',
+    //   user: {
+    //     email: '',
+    //     id: '',
+    //     name: '',
+    //     isAdmin: false,
+    //   },
+    // };
 
-    this.handleAuthSuccess(auth);
-    return of(true);
-    // return this.http
-    //   .post<AuthResponse>(`${baseUrl}/auth/login`, {
-    //     email: email,
-    //     password: password,
-    //   })
-    //   .pipe(
-    //     tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
-    //     map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
-    //     catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
-    //   );
+    // this.handleAuthSuccess(auth);
+    // return of(true);
+    return this.http
+      .post<AuthResponse>(`${baseUrl}/auth/login`, {
+        email: email,
+        password: password,
+      })
+      .pipe(
+        tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
+        tap((resp) => console.log(resp)),
+        map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
+        catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
+      );
   }
 
   // Método para registrar un nuevo usuario
   register(email: string, password: string, name: string): Observable<boolean> {
-    const auth: AuthResponse = {
-      token: 'hola',
-      user: {
-        email: '',
-        id: '',
-        name: '',
-        isAdmin: false,
-      },
-    };
+    // const auth: AuthResponse = {
+    //   token: 'hola',
+    //   user: {
+    //     email: '',
+    //     id: '',
+    //     name: '',
+    //     isAdmin: false,
+    //   },
+    // };
 
-    this.handleAuthSuccess(auth);
-    return of(true);
-    // return this.http
-    //   .post<AuthResponse>(`${baseUrl}/auth/register`, {
-    //     email: email,
-    //     password: password,
-    //     name: name,
-    //   })
-    //   .pipe(
-    //     tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
-    //     map((resp) => this.handleAuthSuccess(resp)),
-    //     catchError((error: any) => this.handleAuthError(error))
-    //   );
+    // this.handleAuthSuccess(auth);
+    // return of(true);
+    return this.http
+      .post<AuthResponse>(`${baseUrl}/auth/register`, {
+        email: email,
+        password: password,
+        name: name,
+      })
+      .pipe(
+        tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
+        map((resp) => this.handleAuthSuccess(resp)),
+        catchError((error: any) => this.handleAuthError(error))
+      );
   }
 
   // Método para verificar el estado de autenticación
   checkStatus(): Observable<boolean> {
-    // const token = localStorage.getItem('token');
-    // if (!token) {
-    //   this.logout();
-    //   return of(false);
-    // }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.logout();
+      return of(false);
+    }
 
-    //  
-    // return this.http.get<AuthResponse>(`${baseUrl}/auth/checkStatus`).pipe(
-    //     tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
-    //   map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
-    //   catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
-    // );
 
-    const auth: AuthResponse = {
-      token: 'hola',
-      user: {
-        email: '',
-        id: '',
-        name: '',
-        isAdmin: false,
-      },
-    };
+    const resp = this.comprobarCache(token);
 
-    this.handleAuthSuccess(auth);
-    return of(true);
+    if(resp != false){
+      this.handleAuthSuccess(resp);
+      return of(true);
+    }
+
+
+    return this.http.get<AuthResponse>(`${baseUrl}/auth/checkStatus`).pipe(
+      tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
+      map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
+      catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
+    );
+
+    // const auth: AuthResponse = {
+    //   token: 'hola',
+    //   user: {
+    //     email: '',
+    //     id: '',
+    //     name: '',
+    //     isAdmin: false,
+    //   },
+    // };
+
+    // this.handleAuthSuccess(auth);
+    // return of(true);
   }
 
 

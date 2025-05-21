@@ -6,7 +6,7 @@ import { AuthService } from '@auth/services/auth.service';
 
 @Component({
   selector: 'app-register-page',
-  imports: [ ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule],
   templateUrl: './register-page.component.html',
 })
 export class RegisterPageComponent {
@@ -20,38 +20,39 @@ export class RegisterPageComponent {
   registerForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(3)]],
-    fullName: ['', [Validators.required]]
+    fullName: ['', [Validators.required]],
   });
 
-
-
   checkStatusResource = rxResource({
-    loader: () => this.authService.checkStatus()
-  })
+    loader: () => this.authService.checkStatus(),
+  });
 
-  private mostrarError (){
-
+  private mostrarError() {
     this.hasError.set(true);
-      setTimeout(() => {
-        this.hasError.set(false);
-      }, 2000);
-      return;
-
+    setTimeout(() => {
+      this.hasError.set(false);
+    }, 2000);
+    return;
   }
 
   onSubmit() {
     if (this.registerForm.invalid) {
       this.mostrarError();
+    } else {
+      const {
+        email = '',
+        password = '',
+        fullName = '',
+      } = this.registerForm.value;
+
+      this.authService
+        .register(email!, password!, fullName!)
+        .subscribe((isAuth) => {
+          if (isAuth) {
+            this.router.navigateByUrl('/');
+          }
+          this.mostrarError();
+        });
     }
-
-    const { email = '', password = '', fullName = '' } = this.registerForm.value;
-
-    this.authService.register(email!, password!, fullName!).subscribe((isAuth) => {
-      if(isAuth){
-        this.router.navigateByUrl('/');
-      }
-      this.mostrarError();
-
-    });
   }
 }
