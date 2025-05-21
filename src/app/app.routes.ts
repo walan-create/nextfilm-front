@@ -25,6 +25,10 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
   },
+  {
+    path: 'info',
+    component: MovieInfoComponent,
+  },
   // Ruta donde ver las peliculas
   {
     path: 'movies',
@@ -35,6 +39,7 @@ export const routes: Routes = [
         path: 'info/:id',
         component: MovieInfoComponent,
       },
+      // Ruta donde editar la info de la pelicula
       {
         path: ':id',
         component: MovieComponent,
