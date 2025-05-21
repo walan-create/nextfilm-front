@@ -1,0 +1,110 @@
+<h1 class="h2 fw-bold">{{ movie().title }}</h1>
+<hr class="my-3">
+
+<form
+  [formGroup]="movieForm"
+  class="row g-4"
+  (ngSubmit)="onSubmit()"
+>
+  <!-- Datos generales -->
+  <h2 class="h3 fw-bold mb-3">Datos Pelicula</h2>
+
+  <div class="d-flex flex-column gap-2">
+    <input
+      type="text"
+      placeholder="Título"
+      class="form-control"
+      formControlName="title"
+      [class.is-invalid]="movieForm.get('title')?.errors ?? false"
+    />
+    <app-form-error-label [control]="movieForm.get('title')!" />
+
+    <input
+      formControlName="release"
+      type="text"
+      placeholder="Release date"
+      class="form-control"
+      [class.is-invalid]="movieForm.get('release')?.errors ?? false"
+    />
+    <app-form-error-label [control]="movieForm.get('release')!" />
+
+    <textarea
+      class="form-control"
+      placeholder="Descripción"
+      rows="6"
+      formControlName="description"
+      [class.is-invalid]="movieForm.get('description')?.errors ?? false"
+    ></textarea>
+    <app-form-error-label [control]="movieForm.get('description')!" />
+
+    <textarea
+      class="form-control"
+      placeholder="Director"
+      rows="6"
+      formControlName="director"
+      [class.is-invalid]="movieForm.get('director')?.errors ?? false"
+    ></textarea>
+
+    <textarea
+      class="form-control"
+      placeholder="Duracion en Minutos"
+      rows="6"
+      formControlName="duration"
+      [class.is-invalid]="movieForm.get('duration')?.errors ?? false"
+    ></textarea>
+    <app-form-error-label [control]="movieForm.get('duration')!" />
+
+    <div class="row g-2">
+      <div class="col-12 col-sm-6">
+        <input
+          type="number"
+          placeholder="Precio"
+          class="form-control"
+          formControlName="rental_price"
+          [class.is-invalid]="movieForm.get('rental_price')?.errors ?? false"
+        />
+        <app-form-error-label [control]="movieForm.get('rental_price')!" />
+      </div>
+
+      <div class="col-12 col-sm-6">
+        <input
+          type="number"
+          placeholder="Inventario"
+          class="form-control"
+          formControlName="stock"
+          [class.is-invalid]="movieForm.get('stock')?.errors ?? false"
+        />
+        <app-form-error-label [control]="movieForm.get('stock')!" />
+      </div>
+    </div>
+
+
+
+    <!-- Genre -->
+    <div class="d-grid gap-2" style="grid-template-columns: repeat(6, 1fr);">
+      @for (genre of genres; track $index) {
+      <button
+        class="btn btn-sm "
+        type="button"
+        (click)="onGenreClick(genre)"
+        [class.btn-primary]="movieForm.value.genre == genre"
+      >
+        {{ genre }}
+      </button>
+      }
+    </div>
+  </div>
+
+
+  <button type="submit" class="btn btn-success">
+    Guardar
+  </button>
+
+</form>
+
+@if(wasSaved()){
+
+<div class="alert alert-success position-fixed bottom-0 end-0 m-4" style="width: 300px;">
+  <span>Datos Actualizados Correctamente</span>
+</div>
+}

@@ -5,6 +5,8 @@ import { MoviesComponent } from './pages/movies/movies.component';
 import { MovieInfoComponent } from './pages/movie-info/movie-info.component';
 import { MovieComponent } from './pages/movie/movie.component';
 import { HomeComponent } from './pages/home/home.component';
+import { CreateFilmPageComponent } from './pages/createFilm-page/createFilm-page.component';
+import { EditMoviePageComponent } from './pages/editMovie-page/editMovie-page.component';
 
 export const routes: Routes = [
   // Ruta a la landing
@@ -31,6 +33,13 @@ export const routes: Routes = [
   },
   // Ruta donde ver las peliculas
   {
+        path: 'edit/:id',
+        component: EditMoviePageComponent,
+        canMatch: [
+      // IsAdminGuard,
+        ],
+      },
+  {
     path: 'movies',
     component: MoviesComponent,
     children: [
@@ -39,14 +48,25 @@ export const routes: Routes = [
         path: 'info/:id',
         component: MovieInfoComponent,
       },
-      // Ruta donde editar la info de la pelicula
       {
-        path: ':id',
-        component: MovieComponent,
+        path: 'edit/:id',
+        component: EditMoviePageComponent,
         canMatch: [
-          //NotAuthenticatedGuard,
+      // IsAdminGuard,
         ],
       },
+      {
+        path: 'create',
+        component: CreateFilmPageComponent,
+        canMatch: [
+      // IsAdminGuard,
+        ],
+      },
+      {
+        path: '**',
+        redirectTo: ''
+      }
+
     ],
   },
   //Ruta por si no se encuentra algo que redirija a home
