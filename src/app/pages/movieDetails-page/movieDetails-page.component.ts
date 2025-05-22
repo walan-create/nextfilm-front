@@ -11,7 +11,8 @@ import { MoviesService } from '../../services/movies.service';
 import { MovieGenre } from '../../interfaces/movie-genre.enum';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
-import { FormErrorLabelComponent } from "../../components/form-error-label/form-error-label.component";
+import { FormErrorLabelComponent } from '../../components/form-error-label/form-error-label.component';
+import { FormUtils } from '@utils/form.utils';
 
 @Component({
   selector: 'app-movie-details-page',
@@ -54,7 +55,13 @@ export class MovieDetailsPageComponent {
   movieForm = this.fb.group({
     title: ['', [Validators.required], []],
     genre: ['', [Validators.required], []],
-    release: [0, [Validators.required], []],
+    release: [
+      '',
+      [Validators.required,
+        // Validators.pattern(FormUtils.datePattern)
+      ],
+      [],
+    ],
     director: ['', [Validators.required], []],
     duration: [0, [Validators.required], []],
     stock: [0, [Validators.required], []],
@@ -63,7 +70,18 @@ export class MovieDetailsPageComponent {
   });
 
   private setFormValue(formLike: Movie) {
-    this.movieForm.patchValue(formLike as Partial<Movie>);
+    this.movieForm.patchValue(formLike as any);
+
+     const year = formLike.release.getFullYear();
+      // Month is 0-indexed, so add 1 and pad with leading zero if needed
+      const month = String(formLike.release.getMonth() + 1).padStart(2, '0');
+      // Day of month (getDate, not getDay which is day of week)
+      const day = String(formLike.release.getDate()).padStart(2, '0');
+
+      this.movieForm.patchValue({
+        release: `${year}-${month}-${day}`
+      });
+
   }
 
   ngOnInit(): void {
@@ -76,22 +94,24 @@ export class MovieDetailsPageComponent {
 
     if (!isValid) return;
 
-    const formValue = this.movieForm.value as Movie;
+    const formValue  = this.movieForm.value ;
 
+    const movieLike : Partial<Movie>= {
+      ...formValue as any,
+      release: new Date(formValue.release ?? ''),
+    }
 
+    console.log(movieLike);
     //obtengo los  datos de el formulario ya formateados
 
     if (this.movie().id === 'new') {
       const product = await firstValueFrom(
-        this.movieService.createMovie(formValue)
+        this.movieService.createMovie(movieLike)
       ); // si es new creo el producto y navego a la dirección del producto creado
       this.router.navigate(['/movie/info', product.id]);
     } else
       await firstValueFrom(
-        this.movieService.updateMovie(
-          this.movie().id,
-          formValue
-        )
+        this.movieService.updateMovie(this.movie().id, movieLike)
       ); // si no es  nuevo sólo lo actualizo
 
     this.wasSaved.set(true); // activar mensaje de guardado

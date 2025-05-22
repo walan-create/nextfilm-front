@@ -41,8 +41,8 @@
       <input
         id="release"
         formControlName="release"
-        type="text"
-        placeholder="Release date"
+        type="date"
+        placeholder="Release DD/MM/YYYY"
         class="form-control"
         [class.is-invalid]="movieForm.get('release')?.errors ?? false"
       />

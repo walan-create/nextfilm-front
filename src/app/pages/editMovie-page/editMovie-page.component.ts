@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 import { MoviesService } from '../../services/movies.service';
 import { MovieDetailsPageComponent } from "../movieDetails-page/movieDetails-page.component";
 import { MovieGenre } from '../../interfaces/movie-genre.enum';
+import { Movie } from '../../interfaces/movie.interface';
 
 @Component({
   selector: 'app-edit-movie-page',
@@ -26,29 +27,31 @@ export class EditMoviePageComponent {
     )
   );
 
-  // movie = {
-  //       id: '1',
-  //       title: 'The Godfather',
-  //       genre: MovieGenre.Drama,
-  //       release: 1972,
-  //       director: 'Francis Ford Coppola',
-  //       duration: 175,
-  //       stock: 5,
-  //       rental_price: 20,
-  //       description: 'Classic mafia movie.',
-  //     };
-
-  movieResource = rxResource({
-    request: () => ({ id : this.movieId()}),
-    loader: ({request} ) => {
-      return this.movieService.getMovieById(request.id);
-    }
-  })
 
 
-  redirectEffect = effect( () => {
-    if(this.movieResource.error()){
-      this.router.navigate(['/admin']);
-    }
-  });
+  movie : Movie = {
+    id: '1',
+        title: 'The Godfather',
+        genre: MovieGenre.Drama,
+        release: new Date('1972-03-24'),
+        director: 'Francis Ford Coppola',
+        duration: 175,
+        stock: 5,
+        rental_price: 20,
+        description: 'Classic mafia movie.',
+  }
+
+  // movieResource = rxResource({
+  //   request: () => ({ id : this.movieId()}),
+  //   loader: ({request} ) => {
+  //     return this.movieService.getMovieById(request.id);
+  //   }
+  // })
+
+
+  // redirectEffect = effect( () => {
+  //   if(this.movieResource.error()){
+  //     this.router.navigate(['/admin']);
+  //   }
+  // });
 }
