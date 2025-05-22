@@ -27,10 +27,6 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
   },
-  {
-    path: 'info',
-    component: MovieInfoComponent,
-  },
   // Ruta donde ver las peliculas
 
   {
@@ -56,6 +52,7 @@ export const routes: Routes = [
         ],
       },
       {
+
         path: '',
         component: MoviesComponent,
       },
@@ -63,7 +60,6 @@ export const routes: Routes = [
         path: '**',
         redirectTo: ''
       }
-
     ],
   },
   //Ruta por si no se encuentra algo que redirija a home
