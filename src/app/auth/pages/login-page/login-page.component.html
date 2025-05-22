@@ -1,84 +1,35 @@
-<form
-  class="d-flex flex-column gap-2"
-  [formGroup]="loginForm"
-  (ngSubmit)="onSubmit()"
->
-  <label
-    class="form-control d-flex align-items-center gap-2 border rounded px-3 py-2"
-  >
-    <svg
-      class="opacity-50"
-      style="height: 1em"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-    >
-      <g
-        stroke-linejoin="round"
-        stroke-linecap="round"
-        stroke-width="2.5"
-        fill="none"
-        stroke="currentColor"
-      >
+<form class="d-flex flex-column gap-2" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <label class="form-control d-flex align-items-center gap-2 border rounded px-3 py-2">
+    <svg class="opacity-50" style="height: 1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
         <rect width="20" height="16" x="2" y="4" rx="2"></rect>
         <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
       </g>
     </svg>
-    <input
-      type="email"
-      class="form-control border-0 shadow-none"
-      placeholder="Correo Electrónico"
-      formControlName="email"
-      required
-    />
+    <input type="email" class="form-control border-0 shadow-none" placeholder="Correo Electrónico"
+      formControlName="email" required />
   </label>
 
-  <label
-    class="form-control d-flex align-items-center gap-2 border rounded px-3 py-2"
-  >
-    <svg
-      class="opacity-50"
-      style="height: 1em"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-    >
-      <g
-        stroke-linejoin="round"
-        stroke-linecap="round"
-        stroke-width="2.5"
-        fill="none"
-        stroke="currentColor"
-      >
+  <label class="form-control d-flex align-items-center gap-2 border rounded px-3 py-2">
+    <svg class="opacity-50" style="height: 1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
         <path
-          d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"
-        ></path>
+          d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z">
+        </path>
         <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
       </g>
     </svg>
-    <input
-      type="password"
-      class="form-control border-0 shadow-none"
-      placeholder="Contraseña"
-      formControlName="password"
-    />
+    <input type="password" class="form-control border-0 shadow-none" placeholder="Contraseña"
+      formControlName="password" />
   </label>
 
   <button class="btn btn-secondary" type="submit">Log IN</button>
 
   @if (hasError()) {
-  <div
-    role="alert"
-    class="alert alert-danger fade show d-flex align-items-center gap-2 mt-2"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-    >
-      <path
-        fill="currentColor"
-        d="M12.884 2.532c-.346-.654-1.422-.654-1.768 0l-9 17A1 1 0 0 0 3 21h18a.998.998 0 0 0 .883-1.467zM13 18h-2v-2h2zm-2-4V9h2l.001 5z"
-      />
+  <div role="alert" class="alert alert-danger fade show d-flex align-items-center gap-2 mt-2">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="currentColor"
+        d="M12.884 2.532c-.346-.654-1.422-.654-1.768 0l-9 17A1 1 0 0 0 3 21h18a.998.998 0 0 0 .883-1.467zM13 18h-2v-2h2zm-2-4V9h2l.001 5z" />
     </svg>
     <span>Email o Contraseña Incorrectos</span>
   </div>
