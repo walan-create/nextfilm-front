@@ -1,56 +1,68 @@
+<!-- @if (movieResource.isLoading()){
+<div class="text-center text-primary">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Cargando...</span>
+  </div>
+</div>
+} -->
+
+<!-- @if(movieResource.hasValue()){ -->
+@if(movieResourcee){
 <div class="d-flex flex-wrap justify-content-center align-items-center gap-5">
   <!-- Columna izquierda con texto -->
   <div class="flex-grow-1 me-lg-4">
-    <h1 class="text-center fs-1 fw-bold text-primary mb-5 mt-5">28 días después</h1>
+    <h1 class="text-center fs-1 fw-bold text-primary mb-5 mt-5">{{movieResourcee.title | titlecase }}</h1>
 
-    <div class="mb-3">
-      <div class="mb-2">
-        <h3 class="text-info">Duración:</h3>
-        <p class="fs-5">113 minutos</p>
+      <div class="mb-3">
+        <div class="mb-2">
+          <h3 class="text-info">Duración:</h3>
+          <p class="fs-5">{{movieResourcee.duration}} minutos</p>
+        </div>
+        <hr>
+        <div class="mb-2">
+          <h3 class="text-info">Estreno:</h3>
+          <p class="fs-5">{{movieResourcee.release}}</p>
+        </div>
+        <hr>
+        <div class="mb-2">
+          <h3 class="text-info">Director:</h3>
+          <p class="fs-5">{{movieResourcee.director | titlecase}}</p>
+        </div>
+        <hr>
+        <div class="mb-2">
+          <h3 class="text-info">Género:</h3>
+          <p class="fs-5">{{movieResourcee.genre | titlecase}}</p>
+        </div>
+        <hr>
+        <div class="mb-2">
+          <h3 class="text-info">Descripción:</h3>
+          <p class="fs-5">{{movieResourcee.description}}</p>
+        </div>
       </div>
-      <hr>
-      <div class="mb-2">
-        <h3 class="text-info">Estreno:</h3>
-        <p class="fs-5">2002</p>
-      </div>
-      <hr>
-      <div class="mb-2">
-        <h3 class="text-info">Director:</h3>
-        <p class="fs-5">Danny Boyle</p>
-      </div>
-      <hr>
-      <div class="mb-2">
-        <h3 class="text-info">Género:</h3>
-        <p class="fs-5">Terror</p>
-      </div>
-      <hr>
-      <div class="mb-2">
-        <h3 class="text-info">Descripción:</h3>
-        <p class="fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta nam molestias...</p>
-      </div>
-    </div>
 
-    <hr>
+      <hr>
 
-    <!-- Fila con precio y stock -->
-    <div class="d-flex justify-content-between">
-      <div>
-        <h3 class="text-info">Precio alquiler:</h3>
-        <p class="fs-5">4,99 €</p>
+      <!-- Fila con precio y stock -->
+      <div class="d-flex justify-content-between">
+        <div>
+          <h3 class="text-info">Precio alquiler:</h3>
+          <p class="fs-5">{{movieResourcee.rental_price}} €</p>
+        </div>
+        <div>
+          <h3 class="text-info">Stock:</h3>
+          <p class="fs-5">{{movieResourcee.stock}} unidades</p>
+        </div>
       </div>
-      <div>
-        <h3 class="text-info">Stock:</h3>
-        <p class="fs-5">8 unidades</p>
-      </div>
-    </div>
   </div>
 
   <!-- Columna derecha con imagen -->
   <div class="d-flex justify-content-center align-items-center" style="max-width: 50%; height: 500px;">
-  <img src="../../../assets/images/portadas/28.webp"
-       alt="Portada de la película"
-       class="img-fluid rounded"
-       style="max-height: 100%; object-fit: cover;" />
-</div>
+    <img src="../../../assets/images/portadas/28.webp" alt="Portada de la película" class="img-fluid rounded"
+      style="max-height: 100%; object-fit: cover;" />
+  </div>
 
 </div>
+
+}
+
+<router-outlet />
