@@ -116,7 +116,7 @@ export class AuthService {
     }
 
 
-    return this.http.get<AuthResponse>(`${baseUrl}/auth/checkStatus`).pipe(
+    return this.http.post<AuthResponse>(`${baseUrl}/auth/checkStatus`,{token:token}).pipe(
       tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
       map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
       catchError((error: any) => this.handleAuthError(error)) // Manejo de errores

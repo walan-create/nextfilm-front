@@ -17,7 +17,7 @@ export class MovieInfoComponent {
 
   // Pelicula de prueba (MOCK)
   testMovie: Movie = {
-    id: '3',
+    _id: '3',
     title: '28 días después',
     genre: MovieGenre.Horror,
     release: new Date('1972-03-24'),

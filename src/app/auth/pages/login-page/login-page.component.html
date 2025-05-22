@@ -31,6 +31,7 @@
       required
     />
   </label>
+   <app-form-error-label [control]="loginForm.get('email')!" />
 
   <label
     class="form-control d-flex align-items-center gap-2 border rounded px-3 py-2"
@@ -62,7 +63,10 @@
     />
   </label>
 
-  <button class="btn btn-secondary" type="submit">Log IN</button>
+  <app-form-error-label [control]="loginForm.get('password')!" />
+
+
+  <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
 
   @if (hasError()) {
   <div
@@ -86,6 +90,6 @@
 
   <p class="text-dark mt-2">
     ¿No tienes cuenta?
-    <a routerLink="/auth/register" class="text-secondary">Resgistrate</a>
+    <a routerLink="/auth/register" class="text-secondary">Regístrate</a>
   </p>
 </form>
