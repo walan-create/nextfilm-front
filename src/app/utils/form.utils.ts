@@ -20,7 +20,7 @@ export class FormUtils {
   static notOnlySpacesPattern = '^[a-zA-Z0-9]+$';
   static passwordPattern =
     '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$';
-  static datePattern = '^(19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$';
+  static datePattern = '^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(19|20)\\d{2}$';
 
   static getTextError(errors: ValidationErrors) {
     for (const key of Object.keys(errors)) {

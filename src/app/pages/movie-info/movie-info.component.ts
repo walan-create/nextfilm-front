@@ -20,7 +20,7 @@ export class MovieInfoComponent {
     id: '3',
     title: '28 días después',
     genre: MovieGenre.Horror,
-    release: 10122020,
+    release: new Date('1972-03-24'),
     director: 'danny boyle',
     duration: 113,
     stock: 8,

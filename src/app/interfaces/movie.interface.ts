@@ -4,7 +4,7 @@ export interface Movie {
   id: string;
   title: string;
   genre: MovieGenre;
-  release: number; // Pasar a Date o String (Pendiente de back)
+  release: Date; // Pasar a Date o String (Pendiente de back)
   director: string;
   duration: number;
   stock: number;
