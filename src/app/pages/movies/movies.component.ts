@@ -11,12 +11,12 @@ import { AuthService } from '@auth/services/auth.service';
 import { MoviesService } from '../../services/movies.service';
 import { ReusableModalComponent } from '../../components/reusable-modal/reusable-modal.component';
 import { Movie } from '../../interfaces/movie.interface';
-import { NgClass, TitleCasePipe } from '@angular/common';
+import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
 import { MovieGenre } from '../../interfaces/movie-genre.enum';
 
 @Component({
   selector: 'app-movies',
-  imports: [RouterLink, ReusableModalComponent, NgClass, TitleCasePipe],
+  imports: [RouterLink, ReusableModalComponent, NgClass, TitleCasePipe, DatePipe],
   templateUrl: './movies.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -24,7 +24,7 @@ export class MoviesComponent {
   // 1. Lista de películas de prueba (MOCK)
     testMovies: Movie[] = [
     {
-      id: '1',
+      _id: '1',
       title: 'The Godfather',
       genre: MovieGenre.Drama,
       release: new Date('1972-03-24'),
@@ -35,7 +35,7 @@ export class MoviesComponent {
       description: 'Classic mafia movie.',
     },
     {
-      id: '2',
+      _id: '2',
       title: 'Inception',
       genre: MovieGenre.SciFi,
       release: new Date('1972-03-24'),
@@ -46,7 +46,7 @@ export class MoviesComponent {
       description: 'A mind-bending thriller.',
     },
     {
-      id: '3',
+      _id: '3',
       title: 'Avengers: Endgame',
       genre: MovieGenre.Action,
       release: new Date('1972-03-24'),
@@ -57,7 +57,7 @@ export class MoviesComponent {
       description: 'Epic superhero finale.',
     },
     {
-      id: '4',
+      _id: '4',
       title: 'The Hangover',
       genre: MovieGenre.Comedy,
       release: new Date('1972-03-24'),
@@ -68,7 +68,7 @@ export class MoviesComponent {
       description: 'A wild bachelor party in Las Vegas.',
     },
     {
-      id: '5',
+      _id: '5',
       title: 'Friday the 13th',
       genre: MovieGenre.Horror,
       release: new Date('1972-03-24'),
@@ -79,7 +79,7 @@ export class MoviesComponent {
       description: 'Camp counselors are stalked by a masked killer at Crystal Lake.',
     },
     {
-      id: '6',
+      _id: '6',
       title: 'The Lion King',
       genre: MovieGenre.Animated,
       release: new Date('1972-03-24'),
@@ -90,7 +90,7 @@ export class MoviesComponent {
       description: 'A young lion prince flees his kingdom only to learn the true meaning of responsibility and bravery.',
     },
     {
-      id: '7',
+      _id: '7',
       title: 'La La Land',
       genre: MovieGenre.Musical,
       release: new Date('1972-03-24'),
@@ -114,9 +114,10 @@ export class MoviesComponent {
 
   ngOnInit() {
     // Cargar las peliculas al iniciar el componente
-    // this.loadMovies();
+    this.loadMovies();
+    console.log(this.movies());
 
-    this.moviesService.movies.set(this.testMovies); // Mock de prueba
+    // this.moviesService.movies.set(this.testMovies); // Mock de prueba
   }
 
   openDeleteMovieModal(movieId: string) {
