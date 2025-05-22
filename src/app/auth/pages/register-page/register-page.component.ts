@@ -51,7 +51,7 @@ export class RegisterPageComponent {
         .register(email!, password!, fullName!)
         .subscribe((isAuth) => {
           if (isAuth) {
-            this.router.navigateByUrl('/');
+            this.router.navigateByUrl('/home');
           }
           this.mostrarError();
         });

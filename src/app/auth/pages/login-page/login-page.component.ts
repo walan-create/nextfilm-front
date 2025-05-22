@@ -50,7 +50,7 @@ export class LoginPageComponent {
 
     this.authService.login(email!, password!).subscribe((isAuth) => {
       if(isAuth){
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/home');
       }
 
 
