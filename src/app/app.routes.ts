@@ -34,6 +34,10 @@ export const routes: Routes = [
     path: 'movies',
     component: MoviesComponent,
     children: [
+      {
+        path: 'info/:id',
+        component: MovieInfoComponent,
+      },
       // Ruta donde ver la info de cada pelicula
       {
         path: 'info/:id',
