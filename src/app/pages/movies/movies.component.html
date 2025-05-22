@@ -51,7 +51,9 @@
       <!-- Columna 3: Duración -->
       <div class="d-none d-md-block col-md-2 fw-bold text-center">{{ movie.duration }} - Min</div>
       <!-- Columna 4: Estreno -->
-      <div class="d-none d-md-block col-md-2 fw-bold text-center">{{ movie.release }}</div>
+      <div class="d-none d-md-block col-md-2 fw-bold text-center">
+        {{ movie.release | date:'dd/MM/yyyy' }}
+      </div>
       <!-- Columna 5: Género -->
       <div class="d-none d-md-block col-md-2 text-center">
         <span
@@ -73,14 +75,14 @@
       <!-- Columna 6: Botones -->
       <div class="col-4 col-md-2 text-center ">
         <div class="btn-group gap-1">
-          <button class="btn btn-sm btn-info rounded-2" title="Info">
+          <button class="btn btn-sm btn-info rounded-2" title="Info" routerLink="/movies/{{ movie._id }}">
             <i class="fa-solid fa-circle-info" style="width: 15px"></i>
           </button>
-          <button class="btn btn-sm btn-warning rounded-2" title="Editar">
+          <button class="btn btn-sm btn-warning rounded-2" title="Editar" routerLink="/movies/edit/{{ movie._id }}">
             <i class="fa-solid fa-pen" style="width: 15px"></i>
           </button>
           <button
-            (click)="openDeleteMovieModal(movie.id)"
+            (click)="openDeleteMovieModal(movie._id)"
             class="btn btn-sm btn-danger rounded-2"
             title="Eliminar"
           >

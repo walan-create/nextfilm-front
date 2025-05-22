@@ -1,7 +1,7 @@
 import { MovieGenre } from "./movie-genre.enum";
 
 export interface Movie {
-  id: string;
+  _id: string;
   title: string;
   genre: MovieGenre;
   release: Date; // Pasar a Date o String (Pendiente de back)

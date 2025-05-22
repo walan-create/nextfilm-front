@@ -30,6 +30,8 @@
       formControlName="fullName"
     />
   </label>
+       <app-form-error-label [control]="registerForm.get('fullName')!" />
+
 
   <label
     class="form-control d-flex align-items-center gap-2 border rounded px-3 py-2"
@@ -59,6 +61,8 @@
       required
     />
   </label>
+     <app-form-error-label [control]="registerForm.get('email')!" />
+
 
   <label
     class="form-control d-flex align-items-center gap-2 border rounded px-3 py-2"
@@ -89,8 +93,10 @@
       formControlName="password"
     />
   </label>
+     <app-form-error-label [control]="registerForm.get('password')!" />
 
-  <button class="btn btn-secondary" type="submit">Registrarse</button>
+
+  <button class="btn btn-secondary" type="submit" [class.btn-primary]="registerForm.invalid">Registrarse</button>
 
   @if (hasError()) {
   <div

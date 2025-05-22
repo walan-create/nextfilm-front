@@ -8,59 +8,57 @@
 
 <!-- @if(movieResource.hasValue()){ -->
 @if(movieResourcee){
-<div class="d-flex flex-wrap justify-content-center align-items-center gap-5">
-  <!-- Columna izquierda con texto -->
-  <div class="flex-grow-1 me-lg-4">
-    <h1 class="text-center fs-1 fw-bold text-primary mb-5 mt-5">{{movieResourcee.title | titlecase }}</h1>
-
+<div class="container-lg my-5">
+  <div class="row justify-content-center align-items-start g-4 flex-column flex-md-row">
+    <!-- Columna izquierda con texto -->
+    <div class="col-12 col-md-7 order-1 order-md-0">
+      <h1 class="text-center fs-1 fw-bold text-primary mb-4 mt-3">
+        {{ movieResourcee.title | titlecase }}
+      </h1>
       <div class="mb-3">
         <div class="mb-2">
           <h3 class="text-info">Duración:</h3>
-          <p class="fs-5">{{movieResourcee.duration}} minutos</p>
+          <p class="fs-5">{{ movieResourcee.duration }} minutos</p>
         </div>
         <hr>
         <div class="mb-2">
           <h3 class="text-info">Estreno:</h3>
-          <p class="fs-5">{{movieResourcee.release}}</p>
+          <p class="fs-5">{{ movieResourcee.release }}</p>
         </div>
         <hr>
         <div class="mb-2">
           <h3 class="text-info">Director:</h3>
-          <p class="fs-5">{{movieResourcee.director | titlecase}}</p>
+          <p class="fs-5">{{ movieResourcee.director | titlecase }}</p>
         </div>
         <hr>
         <div class="mb-2">
           <h3 class="text-info">Género:</h3>
-          <p class="fs-5">{{movieResourcee.genre | titlecase}}</p>
+          <p class="fs-5">{{ movieResourcee.genre | titlecase }}</p>
         </div>
         <hr>
         <div class="mb-2">
           <h3 class="text-info">Descripción:</h3>
-          <p class="fs-5">{{movieResourcee.description}}</p>
+          <p class="fs-5 text-break">{{ movieResourcee.description }}</p>
         </div>
       </div>
-
       <hr>
-
-      <!-- Fila con precio y stock -->
-      <div class="d-flex justify-content-between">
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-3">
         <div>
           <h3 class="text-info">Precio alquiler:</h3>
-          <p class="fs-5">{{movieResourcee.rental_price}} €</p>
+          <p class="fs-5">{{ movieResourcee.rental_price }} €</p>
         </div>
         <div>
           <h3 class="text-info">Stock:</h3>
-          <p class="fs-5">{{movieResourcee.stock}} unidades</p>
+          <p class="fs-5">{{ movieResourcee.stock }} unidades</p>
         </div>
       </div>
+    </div>
+    <!-- Columna derecha con imagen -->
+    <div class="col-12 col-md-5 d-flex justify-content-center align-items-center order-0 order-md-1 mb-4 mb-md-0">
+      <img src="../../../assets/images/portadas/28.webp" alt="Portada de la película"
+        class="img-fluid rounded shadow w-100" style="max-width: 350px; max-height: 500px; object-fit: cover;" />
+    </div>
   </div>
-
-  <!-- Columna derecha con imagen -->
-  <div class="d-flex justify-content-center align-items-center" style="max-width: 50%; height: 500px;">
-    <img src="../../../assets/images/portadas/28.webp" alt="Portada de la película" class="img-fluid rounded"
-      style="max-height: 100%; object-fit: cover;" />
-  </div>
-
 </div>
 
 }

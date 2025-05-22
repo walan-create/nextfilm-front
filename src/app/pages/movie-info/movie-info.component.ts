@@ -9,7 +9,7 @@ import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-movie-info',
-  imports: [RouterOutlet,TitleCasePipe],
+  imports: [RouterOutlet, TitleCasePipe],
   templateUrl: './movie-info.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -17,7 +17,7 @@ export class MovieInfoComponent {
 
   // Pelicula de prueba (MOCK)
   testMovie: Movie = {
-    id: '3',
+    _id: '3',
     title: '28 días después',
     genre: MovieGenre.Horror,
     release: new Date('1972-03-24'),
@@ -46,11 +46,11 @@ export class MovieInfoComponent {
 
 
   movieResourcee = this.testMovie; //cambiar este por el de abajo
-  movieResource = rxResource({
-    request: () => ({ id: this.movieId() }),
-    loader: ({ request }) => {
-      return this.moviesService.getMovieById(request.id)
-    }
-  })
+  // movieResource = rxResource({
+  //   request: () => ({ id: this.movieId() }),
+  //   loader: ({ request }) => {
+  //     return this.moviesService.getMovieById(request.id)
+  //   }
+  // })
 
 }
