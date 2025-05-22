@@ -32,16 +32,9 @@ export const routes: Routes = [
     component: MovieInfoComponent,
   },
   // Ruta donde ver las peliculas
-  {
-        path: 'edit/:id',
-        component: EditMoviePageComponent,
-        canMatch: [
-      // IsAdminGuard,
-        ],
-      },
+
   {
     path: 'movies',
-    component: MoviesComponent,
     children: [
       // Ruta donde ver la info de cada pelicula
       {
@@ -61,6 +54,10 @@ export const routes: Routes = [
         canMatch: [
       // IsAdminGuard,
         ],
+      },
+      {
+        path: '',
+        component: MoviesComponent,
       },
       {
         path: '**',

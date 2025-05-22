@@ -3,6 +3,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@auth/services/auth.service';
+import { FormUtils } from '@utils/form.utils';
 
 @Component({
   selector: 'app-register-page',
@@ -19,8 +20,8 @@ export class RegisterPageComponent {
 
   registerForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(3)]],
-    fullName: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.pattern(FormUtils.passwordPattern)]],
+    fullName: ['', [Validators.required, Validators.pattern(FormUtils.namePattern)]],
   });
 
   checkStatusResource = rxResource({

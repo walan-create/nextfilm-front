@@ -26,29 +26,29 @@ export class EditMoviePageComponent {
     )
   );
 
-  movie = {
-        id: '1',
-        title: 'The Godfather',
-        genre: MovieGenre.Drama,
-        release: 1972,
-        director: 'Francis Ford Coppola',
-        duration: 175,
-        stock: 5,
-        rental_price: 20,
-        description: 'Classic mafia movie.',
-      };
+  // movie = {
+  //       id: '1',
+  //       title: 'The Godfather',
+  //       genre: MovieGenre.Drama,
+  //       release: 1972,
+  //       director: 'Francis Ford Coppola',
+  //       duration: 175,
+  //       stock: 5,
+  //       rental_price: 20,
+  //       description: 'Classic mafia movie.',
+  //     };
 
-  // movieResource = rxResource({
-  //   request: () => ({ id : this.movieId()}),
-  //   loader: ({request} ) => {
-  //     return this.movieService.getMovieById(request.id);
-  //   }
-  // })
+  movieResource = rxResource({
+    request: () => ({ id : this.movieId()}),
+    loader: ({request} ) => {
+      return this.movieService.getMovieById(request.id);
+    }
+  })
 
 
-  // redirectEffect = effect( () => {
-  //   if(this.movieResource.error()){
-  //     this.router.navigate(['/admin']);
-  //   }
-  // });
+  redirectEffect = effect( () => {
+    if(this.movieResource.error()){
+      this.router.navigate(['/admin']);
+    }
+  });
 }

@@ -1,1 +1,13 @@
-<p>createFilm-page works!</p>,
+@if(movieResource.isLoading()){
+  <div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+}
+
+
+@if(movieResource.hasValue()){
+  <app-movie-details-page [movie]="movieResource.value()" />
+}
+

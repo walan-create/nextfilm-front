@@ -18,7 +18,9 @@ export class FormUtils {
   static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
   static emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
   static notOnlySpacesPattern = '^[a-zA-Z0-9]+$';
-  static slugPattern = '^[a-z0-9_]+(?:-[a-z0-9_]+)*$';
+  static passwordPattern =
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$';
+  static datePattern = '^(19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$';
 
   static getTextError(errors: ValidationErrors) {
     for (const key of Object.keys(errors)) {
@@ -38,8 +40,6 @@ export class FormUtils {
         case 'emailTaken':
           return `El correo electrónico ya está siendo usado por otro usuario`;
 
-        case 'noStrider':
-          return `No se puede usar el username de strider en la app`;
 
         case 'pattern':
           if (errors['pattern'].requiredPattern === FormUtils.emailPattern) {

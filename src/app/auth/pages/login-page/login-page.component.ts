@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@auth/services/auth.service';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { FormUtils } from '@utils/form.utils';
 
 @Component({
   selector: 'app-login-page',
@@ -19,7 +20,7 @@ export class LoginPageComponent {
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(3)]],
+    password: ['', [Validators.required, Validators.pattern(FormUtils.passwordPattern)]],
   });
 
 
