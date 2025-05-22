@@ -10,7 +10,7 @@ const emptyMovie: Movie = {
   id: '',
   title: '',
   genre: MovieGenre.Action,
-  release: 0,
+  release: new Date(),
   director: '',
   duration: 0,
   stock: 0,
@@ -64,7 +64,7 @@ export class MoviesService {
     );
   }
 
-  createMovie(movieData: Movie): Observable<Movie> {
+  createMovie(movieData: Partial<Movie>): Observable<Movie> {
     return this.http.post<Movie>(`${baseUrl}/newMovie`, movieData).pipe(
       tap((movie) => this.movies().push(movie)),
       catchError((error) => {
