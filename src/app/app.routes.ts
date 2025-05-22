@@ -43,6 +43,10 @@ export const routes: Routes = [
           //NotAuthenticatedGuard,
         ],
       },
+      {
+        path: '**',
+        redirectTo: 'movies',
+      },
     ],
   },
   //Ruta por si no se encuentra algo que redirija a home
