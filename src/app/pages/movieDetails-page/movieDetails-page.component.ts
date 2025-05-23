@@ -72,15 +72,40 @@ export class MovieDetailsPageComponent {
   private setFormValue(formLike: Movie) {
     this.movieForm.patchValue(formLike as any);
 
-     const year = formLike.release.getFullYear();
-      // Month is 0-indexed, so add 1 and pad with leading zero if needed
-      const month = String(formLike.release.getMonth() + 1).padStart(2, '0');
-      // Day of month (getDate, not getDay which is day of week)
-      const day = String(formLike.release.getDate()).padStart(2, '0');
+    //  const year = formLike.release.getFullYear();
+    //   // Month is 0-indexed, so add 1 and pad with leading zero if needed
+    //   const month = String(formLike.release.getMonth() + 1).padStart(2, '0');
+    //   // Day of month (getDate, not getDay which is day of week)
+    //   const day = String(formLike.release.getDate()).padStart(2, '0');
+
+    //   this.movieForm.patchValue({
+    //     release: `${year}-${month}-${day}`
+    //   });
+
+
+  if (formLike.release) {
+    let releaseDate: Date;
+
+    if (formLike.release instanceof Date) {
+      releaseDate = formLike.release;
+    } else {
+      releaseDate = new Date(formLike.release);
+    }
+
+    if (!isNaN(releaseDate.getTime())) {
+      const year = releaseDate.getFullYear();
+      const month = String(releaseDate.getMonth() + 1).padStart(2, '0');
+      const day = String(releaseDate.getDate()).padStart(2, '0');
 
       this.movieForm.patchValue({
         release: `${year}-${month}-${day}`
       });
+    } else {
+      // If date is invalid, set an empty value
+      this.movieForm.patchValue({ release: '' });
+      console.warn('Invalid release date received:', formLike.release);
+    }
+  }
 
   }
 
@@ -104,14 +129,14 @@ export class MovieDetailsPageComponent {
     console.log(movieLike);
     //obtengo los  datos de el formulario ya formateados
 
-    if (this.movie().id === 'new') {
+    if (this.movie()._id === 'new') {
       const product = await firstValueFrom(
         this.movieService.createMovie(movieLike)
       ); // si es new creo el producto y navego a la dirección del producto creado
-      this.router.navigate(['/movie/info', product.id]);
+      this.router.navigate(['/movie/info', product._id]);
     } else
       await firstValueFrom(
-        this.movieService.updateMovie(this.movie().id, movieLike)
+        this.movieService.updateMovie(this.movie()._id, movieLike)
       ); // si no es  nuevo sólo lo actualizo
 
     this.wasSaved.set(true); // activar mensaje de guardado

@@ -4,10 +4,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@auth/services/auth.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormUtils } from '@utils/form.utils';
+import { FormErrorLabelComponent } from "../../../components/form-error-label/form-error-label.component";
 
 @Component({
   selector: 'app-login-page',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, FormErrorLabelComponent],
   templateUrl: './login-page.component.html',
 })
 export class LoginPageComponent {
@@ -20,7 +21,7 @@ export class LoginPageComponent {
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.pattern(FormUtils.passwordPattern)]],
+    password: ['', [Validators.required]],
   });
 
 
@@ -41,7 +42,7 @@ export class LoginPageComponent {
 
   onSubmit() {
     if (this.loginForm.invalid) {
-      this.mostrarError();
+      this.loginForm.markAllAsTouched();
     }
     else{
 
@@ -49,7 +50,7 @@ export class LoginPageComponent {
 
     this.authService.login(email!, password!).subscribe((isAuth) => {
       if(isAuth){
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/home');
       }
 
 

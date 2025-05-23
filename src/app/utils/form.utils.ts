@@ -43,7 +43,10 @@ export class FormUtils {
 
         case 'pattern':
           if (errors['pattern'].requiredPattern === FormUtils.emailPattern) {
-            return 'El valor ingresado no luce como un correo electrónico';
+            return 'El valor ingresado no es un correo electrónico';
+          }
+          if (errors['pattern'].requiredPattern === FormUtils.passwordPattern) {
+            return 'El valor ingresado no cumple con los requisitos de contraseña';
           }
 
           return 'Error de patrón contra expresión regular';
