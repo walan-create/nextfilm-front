@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { HeaderComponent } from "../../components/header/header.component";
 import { Router, RouterOutlet } from '@angular/router';
+import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-layout',
-  imports: [HeaderComponent, RouterOutlet],
+  imports: [HeaderComponent, RouterOutlet, FooterComponent],
   templateUrl: './app-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
