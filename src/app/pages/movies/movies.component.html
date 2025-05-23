@@ -1,10 +1,11 @@
 <div class="container py-4">
-
   <!-- Cabecera de la tabla con los botones y búsqueda en una sola fila -->
   <div class="bg-dark rounded-3 d-inline-block mb-3 w-100">
-    <div class="d-flex justify-content-between align-items-center flex-wrap p-3">
+    <div
+      class="d-flex justify-content-between align-items-center flex-wrap p-3"
+    >
       <!-- Input Busqueda Activa a la izquierda -->
-      <div class="input-group flex-nowrap" style="max-width: 350px;">
+      <div class="input-group flex-nowrap" style="max-width: 350px">
         <span class="input-group-text" id="addon-wrapping">
           <i class="fa-solid fa-magnifying-glass"></i>
         </span>
@@ -18,7 +19,9 @@
       </div>
       <!-- Ordenar por a la derecha -->
       <div class="d-flex gap-2 align-items-center">
-        <label for="orderBy" class="form-label mb-0 text-white">Ordenar por:</label>
+        <label for="orderBy" class="form-label mb-0 text-white"
+          >Ordenar por:</label
+        >
         <select id="orderBy" class="form-select w-auto" [(ngModel)]="orderBy">
           <option value="title">Título</option>
           <option value="genre">Género</option>
@@ -89,12 +92,19 @@
           <li><strong>Precio:</strong> ${{ movie.rental_price }}</li>
         </ul>
       </div>
-      <div class="card-footer bg-transparent border-0 mt-2 text-center">
+      <div class="card-footer bg-transparent border-0 my-2 text-center">
         <a
-          class="btn btn-outline-light btn-sm"
+          class="btn btn-dark btn-sm me-2"
           [routerLink]="['/movies/info/', movie._id]"
           ><b>Ver más</b></a
         >
+        <a
+          class="btn btn-dark btn-sm"
+          type="button"
+
+        >
+          <b>Reservar</b>
+        </a>
       </div>
     </div>
     }

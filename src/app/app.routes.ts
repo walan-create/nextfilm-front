@@ -30,16 +30,10 @@ export const routes: Routes = [
     component: HomeComponent,
   },
 
-  // ! ELIMINAR (DE PRUEBA)
-  {
-    path: 'info',
-    component: MovieInfoComponent,
-  },
-
   //* ------------------------ Movies ------------------------
   {
     path: 'movies',
-    component: MoviesComponent, // Solo para /movies
+    component: MoviesComponent,
   },
   {
     path: 'movies/admin',
@@ -65,7 +59,7 @@ export const routes: Routes = [
   },
   //* ------------------------ Rent ------------------------
   {
-    path: 'rent',
+    path: 'rentals',
     component: MoviesComponent, //TODO cambiar componente
     children: [
       {
@@ -75,7 +69,20 @@ export const routes: Routes = [
           //NotAuthenticatedGuard,
         ],
       },
+      {
+        path: 'edit/:id', // Para hacer un alquiler
+        component: MovieComponent, //TODO cambiar componente
+        canMatch: [
+          //NotAuthenticatedGuard,
+        ],
+      },
     ],
+  },
+
+  //* ------------------------ profile ------------------------
+  {
+    path: 'profile',
+    component: HomeComponent, //TODO cambiar componente cuando esté creado
   },
   //* ------------------------ rutas por defecto y wildcard ------------------------
   // Redirección a landing si la ruta está vacía
