@@ -21,7 +21,7 @@
         formControlName="title"
         [class.is-invalid]="movieForm.get('title')?.errors ?? false"
       />
-      <app-form-error-label [control]="movieForm.get('title')!" />
+      <app-form-error-label [control]="movieForm.get('title')!" [valido]="cambiado()"/>
     </div>
 
     <div class="col-md-4">
@@ -46,7 +46,7 @@
         class="form-control"
         [class.is-invalid]="movieForm.get('release')?.errors ?? false"
       />
-      <app-form-error-label [control]="movieForm.get('release')!" />
+      <app-form-error-label [control]="movieForm.get('release')!" [valido]="cambiado()"/>
     </div>
   </div>
 
@@ -62,7 +62,7 @@
         formControlName="description"
         [class.is-invalid]="movieForm.get('description')?.errors ?? false"
       ></textarea>
-      <app-form-error-label [control]="movieForm.get('description')!" />
+      <app-form-error-label [control]="movieForm.get('description')!"[valido]="cambiado()" />
     </div>
   </div>
 
@@ -89,7 +89,7 @@
         formControlName="rental_price"
         [class.is-invalid]="movieForm.get('rental_price')?.errors ?? false"
       />
-      <app-form-error-label [control]="movieForm.get('rental_price')!" />
+      <app-form-error-label [control]="movieForm.get('rental_price')!" [valido]="cambiado()"/>
     </div>
 
     <div class="col-6">
@@ -102,7 +102,7 @@
         formControlName="stock"
         [class.is-invalid]="movieForm.get('stock')?.errors ?? false"
       />
-      <app-form-error-label [control]="movieForm.get('stock')!" />
+      <app-form-error-label [control]="movieForm.get('stock')!" [valido]="cambiado()"/>
     </div>
   </div>
 
