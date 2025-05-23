@@ -22,6 +22,7 @@ const baseUrl = environment.baseUrl;
 
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
+  
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
