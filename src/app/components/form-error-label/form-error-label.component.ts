@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, effect } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { FormUtils } from '@utils/form.utils';
 
@@ -11,9 +11,12 @@ import { FormUtils } from '@utils/form.utils';
 export class FormErrorLabelComponent {
 
   control = input.required<AbstractControl>();
+  valido = input<boolean>(false);
 
   get errorMessage() {
     const error = this.control().errors || {};
+
+    console.log('if', this.control().touched && Object.keys(error).length > 0);
 
     return this.control().touched && Object.keys(error).length > 0
       ? FormUtils.getTextError(error)

@@ -39,6 +39,8 @@ export class MovieDetailsPageComponent {
     MovieGenre.Musical,
   ];
 
+  cambiado = signal(false);
+
   wasSaved = signal(false);
 
   fb = inject(FormBuilder);
@@ -116,6 +118,7 @@ export class MovieDetailsPageComponent {
   async onSubmit() {
     const isValid = this.movieForm.valid;
     this.movieForm.markAllAsTouched();
+    this.cambiado.set(!this.cambiado());
 
     if (!isValid) return;
 

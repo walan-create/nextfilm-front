@@ -25,7 +25,7 @@ export class HomeComponent {
       duration: 148,
       stock: 12,
       rental_price: 3.99,
-      description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea.'
+      description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an _idea.'
     },
     TotalFilms: 120,
     OldestFilm: {
@@ -37,7 +37,7 @@ export class HomeComponent {
       duration: 153,
       stock: 3,
       rental_price: 2.99,
-      description: 'A futuristic city where a creative genius attempts to bridge the divide between the working class and the city planners.'
+      description: 'A futuristic city where a creative genius attempts to br_idge the div_ide between the working class and the city planners.'
     },
     CheapestFilm: {
       _id: '3',
