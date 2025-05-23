@@ -17,7 +17,7 @@ export class HomeComponent {
   //Mock DataHome
   mockDataHome: DataMoviesNews = {
     NewestFilm: {
-      id: '1',
+      _id: '1',
       title: 'Inception',
       genre: MovieGenre.SciFi,
       release: new Date('2010-07-16'),
@@ -25,11 +25,11 @@ export class HomeComponent {
       duration: 148,
       stock: 12,
       rental_price: 3.99,
-      description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea.'
+      description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an _idea.'
     },
     TotalFilms: 120,
     OldestFilm: {
-      id: '2',
+      _id: '2',
       title: 'Metropolis',
       genre: MovieGenre.SciFi,
       release: new Date('1927-01-10'),
@@ -37,10 +37,10 @@ export class HomeComponent {
       duration: 153,
       stock: 3,
       rental_price: 2.99,
-      description: 'A futuristic city where a creative genius attempts to bridge the divide between the working class and the city planners.'
+      description: 'A futuristic city where a creative genius attempts to br_idge the div_ide between the working class and the city planners.'
     },
     CheapestFilm: {
-      id: '3',
+      _id: '3',
       title: 'Parasite',
       genre: MovieGenre.Drama,
       release: new Date('2019-05-30'),
@@ -51,7 +51,7 @@ export class HomeComponent {
       description: 'Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan.'
     },
     LonguestFilm: {
-      id: '4',
+      _id: '4',
       title: 'The Irishman',
       genre: MovieGenre.Drama,
       release: new Date('2019-11-01'),
@@ -62,7 +62,7 @@ export class HomeComponent {
       description: 'An aging hitman recalls his past with the mob and his involvement in the disappearance of Jimmy Hoffa.'
     },
     ExpensiveFilm: {
-      id: '5',
+      _id: '5',
       title: 'Avengers: Endgame',
       genre: MovieGenre.Action,
       release: new Date('2019-04-26'),
