@@ -23,7 +23,7 @@ const baseUrl = environment.baseUrl;
 
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
-  
+
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
@@ -68,7 +68,7 @@ export class MoviesService {
   }
 
   createMovie(movieData: Partial<Movie>): Observable<Movie> {
-    return this.http.post<Movie>(`${baseUrl}/newMovie`, movieData).pipe(
+    return this.http.post<Movie>(`${baseUrl}/newFilm`, movieData).pipe(
       tap((movie) => this.movies().push(movie)),
       catchError((error) => {
         console.error('Error creating the movie:', error);
