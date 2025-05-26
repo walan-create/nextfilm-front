@@ -4,6 +4,9 @@ import { MovieInfoComponent } from './pages/movie-info/movie-info.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MoviesAdminComponent } from './pages/movies-admin/movies-admin.component';
 import { MoviesComponent } from './pages/movies/movies.component';
+import { RentalsComponent } from './pages/rentals/rentals.component';
+import { CreateFilmPageComponent } from './pages/createFilm-page/createFilm-page.component';
+import { EditMoviePageComponent } from './pages/editMovie-page/editMovie-page.component';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
@@ -43,22 +46,22 @@ export const routes: Routes = [
   },
   {
     path: 'movies/edit/:id',
-    component: MovieInfoComponent,
+    component:  EditMoviePageComponent,
     canMatch: [
       //NotAuthenticatedGuard,
     ],
   },
   {
     path: 'movies/create',
-    component: HomeComponent,
+    component: CreateFilmPageComponent,
     canMatch: [
       //NotAuthenticatedGuard,
     ],
   },
   //* ------------------------ Rent ------------------------
   {
-    path: 'rentals', // Para ver la información de los alquileres y las reservas
-    component: HomeComponent, //TODO cambiar componente
+    path: 'rentals',
+    component: RentalsComponent, //TODO cambiar componente
     children: [
       {
         path: 'new', // Para hacer un alquiler

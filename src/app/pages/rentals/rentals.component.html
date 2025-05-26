@@ -1,0 +1,80 @@
+<h2 class="text-secondary-emphasis mt-4">Alquileres</h2>
+<hr class="mt-0 mb-3 border-4 border-secondary-emphasis border-1 opacity-50" />
+
+<!-- New rental button -->
+<div class="bg-dark rounded-3 d-inline-block mb-3">
+  <div class="d-flex px-1">
+    <div class="p-2">
+      <button class="btn btn-success d-flex align-items-center justify-content-center" style="height: 40px">
+        <i class="fa-solid fa-plus fs-4"></i>
+        <h5 class="m-0 ms-2">Nuevo Alquiler</h5>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Checkbox para mostrar entregados -->
+<div class="form-check form-switch mb-3">
+  <input
+    class="form-check-input"
+    type="checkbox"
+    id="toggleDelivered"
+    [(ngModel)]="mostrarEntregados"
+  />
+  <label class="form-check-label text-light" for="toggleDelivered">
+    Mostrar entregados
+  </label>
+</div>
+
+
+<!-- Table header -->
+<div class="list-group mb-1">
+  <div class="list-group-item bg-secondary-subtle fw-bold">
+    <div class="row align-items-center">
+      <div class="col-md-2">Usuario</div>
+      <div class="col-md-2">Película</div>
+      <div class="col-md-1 text-center">Precio</div>
+      <div class="col-md-2 text-center">Fecha Reserva</div>
+      <div class="col-md-2 text-center">Fecha a Devolver</div>
+      <div class="col-md-2 text-center">Fecha Devuelto</div>
+      <div class="col-md-1 text-center">Entregar</div>
+    </div>
+  </div>
+</div>
+
+@for (rental of rentalsFiltrados; track rental) {
+  <div class="list-group mb-1">
+    <div class="list-group-item list-group-item-dark">
+      <div class="row align-items-center">
+        <div class="col-md-2">{{ rental.user }}</div>
+        <div class="col-md-2">{{ rental.film }}</div>
+        <div class="col-md-1 text-center">{{ rental.price | currency:'EUR' }}</div>
+        <div class="col-md-2 text-center">{{ rental.rentalDate | date }}</div>
+        <div class="col-md-2 text-center">{{ rental.expectedReturnDate | date }}</div>
+        <div class="col-md-2 text-center">
+          @if (rental.returnDate) {
+            {{ rental.returnDate | date:'short' }}
+          } @else {
+            <span class="text-warning">Pendiente de entrega</span>
+          }
+        </div>
+        <div class="col-md-1 text-center">
+          <div class="btn-group gap-1">
+            @if (!rental.returnDate) {
+              <button class="btn btn-sm btn-info rounded-2" title="Return"
+                (click)="openReturnModal(rental)">
+                Devolver
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<reusable-modal
+  [modalText]="'¿Deseas entregar la película?'"
+  (accepted)="returnMovie()"
+></reusable-modal>
+
