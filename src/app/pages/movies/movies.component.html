@@ -66,13 +66,13 @@
           <span
             class="badge fs-6 my-1"
             [ngClass]="{
-              'bg-dark ': movie.genre === 'action',
-              'bg-danger': movie.genre === 'horror',
-              'bg-warning': movie.genre === 'comedy',
-              'bg-success': movie.genre === 'sci-fi',
-              'bg-info': movie.genre === 'drama',
-              'bg-light text-dark': movie.genre === 'animated',
-              'bg-primary': movie.genre === 'musical'
+              'bg-dark ': movie.genre.toLowerCase() === 'action',
+              'bg-danger': movie.genre.toLowerCase() === 'horror',
+              'bg-warning': movie.genre.toLowerCase() === 'comedy',
+              'bg-success': movie.genre.toLowerCase() === 'sci-fi',
+              'bg-info': movie.genre.toLowerCase() === 'drama',
+              'bg-light text-dark': movie.genre.toLowerCase() === 'animated',
+              'bg-primary': movie.genre.toLowerCase() === 'musical'
             }"
           >
             {{ movie.genre | titlecase }}
