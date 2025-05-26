@@ -7,6 +7,7 @@ import { MovieComponent } from './pages/movie/movie.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CreateFilmPageComponent } from './pages/createFilm-page/createFilm-page.component';
 import { EditMoviePageComponent } from './pages/editMovie-page/editMovie-page.component';
+import{RentalsComponent} from './pages/rentals/rentals.component';
 
 export const routes: Routes = [
   // Ruta a la landing
@@ -62,6 +63,7 @@ export const routes: Routes = [
       }
     ],
   },
+  {path: 'rentals', component: RentalsComponent},
   //Ruta por si no se encuentra algo que redirija a home
   { path: '', redirectTo: 'landing', pathMatch: 'full' }, // Página de inicio por defecto
   { path: '**', redirectTo: 'landing' }, // Redirección en caso de ruta no encontrada
