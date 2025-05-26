@@ -6,6 +6,7 @@ import { MovieComponent } from './pages/movie/movie.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MoviesAdminComponent } from './pages/movies-admin/movies-admin.component';
 import { MoviesComponent } from './pages/movies/movies.component';
+import { RentalsComponent } from './pages/rentals/rentals.component';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
@@ -60,7 +61,7 @@ export const routes: Routes = [
   //* ------------------------ Rent ------------------------
   {
     path: 'rentals',
-    component: MoviesComponent, //TODO cambiar componente
+    component: RentalsComponent, //TODO cambiar componente
     children: [
       {
         path: 'new', // Para hacer un alquiler
