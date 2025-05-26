@@ -44,7 +44,7 @@
     style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))"
   >
     @for(movie of movies() | filterByText:searchText |
-    orderBy:orderBy:orderDirection; track movie){
+    orderBy:orderBy:orderDirection; track movie._id){
     <div
       [ngClass]="{
         'bg-dark-subtle ': movie.genre === 'action',

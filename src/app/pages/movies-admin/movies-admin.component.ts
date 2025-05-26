@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { AuthService } from '@auth/services/auth.service';
 import { ReusableModalComponent } from '../../components/reusable-modal/reusable-modal.component';
 import { MovieGenre } from '../../interfaces/movie-genre.enum';
@@ -6,10 +13,17 @@ import { Movie } from '../../interfaces/movie.interface';
 import { MoviesService } from '../../services/movies.service';
 import { NgClass, TitleCasePipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-movies-admin',
-  imports: [RouterLink, ReusableModalComponent, NgClass, TitleCasePipe, DatePipe],
+  imports: [
+    RouterLink,
+    ReusableModalComponent,
+    NgClass,
+    TitleCasePipe,
+    DatePipe,
+  ],
   templateUrl: './movies-admin.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -99,31 +113,39 @@ export class MoviesAdminComponent {
   moviesService = inject(MoviesService);
 
   // Señal computada que escucha al invitations GLOBAL del Service (Cualquier actualización se verá reflejada)
-  movies = computed(() => this.moviesService.movies());
+  // movies = computed(() => this.moviesService.movies());
+  movies = computed(() => this.moviesResource.value());
   movieIdToDelete = signal<string>('');
 
   @ViewChild(ReusableModalComponent)
   reusableModal!: ReusableModalComponent;
 
-  ngOnInit() {
-    // Cargar las peliculas al iniciar el componente
-    this.loadMovies();
-    console.log(this.movies());
+  // ngOnInit() {
+  //   // Cargar las peliculas al iniciar el componente
+  //   // this.loadMovies();
+  //   console.log(this.movies());
+  //   console.log(this.moviesService.movies());
+  //   // this.moviesService.movies.set(this.testMovies); // Mock de prueba
+  // }
 
-    // this.moviesService.movies.set(this.testMovies); // Mock de prueba
-  }
+  moviesResource = rxResource({
+    request: () => ({}),
+    loader: ({ request }) => {
+      return this.moviesService.getAllMovies()
+    }
+  })
 
-  loadMovies() {
-    this.moviesService.loadMovies().subscribe({
-      next: (movies) => {
-        // Actualizar el signal con las peliculas obtenidas
-        this.moviesService.movies.set(movies);
-      },
-      error: (err) => {
-        console.error('Error loading movies:', err);
-      },
-    });
-  }
+  // loadMovies() {
+  //   this.moviesService.loadMovies().subscribe({
+  //     next: (movies) => {
+  //       // Actualizar el signal con las peliculas obtenidas
+  //       this.moviesService.movies.set(movies);
+  //     },
+  //     error: (err) => {
+  //       console.error('Error loading movies:', err);
+  //     },
+  //   });
+  // }
 
   openDeleteMovieModal(movieId: string) {
     const modalElement = document.getElementById('reusableModal');
@@ -133,7 +155,6 @@ export class MoviesAdminComponent {
       bootstrapModal.show();
     }
   }
-
 
   handleDeleteMovie() {
     this.moviesService.deletemovie(this.movieIdToDelete()).subscribe({
@@ -145,4 +166,4 @@ export class MoviesAdminComponent {
       },
     });
   }
- }
+}
