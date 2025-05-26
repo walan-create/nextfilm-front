@@ -7,6 +7,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { MoviesAdminComponent } from './pages/movies-admin/movies-admin.component';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { RentalsComponent } from './pages/rentals/rentals.component';
+import { CreateFilmPageComponent } from './pages/createFilm-page/createFilm-page.component';
+import { EditMoviePageComponent } from './pages/editMovie-page/editMovie-page.component';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
@@ -46,14 +48,14 @@ export const routes: Routes = [
   },
   {
     path: 'movies/edit/:id',
-    component: MovieComponent,
+    component:  EditMoviePageComponent,
     canMatch: [
       //NotAuthenticatedGuard,
     ],
   },
   {
     path: 'movies/create',
-    component: MovieComponent,
+    component: CreateFilmPageComponent,
     canMatch: [
       //NotAuthenticatedGuard,
     ],
