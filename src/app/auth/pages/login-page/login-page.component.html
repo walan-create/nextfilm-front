@@ -31,7 +31,7 @@
       required
     />
   </label>
-   <app-form-error-label [control]="loginForm.get('email')!" />
+  <app-form-error-label [control]="loginForm.get('email')!" [valido]="cambiado()"/>
 
   <label
     class="form-control d-flex align-items-center gap-2 border rounded px-3 py-2"
@@ -63,7 +63,8 @@
     />
   </label>
 
-  <app-form-error-label [control]="loginForm.get('password')!" />
+  <app-form-error-label [control]="loginForm.get('password')!" [valido]="cambiado()" />
+
 
 
   <button class="btn btn-primary" type="submit">Iniciar Sesión</button>

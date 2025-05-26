@@ -1,40 +1,21 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-  ViewChild,
-} from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, ViewChild } from '@angular/core';
 import { AuthService } from '@auth/services/auth.service';
-import { MoviesService } from '../../services/movies.service';
 import { ReusableModalComponent } from '../../components/reusable-modal/reusable-modal.component';
-import { Movie } from '../../interfaces/movie.interface';
-import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
 import { MovieGenre } from '../../interfaces/movie-genre.enum';
-import { FormsModule } from '@angular/forms';
-import { OrderByPipe } from '../../pipes/order-by.pipe';
-import { FilterByTextPipe } from '../../pipes/filter-by-text.pipe';
+import { Movie } from '../../interfaces/movie.interface';
+import { MoviesService } from '../../services/movies.service';
+import { NgClass, TitleCasePipe, DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-movies',
-  imports: [
-    RouterLink,
-    ReusableModalComponent,
-    NgClass,
-    TitleCasePipe,
-    DatePipe,
-    FormsModule,
-    OrderByPipe,
-    FilterByTextPipe,
-  ],
-  templateUrl: './movies.component.html',
+  selector: 'app-movies-admin',
+  imports: [RouterLink, ReusableModalComponent, NgClass, TitleCasePipe, DatePipe],
+  templateUrl: './movies-admin.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MoviesComponent {
+export class MoviesAdminComponent {
   // 1. Lista de películas de prueba (MOCK)
-  testMovies: Movie[] = [
+    testMovies: Movie[] = [
     {
       _id: '1',
       title: 'The Godfather',
@@ -88,8 +69,7 @@ export class MoviesComponent {
       duration: 95,
       stock: 6,
       rental_price: 17,
-      description:
-        'Camp counselors are stalked by a masked killer at Crystal Lake.',
+      description: 'Camp counselors are stalked by a masked killer at Crystal Lake.',
     },
     {
       _id: '6',
@@ -100,8 +80,7 @@ export class MoviesComponent {
       duration: 88,
       stock: 8,
       rental_price: 16,
-      description:
-        'A young lion prince flees his kingdom only to learn the true meaning of responsibility and bravery.',
+      description: 'A young lion prince flees his kingdom only to learn the true meaning of responsibility and bravery.',
     },
     {
       _id: '7',
@@ -112,30 +91,35 @@ export class MoviesComponent {
       duration: 128,
       stock: 5,
       rental_price: 19,
-      description:
-        'A jazz pianist falls for an aspiring actress in Los Angeles.',
-    },
+      description: 'A jazz pianist falls for an aspiring actress in Los Angeles.',
+    }
   ];
 
   authService = inject(AuthService);
   moviesService = inject(MoviesService);
 
-  // Variables para ordenación
-  orderBy:  keyof Movie = 'title';
-  orderDirection: 'asc' | 'desc' = 'asc';
-  // Variable para busqueda activa por texto
-  searchText: string = '';
-
-
   // Señal computada que escucha al invitations GLOBAL del Service (Cualquier actualización se verá reflejada)
   movies = computed(() => this.moviesService.movies());
+  movieIdToDelete = signal<string>('');
+
+  @ViewChild(ReusableModalComponent)
+  reusableModal!: ReusableModalComponent;
 
   ngOnInit() {
     // Cargar las peliculas al iniciar el componente
     // this.loadMovies();
-
-    this.moviesService.movies.set(this.testMovies); //! Mock de prueba
     console.log(this.movies());
+
+    this.moviesService.movies.set(this.testMovies); // Mock de prueba
+  }
+
+  openDeleteMovieModal(movieId: string) {
+    const modalElement = document.getElementById('reusableModal');
+    if (modalElement) {
+      this.movieIdToDelete.set(movieId);
+      const bootstrapModal = new (window as any).bootstrap.Modal(modalElement);
+      bootstrapModal.show();
+    }
   }
 
   loadMovies() {
@@ -149,4 +133,15 @@ export class MoviesComponent {
       },
     });
   }
-}
+
+  handleDeleteMovie() {
+    this.moviesService.deletemovie(this.movieIdToDelete()).subscribe({
+      next: () => {
+        console.log('Movie deleted successfully');
+      },
+      error: (err) => {
+        console.log('Error deleting the movie', err);
+      },
+    });
+  }
+ }

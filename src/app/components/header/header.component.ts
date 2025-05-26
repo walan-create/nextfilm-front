@@ -22,7 +22,6 @@ export class HeaderComponent {
     this.router.events.subscribe(() => {
       this.updateCurrentRoute();
     });
-
     // Inicializar la ruta actual
     this.updateCurrentRoute();
   }

@@ -1,20 +1,24 @@
 import { Routes } from '@angular/router';
 import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
 import { LandingComponent } from './pages/landing/landing.component';
-import { MoviesComponent } from './pages/movies/movies.component';
 import { MovieInfoComponent } from './pages/movie-info/movie-info.component';
 import { MovieComponent } from './pages/movie/movie.component';
 import { HomeComponent } from './pages/home/home.component';
+import { MoviesAdminComponent } from './pages/movies-admin/movies-admin.component';
+import { MoviesComponent } from './pages/movies/movies.component';
+import { RentalsComponent } from './pages/rentals/rentals.component';
 import { CreateFilmPageComponent } from './pages/createFilm-page/createFilm-page.component';
 import { EditMoviePageComponent } from './pages/editMovie-page/editMovie-page.component';
 
+// ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
-  // Ruta a la landing
+  //* ------------------------ landing ------------------------
   {
     path: 'landing',
     component: LandingComponent,
   },
-  //Rutas a auth para login y register
+
+  //* ------------------------ auth ------------------------
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.routes'),
@@ -22,47 +26,70 @@ export const routes: Routes = [
       // NotAuthenticatedGuard,
     ],
   },
-  // Ruta a la home
+
+  //* ------------------------ Home ------------------------
   {
     path: 'home',
     component: HomeComponent,
   },
-  // Ruta donde ver las peliculas
 
+  //* ------------------------ Movies ------------------------
   {
     path: 'movies',
-    children: [
-      // Ruta donde ver la info de cada pelicula
-      {
-        path: 'info/:id',
-        component: MovieInfoComponent,
-      },
-      {
-        path: 'edit/:id',
-        component: EditMoviePageComponent,
-        canMatch: [
-      // IsAdminGuard,
-        ],
-      },
-      {
-        path: 'create',
-        component: CreateFilmPageComponent,
-        canMatch: [
-      // IsAdminGuard,
-        ],
-      },
-      {
-
-        path: '',
-        component: MoviesComponent,
-      },
-      {
-        path: '**',
-        redirectTo: ''
-      }
+    component: MoviesComponent,
+  },
+  {
+    path: 'movies/admin',
+    component: MoviesAdminComponent,
+  },
+  {
+    path: 'movies/info/:id',
+    component: MovieInfoComponent,
+  },
+  {
+    path: 'movies/edit/:id',
+    component:  EditMoviePageComponent,
+    canMatch: [
+      //NotAuthenticatedGuard,
     ],
   },
-  //Ruta por si no se encuentra algo que redirija a home
-  { path: '', redirectTo: 'landing', pathMatch: 'full' }, // Página de inicio por defecto
-  { path: '**', redirectTo: 'landing' }, // Redirección en caso de ruta no encontrada
+  {
+    path: 'movies/create',
+    component: CreateFilmPageComponent,
+    canMatch: [
+      //NotAuthenticatedGuard,
+    ],
+  },
+  //* ------------------------ Rent ------------------------
+  {
+    path: 'rentals',
+    component: RentalsComponent, //TODO cambiar componente
+    children: [
+      {
+        path: 'new', // Para hacer un alquiler
+        component: MovieComponent, //TODO cambiar componente
+        canMatch: [
+          //NotAuthenticatedGuard,
+        ],
+      },
+      {
+        path: 'edit/:id', // Para hacer un alquiler
+        component: MovieComponent, //TODO cambiar componente
+        canMatch: [
+          //NotAuthenticatedGuard,
+        ],
+      },
+    ],
+  },
+
+  //* ------------------------ profile ------------------------
+  {
+    path: 'profile',
+    component: HomeComponent, //TODO cambiar componente cuando esté creado
+  },
+  //* ------------------------ rutas por defecto y wildcard ------------------------
+  // Redirección a landing si la ruta está vacía
+  { path: '', redirectTo: 'landing', pathMatch: 'full' },
+  // Redirección a landing si la ruta no existe
+  { path: '**', redirectTo: 'landing' },
 ];

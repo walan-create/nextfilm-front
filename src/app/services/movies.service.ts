@@ -5,6 +5,7 @@ import { AuthService } from '@auth/services/auth.service';
 import { Movie } from '../interfaces/movie.interface';
 import { Observable, tap, catchError, of, map } from 'rxjs';
 import { MovieGenre } from '../interfaces/movie-genre.enum';
+import { DataMoviesNews } from '../interfaces/data-movies-news.interface';
 
 const emptyMovie: Movie = {
   _id: '',
@@ -22,9 +23,11 @@ const baseUrl = environment.baseUrl;
 
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
+
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
+  private cacheHomeInfo: DataMoviesNews | null = null; // Caché para los datos de home
   movies = signal<Movie[]>([]); // Aquí se almacenan las peliculas cargados
 
   getAllMovies(): Observable<Movie[]> {
@@ -65,7 +68,7 @@ export class MoviesService {
   }
 
   createMovie(movieData: Partial<Movie>): Observable<Movie> {
-    return this.http.post<Movie>(`${baseUrl}/newMovie`, movieData).pipe(
+    return this.http.post<Movie>(`${baseUrl}/newFilm`, movieData).pipe(
       tap((movie) => this.movies().push(movie)),
       catchError((error) => {
         console.error('Error creating the movie:', error);
@@ -104,7 +107,7 @@ export class MoviesService {
     );
   }
 
-    loadMovies(): Observable<Movie[]> {
+  loadMovies(): Observable<Movie[]> {
     return this.getAllMovies();
   }
 
@@ -112,4 +115,29 @@ export class MoviesService {
     const stored = localStorage.getItem('movies');
     return stored ? JSON.parse(stored) : [];
   }
+
+  getHomeInfo(): Observable<DataMoviesNews> {
+    if (this.cacheHomeInfo) {
+      // Si datos en caché, los devuelve
+      return of(this.cacheHomeInfo);
+    }
+
+    return this.http.get<DataMoviesNews>(`${baseUrl}/moviesNews`).pipe(
+      tap((data) => {
+        this.cacheHomeInfo = data;
+      }),
+      catchError((error) => {
+        console.error("Error fetcheando home data" + error);
+        return of({
+          NewestFilm: emptyMovie,
+          TotalFilms: 0,
+          OldestFilm: emptyMovie,
+          CheapestFilm: emptyMovie,
+          LonguestFilm: emptyMovie,
+          ExpensiveFilm: emptyMovie
+        });
+      })
+    )
+  }
+
 }
