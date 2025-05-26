@@ -21,23 +21,23 @@
 
       <div class="d-flex d-none d-md-flex flex-row gap-1">
         <a [routerLink]="'/home'" class="btn btn-sm btn-outline-primary d-flex px-2 py-2" routerLinkActive="btn-primary text-white">
-          <i class="fa-solid fa-home fs-5 m-0 d-flex align-items-center" style="width:32px;"></i>
+          <i class="fa-solid fa-home fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
           <p class="my-0 ms-0 align-items-center d-flex"><b>Inicio</b></p>
         </a>
-        <a [routerLink]="'/movies'" class="btn btn-sm btn-outline-primary d-flex px-2 py-2" routerLinkActive="btn-primary text-white">
-            <i class="fa-solid fa-film fs-5 m-0 d-flex align-items-center" style="width:32px;"></i>
+        <a [routerLink]="'/movies'" class="btn btn-sm btn-outline-primary d-flex px-2 py-2" routerLinkActive="btn-primary text-white" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa-solid fa-film fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
             <p class="my-0 ms-0 align-items-center d-flex"><b>Películas</b></p>
         </a>
-        <a [routerLink]="'/movies/user/:idUser'" class="btn btn-sm btn-outline-primary d-flex px-2 py-2" routerLinkActive="btn-primary text-white">
-            <i class="fa-solid fa-ticket fs-5 m-0 d-flex align-items-center" style="width:32px;"></i>
-            <p class="my-0 ms-0 align-items-center d-flex"><b>Alquilados</b></p>
+        <a [routerLink]="'/profile/:idUser'" class="btn btn-sm btn-outline-primary d-flex px-2 py-2" routerLinkActive="btn-primary text-white">
+            <i class="fa-solid fa-user fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
+            <p class="my-0 ms-0 align-items-center d-flex"><b>Mi Perfil</b></p>
         </a>
         <a [routerLink]="'/movies/admin'" class="btn btn-sm btn-outline-secondary d-flex px-2 py-2" routerLinkActive="btn-secondary text-white">
-            <i class="fa-solid fa-clapperboard fs-5 m-0 d-flex align-items-center" style="width:32px;"></i>
+            <i class="fa-solid fa-clapperboard fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
             <p class="my-0 ms-0 align-items-center d-flex"><b>Stock</b></p>
         </a>
         <a [routerLink]="'/rent'" class="btn btn-sm btn-outline-secondary d-flex px-2 py-2" routerLinkActive="btn-secondary text-white">
-            <i class="fa-solid fa-user-tag fs-5 m-0 d-flex align-items-center" style="width:32px;"></i>
+            <i class="fa-solid fa-user-tag fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
             <p class="my-0 ms-0 align-items-center d-flex"><b>Alquileres</b></p>
         </a>
       </div>
@@ -57,7 +57,7 @@
 
         <!--  -->
         <a [routerLink]="'/landing'" (click)="authService.logout()" class="btn btn-sm btn-outline-danger d-flex px-2 py-2">
-              <i class="fa-solid fa-arrow-right-from-bracket fs-5 m-0 d-flex align-items-center" style="width:32px;"></i>
+              <i class="fa-solid fa-arrow-right-from-bracket fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
               <p class="my-0 ms-0 align-items-center d-flex"> <b>Salir</b> </p>
         </a>
         <!-- Botones Iniciar Sesión y Registrarse -->
@@ -96,14 +96,14 @@
                 <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Inicio</b> </p>
               </a>
 
-              <a routerLink="/movies" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
+              <a routerLink="/movies" routerLinkActive="btn-primary" [routerLinkActiveOptions]="{ exact: true }" class="btn btn-lg w-100 d-flex mb-2">
                 <i class="fa-solid fa-film fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
                 <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Peliculas</b> </p>
               </a>
 
-              <a [routerLink]="'/movies/user/:idUser'" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
+              <a [routerLink]="'/profile/:idUser'" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
                 <i class="fa-solid fa-ticket fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
-                <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Mis Alquileres</b> </p>
+                <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Perfil</b> </p>
               </a>
 
               <a routerLink="/movies/admin" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
@@ -111,7 +111,7 @@
                 <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Stock</b> </p>
               </a>
 
-              <a routerLink="/rent" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
+              <a routerLink="/rentals" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
                 <i class="fa-solid fa-user-tag fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
                 <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Alquileres</b> </p>
               </a>
