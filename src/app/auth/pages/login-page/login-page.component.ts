@@ -4,61 +4,56 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@auth/services/auth.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { FormUtils } from '@utils/form.utils';
+import { FormErrorLabelComponent } from '../../../components/form-error-label/form-error-label.component';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-login-page',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, FormErrorLabelComponent],
   templateUrl: './login-page.component.html',
 })
 export class LoginPageComponent {
   fb = inject(FormBuilder);
   hasError = signal(false);
-  isPosting = signal(false);
   router = inject(Router);
+
+  cambiado = signal(false);
+
 
   private authService = inject(AuthService);
 
   loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.pattern(FormUtils.passwordPattern)]],
+    password: ['', [Validators.required]],
   });
 
-
-
   checkStatusResource = rxResource({
-    loader: () => this.authService.checkStatus()
-  })
+    loader: () => this.authService.checkStatus(),
+  });
 
-  private mostrarError (){
-
+  private mostrarError() {
     this.hasError.set(true);
-      setTimeout(() => {
-        this.hasError.set(false);
-      }, 2000);
-      return;
-
+    setTimeout(() => {
+      this.hasError.set(false);
+    }, 2000);
+    return;
   }
 
   onSubmit() {
-    if (this.loginForm.invalid) {
-      this.mostrarError();
-    }
-    else{
+    const isValid = this.loginForm.valid;
+    this.loginForm.markAllAsTouched();
+    this.cambiado.set(!this.cambiado());
 
-      const { email = '', password = '' } = this.loginForm.value;
+    if (!isValid) return;
+
+    const { email = '', password = '' } = this.loginForm.value;
 
     this.authService.login(email!, password!).subscribe((isAuth) => {
-      if(isAuth){
-        this.router.navigateByUrl('/');
+      if (isAuth) {
+        this.router.navigateByUrl('/home');
       }
 
-
       this.mostrarError();
-
     });
-
-    }
-
-
   }
 }

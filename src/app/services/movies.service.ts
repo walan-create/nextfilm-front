@@ -5,9 +5,10 @@ import { AuthService } from '@auth/services/auth.service';
 import { Movie } from '../interfaces/movie.interface';
 import { Observable, tap, catchError, of, map } from 'rxjs';
 import { MovieGenre } from '../interfaces/movie-genre.enum';
+import { DataMoviesNews } from '../interfaces/data-movies-news.interface';
 
 const emptyMovie: Movie = {
-  id: '',
+  _id: '',
   title: '',
   genre: MovieGenre.Action,
   release: new Date(),
@@ -22,9 +23,11 @@ const baseUrl = environment.baseUrl;
 
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
+  
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
+  private cacheHomeInfo: DataMoviesNews | null = null; // Caché para los datos de home
   movies = signal<Movie[]>([]); // Aquí se almacenan las peliculas cargados
 
   getAllMovies(): Observable<Movie[]> {
@@ -46,7 +49,7 @@ export class MoviesService {
     }
 
     // Verifica si el hotel con el ID existe en el caché
-    const cachedHotel = this.movies().find((movie) => movie.id === id);
+    const cachedHotel = this.movies().find((movie) => movie._id === id);
     if (cachedHotel) {
       return of(cachedHotel); // Devuelve el hotel desde el caché
     }
@@ -75,13 +78,15 @@ export class MoviesService {
   }
 
   updateMovie(id: string, movieData: Partial<Movie>): Observable<Movie> {
+
+    console.log(movieData);
     return this.http
-      .patch<Movie>(`${baseUrl}/updateFilm/${id}`, movieData)
+      .put<Movie>(`${baseUrl}/updateFilm/${id}`, movieData)
       .pipe(
         tap((updatedMovie) => {
           // Actualiza el caché local con el hotel actualizado
           this.movies.update((movies) =>
-            movies.map((movie) => (movie.id === id ? updatedMovie : movie))
+            movies.map((movie) => (movie._id === id ? updatedMovie : movie))
           );
         }),
         catchError((error) => {
@@ -95,14 +100,14 @@ export class MoviesService {
     return this.http.delete<void>(`${baseUrl}/deleteFilm/${movieId}`).pipe(
       tap(() => {
         this.movies.update((movies) =>
-          movies.filter((movie) => movie.id !== movieId)
+          movies.filter((movie) => movie._id !== movieId)
         );
         localStorage.setItem('movies', JSON.stringify(this.movies()));
       })
     );
   }
 
-    loadMovies(): Observable<Movie[]> {
+  loadMovies(): Observable<Movie[]> {
     return this.getAllMovies();
   }
 
@@ -110,4 +115,29 @@ export class MoviesService {
     const stored = localStorage.getItem('movies');
     return stored ? JSON.parse(stored) : [];
   }
+
+  getHomeInfo(): Observable<DataMoviesNews> {
+    if (this.cacheHomeInfo) {
+      // Si datos en caché, los devuelve
+      return of(this.cacheHomeInfo);
+    }
+
+    return this.http.get<DataMoviesNews>(`${baseUrl}/moviesNews`).pipe(
+      tap((data) => {
+        this.cacheHomeInfo = data;
+      }),
+      catchError((error) => {
+        console.error("Error fetcheando home data" + error);
+        return of({
+          NewestFilm: emptyMovie,
+          TotalFilms: 0,
+          OldestFilm: emptyMovie,
+          CheapestFilm: emptyMovie,
+          LonguestFilm: emptyMovie,
+          ExpensiveFilm: emptyMovie
+        });
+      })
+    )
+  }
+
 }

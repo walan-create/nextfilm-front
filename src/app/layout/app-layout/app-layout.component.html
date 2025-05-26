@@ -1,7 +1,10 @@
-<app-header></app-header>
+@if(!currentRoute().startsWith('/landing')){
+  <app-header></app-header>
+}
 
 <!-- Caja contenedora donde van las distintas vistas /landing /login /movies etc -->
  <div>
   <router-outlet></router-outlet>
 </div>
 
+<app-footer />

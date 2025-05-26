@@ -17,10 +17,8 @@ export class FormUtils {
   // Expresiones regulares
   static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
   static emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
-  static notOnlySpacesPattern = '^[a-zA-Z0-9]+$';
   static passwordPattern =
     '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$';
-  static datePattern = '^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(19|20)\\d{2}$';
 
   static getTextError(errors: ValidationErrors) {
     for (const key of Object.keys(errors)) {
@@ -43,10 +41,15 @@ export class FormUtils {
 
         case 'pattern':
           if (errors['pattern'].requiredPattern === FormUtils.emailPattern) {
-            return 'El valor ingresado no luce como un correo electrónico';
+            return 'El valor ingresado no es un correo electrónico';
+          }
+          if (errors['pattern'].requiredPattern === FormUtils.passwordPattern) {
+            return 'El valor ingresado no cumple con los requisitos de contraseña';
           }
 
-          return 'Error de patrón contra expresión regular';
+          return 'El valor ingresado no es un nombre completo';
+
+
 
         default:
           return `Error de validación no controlado ${key}`;

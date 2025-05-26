@@ -4,10 +4,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@auth/services/auth.service';
 import { FormUtils } from '@utils/form.utils';
+import { FormErrorLabelComponent } from '../../../components/form-error-label/form-error-label.component';
 
 @Component({
   selector: 'app-register-page',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, FormErrorLabelComponent],
   templateUrl: './register-page.component.html',
 })
 export class RegisterPageComponent {
@@ -16,12 +17,20 @@ export class RegisterPageComponent {
   isPosting = signal(false);
   router = inject(Router);
 
+  cambiado = signal(false);
+
   private authService = inject(AuthService);
 
   registerForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.pattern(FormUtils.passwordPattern)]],
-    fullName: ['', [Validators.required, Validators.pattern(FormUtils.namePattern)]],
+    password: [
+      '',
+      [Validators.required, Validators.pattern(FormUtils.passwordPattern)],
+    ],
+    fullName: [
+      '',
+      [Validators.required, Validators.pattern(FormUtils.namePattern)],
+    ],
   });
 
   checkStatusResource = rxResource({
@@ -37,23 +46,24 @@ export class RegisterPageComponent {
   }
 
   onSubmit() {
-    if (this.registerForm.invalid) {
-      this.mostrarError();
-    } else {
-      const {
-        email = '',
-        password = '',
-        fullName = '',
-      } = this.registerForm.value;
+    const isValid = this.registerForm.valid;
+    this.registerForm.markAllAsTouched();
+    this.cambiado.set(!this.cambiado());
 
-      this.authService
-        .register(email!, password!, fullName!)
-        .subscribe((isAuth) => {
-          if (isAuth) {
-            this.router.navigateByUrl('/');
-          }
-          this.mostrarError();
-        });
-    }
+    if (!isValid) return;
+    const {
+      email = '',
+      password = '',
+      fullName = '',
+    } = this.registerForm.value;
+
+    this.authService
+      .register(email!, password!, fullName!)
+      .subscribe((isAuth) => {
+        if (isAuth) {
+          this.router.navigateByUrl('/home');
+        }
+        this.mostrarError();
+      });
   }
 }

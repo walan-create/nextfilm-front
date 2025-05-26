@@ -1,115 +1,112 @@
-<h2 class="text-secondary-emphasis mt-4">Películas</h2>
-<hr class="mt-0 mb-3 border-4 border-secondary-emphasis border-1 opacity-50" />
-
-<!-- Aqui va la cabecera de la tabla con los botones -->
-<div class="bg-dark rounded-3 d-inline-block mb-3">
-  <div class="d-flex px-1">
-    <div class="p-2">
-      <button
-        [routerLink]=""
-        class="btn btn-success d-flex align-items-center justify-content-center"
-        style="height: 40px"
-      >
-        <i class="fa-solid fa-plus fs-4"></i>
-        <h5 class="m-0 ms-2">Nueva Película</h5>
-      </button>
-    </div>
-  </div>
-</div>
-
-@if (movies()){
-
-  <!-- Cabecera de la tabla de películas -->
-<div class="list-group mb-1">
-  <div class="list-group-item bg-secondary-subtle fw-bold">
-    <div class="row align-items-center">
-      <!-- Columna 1: Título -->
-      <div class="col-4 col-md-3 text-start">Titulo</div>
-      <!-- Columna 2: Stock -->
-      <div class="col-4 col-md-1 text-center">Stock</div>
-      <!-- Columna 3: Duración -->
-      <div class="d-none d-md-block col-md-2 text-center">Duración</div>
-      <!-- Columna 4: Estreno -->
-      <div class="d-none d-md-block col-md-2 text-center">Estreno</div>
-      <!-- Columna 5: Género -->
-      <div class="d-none d-md-block col-md-2 text-center">Genero</div>
-      <!-- Columna 6: Botones -->
-      <div class="col-4 col-md-2 text-end text-center">Acciones</div>
-    </div>
-  </div>
-</div>
-
-  @for (movie of movies(); track movie){
-
-<div class="list-group mb-1">
-  <div class="list-group-item list-group-item-light">
-    <div class="row align-items-center">
-      <!-- Columna 1: Titulo-->
-      <div class="col-4 col-md-3 text-start">{{ movie.title }}</div>
-      <!-- Columna 2: Stock -->
-      <div class="col-4 col-md-1 fw-bold text-center">{{ movie.stock }}</div>
-      <!-- Columna 3: Duración -->
-      <div class="d-none d-md-block col-md-2 fw-bold text-center">{{ movie.duration }} - Min</div>
-      <!-- Columna 4: Estreno -->
-      <div class="d-none d-md-block col-md-2 fw-bold text-center">{{ movie.release }}</div>
-      <!-- Columna 5: Género -->
-      <div class="d-none d-md-block col-md-2 text-center">
-        <span
-          class="badge"
-          [ngClass]="{
-            'bg-dark ': movie.genre === 'action',
-            'bg-danger': movie.genre === 'horror',
-            'bg-warning': movie.genre === 'comedy',
-            'bg-success': movie.genre === 'sci-fi',
-            'bg-info': movie.genre === 'drama',
-            'bg-light text-dark': movie.genre === 'animated',
-            'bg-primary': movie.genre === 'musical'
-          }"
-        >
-          {{ movie.genre | titlecase }}
+<div class="container py-4">
+  <!-- Cabecera de la tabla con los botones y búsqueda en una sola fila -->
+  <div class="bg-dark rounded-3 d-inline-block mb-3 w-100">
+    <div
+      class="d-flex justify-content-between align-items-center flex-wrap p-3"
+    >
+      <!-- Input Busqueda Activa a la izquierda -->
+      <div class="input-group flex-nowrap" style="max-width: 350px">
+        <span class="input-group-text" id="addon-wrapping">
+          <i class="fa-solid fa-magnifying-glass"></i>
         </span>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar película, director, género..."
+          aria-describedby="addon-wrapping"
+          [(ngModel)]="searchText"
+        />
       </div>
-
-      <!-- Columna 6: Botones -->
-      <div class="col-4 col-md-2 text-center ">
-        <div class="btn-group gap-1">
-          <button class="btn btn-sm btn-info rounded-2" title="Info">
-            <i class="fa-solid fa-circle-info" style="width: 15px"></i>
-          </button>
-          <button class="btn btn-sm btn-warning rounded-2" title="Editar">
-            <i class="fa-solid fa-pen" style="width: 15px"></i>
-          </button>
-          <button
-            (click)="openDeleteMovieModal(movie.id)"
-            class="btn btn-sm btn-danger rounded-2"
-            title="Eliminar"
-          >
-            <i class="fa-solid fa-trash" style="width: 15px"></i>
-          </button>
-        </div>
+      <!-- Ordenar por a la derecha -->
+      <div class="d-flex gap-2 align-items-center">
+        <label for="orderBy" class="form-label mb-0 text-white"
+          >Ordenar por:</label
+        >
+        <select id="orderBy" class="form-select w-auto" [(ngModel)]="orderBy">
+          <option value="title">Título</option>
+          <option value="genre">Género</option>
+          <option value="release">Estreno</option>
+          <option value="director">Director</option>
+          <option value="duration">Duración</option>
+          <option value="stock">Stock</option>
+          <option value="rental_price">Precio</option>
+        </select>
+        <select class="form-select w-auto" [(ngModel)]="orderDirection">
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
       </div>
     </div>
   </div>
-  <!-- Repite este bloque o usa *ngFor para cada película -->
+
+  <div
+    class="d-grid gap-4"
+    style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))"
+  >
+    @for(movie of movies() | filterByText:searchText |
+    orderBy:orderBy:orderDirection; track movie){
+    <div
+      [ngClass]="{
+        'bg-dark-subtle ': movie.genre === 'action',
+        'bg-danger-subtle': movie.genre === 'horror',
+        'bg-warning-subtle': movie.genre === 'comedy',
+        'bg-success-subtle': movie.genre === 'sci-fi',
+        'bg-info-subtle': movie.genre === 'drama',
+        'bg-light-subtle': movie.genre === 'animated',
+        'bg-primary-subtle': movie.genre === 'musical'
+      }"
+      class="card w-auto"
+    >
+      <!-- card bg-dark text-light h-100 shadow-lg border-0 -->
+      <div class="card-body d-flex flex-column justify-content-between">
+        <div>
+          <h5 class="card-title">
+            <b>{{ movie.title }}</b>
+          </h5>
+          <span
+            class="badge fs-6 my-1"
+            [ngClass]="{
+              'bg-dark ': movie.genre === 'action',
+              'bg-danger': movie.genre === 'horror',
+              'bg-warning': movie.genre === 'comedy',
+              'bg-success': movie.genre === 'sci-fi',
+              'bg-info': movie.genre === 'drama',
+              'bg-light text-dark': movie.genre === 'animated',
+              'bg-primary': movie.genre === 'musical'
+            }"
+          >
+            {{ movie.genre | titlecase }}
+          </span>
+          <p class="card-text small">
+            {{ movie.description }}
+          </p>
+        </div>
+
+        <ul class="list-unstyled mt-3 mb-0">
+          <li><strong>Director:</strong> {{ movie.director }}</li>
+          <li><strong>Duración:</strong> {{ movie.duration }} min</li>
+          <li>
+            <strong>Estreno:</strong> {{ movie.release | date : "longDate" }}
+          </li>
+          <li><strong>Stock:</strong> {{ movie.stock }}</li>
+          <li><strong>Precio:</strong> ${{ movie.rental_price }}</li>
+        </ul>
+      </div>
+      <div class="card-footer bg-transparent border-0 my-2 text-center">
+        <a
+          class="btn btn-dark btn-sm me-2"
+          [routerLink]="['/movies/info/', movie._id]"
+          ><b>Ver más</b></a
+        >
+        <a
+          class="btn btn-dark btn-sm"
+          type="button"
+
+        >
+          <b>Reservar</b>
+        </a>
+      </div>
+    </div>
+    }
+  </div>
 </div>
-} }
-
-<reusable-modal
-  [modalText]="'¿Deseas eliminar la película de forma permanente?'"
-  (accepted)="handleDeleteMovie()"
-></reusable-modal>
-
-<!-- <div class="list-group">
-
-  <a href="#" class="list-group-item list-group-item-action">A simple default list group item</a>
-
-  <a href="#" class="list-group-item list-group-item-action list-group-item-primary">A simple primary list group item</a>
-  <a href="#" class="list-group-item list-group-item-action list-group-item-secondary">A simple secondary list group item</a>
-  <a href="#" class="list-group-item list-group-item-action list-group-item-success">A simple success list group item</a>
-  <a href="#" class="list-group-item list-group-item-action list-group-item-danger">A simple danger list group item</a>
-  <a href="#" class="list-group-item list-group-item-action list-group-item-warning">A simple warning list group item</a>
-  <a href="#" class="list-group-item list-group-item-action list-group-item-info">A simple info list group item</a>
-  <a href="#" class="list-group-item list-group-item-action list-group-item-light">A simple light list group item</a>
-  <a href="#" class="list-group-item list-group-item-action list-group-item-dark">A simple dark list group item</a>
-
-</div> -->
