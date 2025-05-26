@@ -1,10 +1,14 @@
-@if(!currentRoute().startsWith('/landing')){
+
+<div style="min-height: 100vh; display: flex; flex-direction: column;">
+
+  @if (!currentRoute().startsWith('/landing') && !currentRoute().startsWith('/auth')) {
   <app-header></app-header>
-}
+  }
+  <!-- Caja contenedora donde van las distintas vistas /landing /login /movies etc -->
+  <main style="flex: 1;">
+    <router-outlet></router-outlet>
+  </main>
 
-<!-- Caja contenedora donde van las distintas vistas /landing /login /movies etc -->
- <div>
-  <router-outlet></router-outlet>
+  <app-footer></app-footer>
+
 </div>
-
-<app-footer />
