@@ -1,11 +1,9 @@
 import { Routes } from '@angular/router';
-import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
 import { LandingComponent } from './pages/landing/landing.component';
 import { MovieInfoComponent } from './pages/movie-info/movie-info.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MoviesAdminComponent } from './pages/movies-admin/movies-admin.component';
 import { MoviesComponent } from './pages/movies/movies.component';
-import { MovieCreatePageComponent } from './pages/movie-create-page/movie-create-page.component';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
@@ -52,14 +50,14 @@ export const routes: Routes = [
   },
   {
     path: 'movies/create',
-    component: MovieCreatePageComponent,
+    component: HomeComponent,
     canMatch: [
       //NotAuthenticatedGuard,
     ],
   },
   //* ------------------------ Rent ------------------------
   {
-    path: 'rentals', // Para ver la información de los alquileres y las reservas (ADMIN)
+    path: 'rentals', // Para ver la información de los alquileres y las reservas
     component: HomeComponent, //TODO cambiar componente
     children: [
       {
@@ -81,7 +79,7 @@ export const routes: Routes = [
 
   //* ------------------------ profile ------------------------
   {
-    path: 'profile', // Para que el usuario vea sus reservas y alquileres
+    path: 'profile',
     component: HomeComponent, //TODO cambiar componente cuando esté creado
   },
   //* ------------------------ rutas por defecto y wildcard ------------------------

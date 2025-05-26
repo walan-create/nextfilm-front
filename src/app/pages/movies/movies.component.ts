@@ -3,13 +3,10 @@ import {
   Component,
   computed,
   inject,
-  signal,
-  ViewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '@auth/services/auth.service';
 import { MoviesService } from '../../services/movies.service';
-import { ReusableModalComponent } from '../../components/reusable-modal/reusable-modal.component';
 import { Movie } from '../../interfaces/movie.interface';
 import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
 import { MovieGenre } from '../../interfaces/movie-genre.enum';
@@ -21,14 +18,13 @@ import { FilterByTextPipe } from '../../pipes/filter-by-text.pipe';
   selector: 'app-movies',
   imports: [
     RouterLink,
-    ReusableModalComponent,
     NgClass,
     TitleCasePipe,
     DatePipe,
     FormsModule,
     OrderByPipe,
-    FilterByTextPipe,
-  ],
+    FilterByTextPipe
+],
   templateUrl: './movies.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
