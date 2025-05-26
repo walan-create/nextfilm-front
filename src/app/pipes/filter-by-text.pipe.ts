@@ -15,7 +15,9 @@ export class FilterByTextPipe implements PipeTransform {
       movie.title.toLowerCase().includes(lower) ||
       movie.director.toLowerCase().includes(lower) ||
       movie.genre.toLowerCase().includes(lower) ||
-      movie.description.toLowerCase().includes(lower)
+      movie.description.toLowerCase().includes(lower)||
+      movie.release.toString().includes(lower)||
+      movie.duration.toString().toLowerCase().includes(lower)
     );
   }
 }

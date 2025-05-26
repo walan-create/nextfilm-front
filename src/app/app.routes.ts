@@ -2,10 +2,10 @@ import { Routes } from '@angular/router';
 import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
 import { LandingComponent } from './pages/landing/landing.component';
 import { MovieInfoComponent } from './pages/movie-info/movie-info.component';
-import { MovieComponent } from './pages/movie/movie.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MoviesAdminComponent } from './pages/movies-admin/movies-admin.component';
 import { MoviesComponent } from './pages/movies/movies.component';
+import { MovieCreatePageComponent } from './pages/movie-create-page/movie-create-page.component';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
@@ -45,33 +45,33 @@ export const routes: Routes = [
   },
   {
     path: 'movies/edit/:id',
-    component: MovieComponent,
+    component: MovieInfoComponent,
     canMatch: [
       //NotAuthenticatedGuard,
     ],
   },
   {
     path: 'movies/create',
-    component: MovieComponent,
+    component: MovieCreatePageComponent,
     canMatch: [
       //NotAuthenticatedGuard,
     ],
   },
   //* ------------------------ Rent ------------------------
   {
-    path: 'rentals',
-    component: MoviesComponent, //TODO cambiar componente
+    path: 'rentals', // Para ver la información de los alquileres y las reservas (ADMIN)
+    component: HomeComponent, //TODO cambiar componente
     children: [
       {
         path: 'new', // Para hacer un alquiler
-        component: MovieComponent, //TODO cambiar componente
+        component: HomeComponent, //TODO cambiar componente
         canMatch: [
           //NotAuthenticatedGuard,
         ],
       },
       {
-        path: 'edit/:id', // Para hacer un alquiler
-        component: MovieComponent, //TODO cambiar componente
+        path: 'edit/:id', // Para editar un alquiler
+        component: HomeComponent, //TODO cambiar componente
         canMatch: [
           //NotAuthenticatedGuard,
         ],
@@ -81,7 +81,7 @@ export const routes: Routes = [
 
   //* ------------------------ profile ------------------------
   {
-    path: 'profile',
+    path: 'profile', // Para que el usuario vea sus reservas y alquileres
     component: HomeComponent, //TODO cambiar componente cuando esté creado
   },
   //* ------------------------ rutas por defecto y wildcard ------------------------
