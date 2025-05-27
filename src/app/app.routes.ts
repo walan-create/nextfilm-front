@@ -37,7 +37,7 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     canMatch: [
-      AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
 
@@ -46,7 +46,7 @@ export const routes: Routes = [
     path: 'movies',
     component: MoviesComponent,
      canMatch: [
-      AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
 
   },
@@ -54,28 +54,28 @@ export const routes: Routes = [
     path: 'movies/admin',
     component: MoviesAdminComponent,
     canMatch: [
-      IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   {
     path: 'movies/info/:id',
     component: MovieInfoComponent,
      canMatch: [
-      AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   {
     path: 'movies/edit/:id',
     component:  EditMoviePageComponent,
     canMatch: [
-      IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   {
     path: 'movies/create',
     component: CreateFilmPageComponent,
     canMatch: [
-      IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   //* ------------------------ Rent ------------------------
@@ -105,7 +105,7 @@ export const routes: Routes = [
     path: 'profile',
     component: UserProfileComponent, //TODO Añadir Guard  para negar acceso a ADMINS
     canMatch: [
-      AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   //* ------------------------ rutas por defecto y wildcard ------------------------
