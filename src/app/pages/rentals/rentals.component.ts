@@ -1,16 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReusableModalComponent } from '../../components/reusable-modal/reusable-modal.component';
+import { RentalsService, Rental } from '../../services/rentals.service';
+import { Router } from '@angular/router';
 
-interface Rental {
-  user: string;
-  film: string;
-  price: number;
-  rentalDate: Date;
-  expectedReturnDate: Date;
-  returnDate: Date | null;
-}
 
 @Component({
   selector: 'app-rentals',
@@ -20,34 +14,20 @@ interface Rental {
   styleUrls: ['./rentals.component.css']
 })
 export class RentalsComponent {
-  rentals: Rental[] = [
-    {
-      user: 'Maria Lopez',
-      film: 'The Godfather',
-      price: 3.99,
-      rentalDate: new Date('2025-05-01'),
-      expectedReturnDate: new Date('2025-05-15'),
-      returnDate: new Date('2025-05-12')
-    },
-    {
-      user: 'Carlos Ruiz',
-      film: 'Inception',
-      price: 2.49,
-      rentalDate: new Date('2025-05-10'),
-      expectedReturnDate: new Date('2025-05-24'),
-      returnDate: null
-    }
-  ];
-
   mostrarEntregados = true;
   selectedRental: Rental | null = null;
 
-  get rentalsFiltrados(): Rental[] {
-    if (this.mostrarEntregados) {
-      return this.rentals;
-    } else {
-      return this.rentals.filter(r => !r.returnDate);
-    }
+  rentals = signal<Rental[]>([]); // inicializa vacío
+
+  rentalsFiltrados = computed(() =>
+    this.mostrarEntregados
+      ? this.rentals()
+      : this.rentals().filter(r => !r.returnDate)
+  );
+
+  constructor(private rentalsService: RentalsService,private router: Router) {
+    this.rentals = this.rentalsService.rentals; // asigna el signal desde el servicio
+    this.rentalsService.loadRentals().subscribe(); // hace GET al backend y setea el signal
   }
 
   openReturnModal(rental: Rental) {
@@ -64,5 +44,8 @@ export class RentalsComponent {
       this.selectedRental.returnDate = new Date();
       this.selectedRental = null;
     }
+  }
+  newRental(){
+    this.router.navigate(['/rentals/new'])
   }
 }
