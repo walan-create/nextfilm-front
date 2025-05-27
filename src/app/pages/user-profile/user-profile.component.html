@@ -1,0 +1,94 @@
+<div class="container py-2">
+  <!--  -->
+  <h2 class="text-secondary-emphasis mt-4"><b>Tu perfil *Nombre de Usuario* {{ authService.user()?.name }}</b></h2>
+  <hr class="mt-0 mb-3 border-4 border-secondary-emphasis border-1 opacity-50"/>
+
+  <!-- Cabecera de la tabla con los botones y búsqueda en una sola fila -->
+  <div class="bg-dark rounded-3 d-inline-block mb-3 w-100">
+    <div
+      class="d-flex justify-content-between align-items-center flex-wrap p-2 gap-2"
+    >
+      <!-- Input Busqueda Activa-->
+      <div class="input-group flex-nowrap" style="max-width: 350px">
+        <span class="input-group-text" id="addon-wrapping">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar película, director, género..."
+          aria-describedby="addon-wrapping"
+          [(ngModel)]="searchText"
+        />
+      </div>
+      <!-- Ordenar por -->
+      <div class="d-flex gap-2 align-items-center">
+        <label for="orderBy" class="form-label mb-0 text-white">Ordenar:</label>
+        <select id="orderBy" class="form-select w-auto" [(ngModel)]="orderBy">
+          <option value="filmName">Título</option>
+          <option value="price">Precio</option>
+          <option value="bookDate">Fecha Reserva</option>
+          <option value="rentalDate">Fecha Alquiler</option>
+          <option value="returnDate">Fecha Devolución</option>
+        </select>
+        <select class="form-select w-auto" [(ngModel)]="orderDirection">
+          <option value="asc">Ascendente</option>
+          <option value="desc">Descendente</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="d-grid gap-4"
+    style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))"
+  >
+    @for(rental of rentals() | rentalFilterByText:searchText |
+    orderBy:orderBy:orderDirection; track $index){
+    <div
+    class="card w-auto"
+    [ngClass]="{'bg-light-subtle': rental.returnDate,}">
+      <!-- card bg-dark text-light h-100 shadow-lg border-0 -->
+      <div class="card-body d-flex flex-column justify-content-between">
+        <div>
+          <h5 class="card-title">
+            <b>{{ rental.filmName }}</b>
+          </h5>
+          @if (!rental.rentalDate) {
+          <span class="badge bg-success fs-6 my-1">Reservada</span>
+          }@else if(rental.rentalDate && !rental.returnDate && !isLateReturn(rental)){
+          <span class="badge bg-primary fs-6 my-1">Alquilader Activo</span>
+          }@else if(rental.returnDate){
+          <span class="badge bg-secondary fs-6 my-1">Devuelta</span>
+          }@else if(isLateReturn(rental)){
+          <span class="badge bg-danger fs-6 my-1">¡Devolución atrasada!</span>
+          }
+          <p class="my-1">
+            Precio:
+            <span class="badge bg-light-subtle fs-7">
+              <b>{{ rental.price }}€</b>
+            </span>
+          </p>
+
+          @if ( rental.rentalDate && rental.expectedReturnDate &&
+          !rental.returnDate && getDaysLeft(rental) !== null &&
+          getDaysLeft(rental)! > 0 ) {
+          <p class="card-text small">
+            Tienes
+            <b>{{ getDaysLeft(rental) }} día(s)</b>
+            para entregar la película
+          </p>
+          }
+        </div>
+      </div>
+      <div class="card-footer bg-transparent border-0 my-2 text-center">
+        <a
+          class="btn btn-outline-light btn-sm me-2"
+          [routerLink]="['/movies/info/', rental.id]"
+          ><b>Ver Info</b></a
+        >
+      </div>
+    </div>
+    }
+  </div>
+</div>

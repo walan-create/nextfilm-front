@@ -1,12 +1,13 @@
 <div class="container py-2">
-
-  <h2 class="text-secondary-emphasis mt-4">Películas</h2>
-  <hr class="mt-0 mb-3 border-4 border-secondary-emphasis border-1 opacity-50" />
+  <h2 class="text-secondary-emphasis mt-4"><b>Películas</b></h2>
+  <hr
+    class="mt-0 mb-3 border-4 border-secondary-emphasis border-1 opacity-50"
+  />
 
   <!-- Cabecera de la tabla con los botones y búsqueda en una sola fila -->
   <div class="bg-dark rounded-3 d-inline-block mb-3 w-100">
     <div
-      class="d-flex justify-content-between align-items-center flex-wrap p-2"
+      class="d-flex justify-content-between align-items-center flex-wrap p-2 gap-2"
     >
       <!-- Input Busqueda Activa-->
       <div class="input-group flex-nowrap" style="max-width: 350px">
@@ -23,9 +24,7 @@
       </div>
       <!-- Ordenar por -->
       <div class="d-flex gap-2 align-items-center">
-        <label for="orderBy" class="form-label mb-0 text-white"
-          >Ordenar:</label
-        >
+        <label for="orderBy" class="form-label mb-0 text-white">Ordenar:</label>
         <select id="orderBy" class="form-select w-auto" [(ngModel)]="orderBy">
           <option value="title">Título</option>
           <option value="genre">Género</option>
@@ -51,32 +50,30 @@
     orderBy:orderBy:orderDirection; track movie._id){
     <div
       [ngClass]="{
-        'bg-dark-subtle ': movie.genre === 'action',
-        'bg-danger-subtle': movie.genre === 'horror',
-        'bg-warning-subtle': movie.genre === 'comedy',
-        'bg-success-subtle': movie.genre === 'sci-fi',
-        'bg-info-subtle': movie.genre === 'drama',
-        'bg-light-subtle': movie.genre === 'animated',
-        'bg-primary-subtle': movie.genre === 'musical'
+        ' bg-light-subtle ': movie.stock === 0,
       }"
       class="card w-auto"
     >
       <!-- card bg-dark text-light h-100 shadow-lg border-0 -->
       <div class="card-body d-flex flex-column justify-content-between">
         <div>
+          @if (movie.stock === 0) {
+          <h6 class="text-center"><b>SIN STOCK</b></h6>
+          }
           <h5 class="card-title">
             <b>{{ movie.title }}</b>
           </h5>
           <span
             class="badge fs-6 my-1"
             [ngClass]="{
-              'bg-dark ': movie.genre.toLowerCase() === 'action',
-              'bg-danger': movie.genre.toLowerCase() === 'horror',
-              'bg-warning': movie.genre.toLowerCase() === 'comedy',
-              'bg-success': movie.genre.toLowerCase() === 'sci-fi',
-              'bg-info': movie.genre.toLowerCase() === 'drama',
-              'bg-light text-dark': movie.genre.toLowerCase() === 'animated',
-              'bg-primary': movie.genre.toLowerCase() === 'musical'
+              'bg-light-subtle': movie.stock === 0,
+              'bg-secondary ': movie.genre === 'action',
+              'bg-danger': movie.genre === 'horror',
+              'bg-warning': movie.genre === 'comedy',
+              'bg-success': movie.genre === 'sci-fi',
+              'bg-info': movie.genre === 'drama',
+              'bg-light text-dark': movie.genre === 'animated',
+              'bg-primary': movie.genre === 'musical'
             }"
           >
             {{ movie.genre | titlecase }}
@@ -98,17 +95,15 @@
       </div>
       <div class="card-footer bg-transparent border-0 my-2 text-center">
         <a
-          class="btn btn-dark btn-sm me-2"
+          class="btn btn-outline-light btn-sm me-2"
           [routerLink]="['/movies/info/', movie._id]"
           ><b>Ver más</b></a
         >
-        <a
-          class="btn btn-dark btn-sm"
-          type="button"
-
-        >
+        @if (movie.stock > 0) {
+        <a class="btn btn-outline-light btn-sm" type="button">
           <b>Reservar</b>
         </a>
+        }
       </div>
     </div>
     }
