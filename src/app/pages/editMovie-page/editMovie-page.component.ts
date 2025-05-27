@@ -25,28 +25,17 @@ export class EditMoviePageComponent {
     this.activatedRoute.params.pipe(
       map(params => params['id'])
     )
-  );
+  ); // obtiene el movieId de la ruta activa
 
-
-
-  // movie : Movie = {
-  //   _id: '1',
-  //       title: 'The Godfather',
-  //       genre: MovieGenre.Drama,
-  //       release: new Date('1972-03-24'),
-  //       director: 'Francis Ford Coppola',
-  //       duration: 175,
-  //       stock: 5,
-  //       rental_price: 20,
-  //       description: 'Classic mafia movie.',
-  // }
 
   movieResource = rxResource({
     request: () => ({ id : this.movieId()}),
     loader: ({request} ) => {
       return this.movieService.getMovieById(request.id);
     }
-  })
+  })// OBTIENE LA PELÍCULA POR ID, el rxResource gestiona el estado de la petición y el error
+
+  // Efecto para redirigir al usuario si hay un error en la petición
 
 
   redirectEffect = effect( () => {

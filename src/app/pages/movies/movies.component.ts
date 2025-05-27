@@ -159,8 +159,7 @@ export class MoviesComponent {
     this.movieId.set(movie._id);
     this.rentalService.createBook(movie._id).subscribe({
       next: (rental) => {
-        // Aquí podrías redirigir al usuario a la página de reservas o mostrar un mensaje de éxito
-        this.guardadoOk.set(true);
+        this.guardadoOk.set(true); // si todo va bien, se activa el mensaje de guardado
 
         setTimeout(() => {
           this.guardadoOk.set(false);
@@ -169,7 +168,7 @@ export class MoviesComponent {
       error: (err) => {
 
 
-        this.guardadoError.set(err.error.error);
+        this.guardadoError.set(err.error.error); // si hay error, se activa el mensaje de error
 
         setTimeout(() => {
           this.guardadoError.set('');

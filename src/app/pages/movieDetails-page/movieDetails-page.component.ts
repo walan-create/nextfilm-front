@@ -45,23 +45,15 @@ export class MovieDetailsPageComponent {
 
   fb = inject(FormBuilder);
 
-  // title: string;
-  // genre: MovieGenre;
-  // release: number; // Pasar a Date o String (Pendiente de back)
-  // director: string;
-  // duration: number;
-  // stock: number;
-  // rental_price: number;
-  // description: string;
 
+
+// INICIALIZA EL FORMULARIO REACTIVO
   movieForm = this.fb.group({
     title: ['', [Validators.required], []],
     genre: ['', [Validators.required], []],
     release: [
       '',
-      [Validators.required,
-        // Validators.pattern(FormUtils.datePattern)
-      ],
+      [Validators.required],
       [],
     ],
     director: ['', [Validators.required], []],
@@ -71,39 +63,28 @@ export class MovieDetailsPageComponent {
     description: ['', [Validators.required], []],
   });
 
+
+  // AÑADE LOS DATOS DE LA PELICULA QUE NOS PASAN AL FORMULARIO
   private setFormValue(formLike: Movie) {
     this.movieForm.patchValue(formLike as any);
 
-    //  const year = formLike.release.getFullYear();
-    //   // Month is 0-indexed, so add 1 and pad with leading zero if needed
-    //   const month = String(formLike.release.getMonth() + 1).padStart(2, '0');
-    //   // Day of month (getDate, not getDay which is day of week)
-    //   const day = String(formLike.release.getDate()).padStart(2, '0');
-
-    //   this.movieForm.patchValue({
-    //     release: `${year}-${month}-${day}`
-    //   });
 
 
   if (formLike.release) {
-    let releaseDate: Date;
 
-    if (formLike.release instanceof Date) {
-      releaseDate = formLike.release;
-    } else {
-      releaseDate = new Date(formLike.release);
-    }
+    let releaseDate: Date =  new Date(formLike.release);
 
-    if (!isNaN(releaseDate.getTime())) {
+
+    if (!isNaN(releaseDate.getTime())) { // SI LA FECHA ES VÁLIDA
       const year = releaseDate.getFullYear();
       const month = String(releaseDate.getMonth() + 1).padStart(2, '0');
       const day = String(releaseDate.getDate()).padStart(2, '0');
 
-      this.movieForm.patchValue({
+      this.movieForm.patchValue({ // AÑADE LA FECHA A EL FORMULARIO
         release: `${year}-${month}-${day}`
       });
     } else {
-      // If date is invalid, set an empty value
+      // SI LA FECHA NO ES VÁLIDA, LIMPIA EL CAMPO
       this.movieForm.patchValue({ release: '' });
       console.warn('Invalid release date received:', formLike.release);
     }
@@ -116,30 +97,33 @@ export class MovieDetailsPageComponent {
   }
 
   async onSubmit() {
+    // Validar el formulario
     const isValid = this.movieForm.valid;
     this.movieForm.markAllAsTouched();
+    //MARCA EL CAMPO CAMBIADO PARA PODER ACTUALIZAR LOS MENSAJES DE ERROR
     this.cambiado.set(!this.cambiado());
 
     if (!isValid) return;
 
+    //OBTINEN LOS VALORES DEL FORMULARIO
     const formValue  = this.movieForm.value ;
 
+    // CREA UN OBJETO PARCIAL DE PELICULA CON LOS VALORES DEL FORMULARIO
     const movieLike : Partial<Movie>= {
       ...formValue as any,
       release: new Date(formValue.release ?? ''),
     }
 
     console.log(movieLike);
-    //obtengo los  datos de el formulario ya formateados
 
-    if (this.movie()._id === '') {
+    if (this.movie()._id === '') { // SI NO TENGO ID ES NUEVO
       const product = await firstValueFrom(
-        this.movieService.createMovie(movieLike)
-      ); // si es new creo el producto y navego a la dirección del producto creado
-      this.router.navigate(['/movies/info', product._id]);
+        this.movieService.createMovie(movieLike) // si es new creo el producto y navego a la dirección del producto creado
+      );
+      this.router.navigate(['/movies/info', product._id]); // navego a la dirección del producto creado
     } else
       await firstValueFrom(
-        this.movieService.updateMovie(this.movie()._id, movieLike)
+        this.movieService.updateMovie(this.movie()._id, movieLike) // si no es nuevo lo actualizo
       ); // si no es  nuevo sólo lo actualizo
 
     this.wasSaved.set(true); // activar mensaje de guardado
