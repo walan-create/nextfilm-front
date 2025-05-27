@@ -117,9 +117,9 @@
       <div class="card h-100 text-center">
         <div class="card-body d-flex flex-column justify-content-center align-items-center">
           <h4 class="card-title text-primary"><i class="fa-solid fa-explosion"></i> La + actual</h4>
-          <h3 class="card-text text-info fw-bold mt-3">{{movieMockResponse.NewestFilm.title | titlecase }}</h3>
-          <p>{{movieMockResponse.NewestFilm.description | slice:0:100 }}...</p>
-          <a [routerLink]="['/movies/info/ , {{movieMockResponse.LatestFilm.id}} ']" class="btn btn-primary mt-auto mt-3">Ver</a>
+          <h3 class="card-text text-info fw-bold mt-3">{{movieNewsResource.value()?.LatestFilm?.title| titlecase }}</h3>
+          <p>{{ movieNewsResource.value()?.LatestFilm?.description| slice:0:100 }}...</p>
+          <a [routerLink]="['/movies/info/' , movieNewsResource.value()?.LatestFilm?._id ]" class="btn btn-primary mt-auto mt-3">Ver</a>
         </div>
       </div>
     </div>
@@ -128,7 +128,7 @@
       <div class="card h-100 text-center">
         <div class="card-body d-flex flex-column justify-content-center align-items-center">
           <h4 class="card-title text-primary mb-5"><i class="fa-solid fa-boxes-stacked"></i> Total películas</h4>
-          <p class="card-text">En NextFilm contamos con más de <span class="text-info fw-bolder">{{movieMockResponse.TotalFilms}}</span> películas para que las disfrutes en casa y a tu gusto</p>
+          <p class="card-text">En NextFilm contamos con más de <span class="text-info fw-bolder">{{movieNewsResource.value()?.TotalFilms}}</span> películas para que las disfrutes en casa y a tu gusto</p>
         </div>
       </div>
     </div>
@@ -137,9 +137,9 @@
       <div class="card h-100 text-center">
         <div class="card-body d-flex flex-column justify-content-center align-items-center">
           <h4 class="card-title text-primary"><i class="fa-solid fa-film"></i> La + antigua</h4>
-          <h3 class="card-text text-info fw-bold  mt-3">{{movieMockResponse.OldestFilm.title}}</h3>
-          <p>{{movieMockResponse.OldestFilm.description | slice:0:100 }}...</p>
-          <a [routerLink]="['/movies/info/ , {{movieMockResponse.OldestFilm.id}} ']" class="btn btn-primary mt-3">Ver</a>
+          <h3 class="card-text text-info fw-bold  mt-3">{{movieNewsResource.value()?.OldestFilm?.title}}</h3>
+          <p>{{movieNewsResource.value()?.OldestFilm?.description | slice:0:100 }}...</p>
+          <a [routerLink]="['/movies/info/' , movieNewsResource.value()?.OldestFilm?._id ]" class="btn btn-primary mt-3">Ver</a>
         </div>
       </div>
     </div>
@@ -148,9 +148,9 @@
       <div class="card h-100 text-center">
         <div class="card-body d-flex flex-column justify-content-center align-items-center">
           <h4 class="card-title text-primary"><i class="fa-solid fa-coins"></i> La + barata</h4>
-          <h3 class="card-text text-info fw-bold mt-3">{{movieMockResponse.CheapestFilm.title}}</h3>
-          <p class="card-text">{{movieMockResponse.CheapestFilm.description | slice:0:100 }}...</p>
-          <a [routerLink]="['/movies/info/ , {{movieMockResponse.CheapestFilm.id}} ']" class="btn btn-primary mt-3">Ver</a>
+          <h3 class="card-text text-info fw-bold mt-3">{{movieNewsResource.value()?.CheapestFilm?.title}}</h3>
+          <p class="card-text">{{movieNewsResource.value()?.CheapestFilm?.description | slice:0:100 }}...</p>
+          <a [routerLink]="['/movies/info/' , movieNewsResource.value()?.CheapestFilm?._id ]" class="btn btn-primary mt-3">Ver</a>
         </div>
       </div>
     </div>
@@ -159,9 +159,9 @@
       <div class="card h-100 text-center">
         <div class="card-body d-flex flex-column justify-content-center align-items-center">
           <h4 class="card-title text-primary"><i class="fa-solid fa-hourglass-start"></i> La + larga</h4>
-          <h3 class="card-text text-info fw-bold mt-3">{{movieMockResponse.LonguestFilm.title}}</h3>
-          <p class="card-text">{{movieMockResponse.LonguestFilm.description | slice:0:100 }}...</p>
-          <a [routerLink]="['/movies/info/ , {{movieMockResponse.Longuest.id}} ']" class="btn btn-primary mt-3">Ver</a>
+          <h3 class="card-text text-info fw-bold mt-3">{{movieNewsResource.value()?.LonguestFilm?.title}}</h3>
+          <p class="card-text">{{movieNewsResource.value()?.LonguestFilm?.description | slice:0:100 }}...</p>
+          <a [routerLink]="['/movies/info/' , movieNewsResource.value()?.LonguestFilm?._id ]" class="btn btn-primary mt-3">Ver</a>
         </div>
       </div>
     </div>
@@ -170,9 +170,9 @@
       <div class="card h-100 text-center">
         <div class="card-body d-flex flex-column justify-content-center align-items-center">
           <h4 class="card-title text-primary"><i class="fa-solid fa-bitcoin-sign"></i> La + cara</h4>
-          <h3 class="card-text text-info fw-bold mt-3">{{movieMockResponse.ExpensiveFilm.title}}</h3>
-          <p class="card-text">{{movieMockResponse.ExpensiveFilm.description | slice:0:100 }}...</p>
-          <a [routerLink]="['/movies/info/ , {{movieMockResponse.Expensive.id}} ']" class="btn btn-primary mt-3">Ver</a>
+          <h3 class="card-text text-info fw-bold mt-3">{{movieNewsResource.value()?.ExpensiveFilm?.title}}</h3>
+          <p class="card-text">{{movieNewsResource.value()?.ExpensiveFilm?.description | slice:0:100 }}...</p>
+          <a [routerLink]="['/movies/info/' , movieNewsResource.value()?.ExpensiveFilm?._id ]" class="btn btn-primary mt-3">Ver</a>
         </div>
       </div>
     </div>
