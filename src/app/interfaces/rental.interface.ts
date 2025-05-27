@@ -1,5 +1,5 @@
 export interface Rental {
-  id: string; //!ojo en el swagger tiene el nombre de renralID con la D mayuscula
+  _id: string; //!ojo en el swagger tiene el nombre de renralID con la D mayuscula
   userId: string;
   filmId: string;
 

@@ -1,14 +1,14 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
-import { Observable, of, tap, catchError } from 'rxjs';
+import { Observable, of, tap, catchError, map } from 'rxjs';
 import { Rental } from '../interfaces/rental.interface';
 import { AuthService } from '@auth/services/auth.service';
 
 const baseUrl = environment.baseUrl;
 
 const emptyRental: Rental = {
-  id: '',
+  _id: '',
   userId: '',
   filmId: '',
   userName: '',
@@ -43,11 +43,23 @@ export class RentalsService {
 
   getRentalsByUserId(): Observable<Rental[]> {
     // Obtenemos el id por el service de sesión
-    const userId = this.authService.user()?.id;
+    const userId = this.authService.user()?._id;
 
     return this.http
-      .get<Rental[]>(`${baseUrl}/getRentalsByUserId/${userId}`)
+      .get<Rental[]>(`${baseUrl}/rental/getRentalsByUser/${userId}`)
       .pipe(
+        tap((rentals) => console.log('User Rentals:', rentals)),
+        map((rentals) =>
+          rentals.map((rental) => ({
+            ...rental,
+            expectedReturnDate: rental.expectedReturnDate
+              ? new Date(rental.expectedReturnDate)
+              : null,
+            rentalDate: rental.rentalDate ? new Date(rental.rentalDate) : null,
+            returnDate: rental.returnDate ? new Date(rental.returnDate) : null,
+            bookDate: new Date(rental.bookDate),
+          }))
+        ),
         tap((rentals) => {
           this.userRentals.set(rentals);
           localStorage.setItem('userRentals', JSON.stringify(rentals));
@@ -60,7 +72,7 @@ export class RentalsService {
   }
 
   getRentalById(id: string): Observable<Rental> {
-    const cached = this.rentals().find((r) => r.id === id);
+    const cached = this.rentals().find((r) => r._id === id);
     if (cached) return of(cached);
 
     return this.http.get<Rental>(`${baseUrl}/getRental/${id}`).pipe(
@@ -90,7 +102,7 @@ export class RentalsService {
     return this.http.patch<Rental>(`${baseUrl}/updateRental/${id}`, data).pipe(
       tap((updated) => {
         this.rentals.update((r) =>
-          r.map((item) => (item.id === id ? updated : item))
+          r.map((item) => (item._id === id ? updated : item))
         );
       }),
       catchError((error) => {
@@ -103,7 +115,7 @@ export class RentalsService {
   deleteRental(id: string): Observable<void> {
     return this.http.delete<void>(`${baseUrl}/deleteRental/${id}`).pipe(
       tap(() => {
-        this.rentals.update((r) => r.filter((item) => item.id !== id));
+        this.rentals.update((r) => r.filter((item) => item._id !== id));
         localStorage.setItem('rentals', JSON.stringify(this.rentals()));
       })
     );
@@ -125,5 +137,9 @@ export class RentalsService {
 
   loadUserRentals(): Observable<Rental[]> {
     return this.getRentalsByUserId();
+  }
+
+  createBook(filmId: string): Observable<Rental> {
+    return this.http.post<Rental>(`${baseUrl}/rental/newBook/${filmId}`, {});
   }
 }

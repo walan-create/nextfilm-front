@@ -26,80 +26,80 @@ import { RentalFilterByTextPipe } from '../../pipes/rental-filter-by-text.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserProfileComponent {
-  rentalsMock: Rental[] = [
-    {
-      id: '1a2b3c4d5e',
-      userId: 'user001',
-      filmId: 'film001',
-      userName: 'Juan Pérez',
-      filmName: 'Matrix',
-      price: 3.99,
-      bookDate: new Date('2025-05-23T08:00:00.000Z'),
-      rentalDate: new Date('2025-05-24T10:00:00.000Z'),
-      expectedReturnDate: new Date('2025-05-27T10:00:00.000Z'),
-      returnDate: new Date('2025-05-27T09:36:56.868Z'),
-    },
-    {
-      id: '2b3c4d5e6f',
-      userId: 'user002',
-      filmId: 'film002',
-      userName: 'Ana Gómez',
-      filmName: 'Inception',
-      price: 4.5,
-      bookDate: new Date('2025-05-24T09:00:00.000Z'),
-      rentalDate: new Date('2025-05-24T09:36:56.868Z'),
-      expectedReturnDate: new Date('2025-05-27T09:36:56.868Z'),
-      returnDate: new Date('2025-05-28T09:36:56.868Z'), // Devolución con atraso
-    },
-    {
-      id: '3c4d5e6f7g',
-      userId: 'user003',
-      filmId: 'film003',
-      userName: 'Luis Martínez',
-      filmName: 'Interstellar',
-      price: 5.0,
-      bookDate: new Date('2025-05-25T07:30:00.000Z'),
-      rentalDate: null,
-      expectedReturnDate: null,
-      returnDate: null,
-    },
-    {
-      id: '4d5e6f7g8h',
-      userId: 'user004',
-      filmId: 'film004',
-      userName: 'María López',
-      filmName: 'Avatar',
-      price: 3.5,
-      bookDate: new Date('2025-05-26T09:00:00.000Z'),
-      rentalDate: null,
-      expectedReturnDate: null,
-      returnDate: null,
-    },
-    {
-      id: '434e6f7g8h',
-      userId: 'user004',
-      filmId: 'film004',
-      userName: 'María López',
-      filmName: 'Armaggedon',
-      price: 3.5,
-      bookDate: new Date('2025-05-26T09:00:00.000Z'),
-      rentalDate: new Date('2025-05-24T09:36:56.868Z'),
-      expectedReturnDate: new Date('2025-05-26T09:36:56.868Z'),
-      returnDate: null,
-    },
-    {
-      id: '434e6f7g8h',
-      userId: 'user004',
-      filmId: 'film004',
-      userName: 'María López',
-      filmName: 'Iron Fist',
-      price: 3.5,
-      bookDate: new Date('2025-05-23T09:00:00.000Z'),
-      rentalDate: new Date('2025-05-24T09:36:56.868Z'),
-      expectedReturnDate: new Date('2025-05-29T09:36:56.868Z'),
-      returnDate: null,
-    },
-  ];
+  // rentalsMock: Rental[] = [
+  //   {
+  //     id: '1a2b3c4d5e',
+  //     userId: 'user001',
+  //     filmId: 'film001',
+  //     userName: 'Juan Pérez',
+  //     filmName: 'Matrix',
+  //     price: 3.99,
+  //     bookDate: new Date('2025-05-23T08:00:00.000Z'),
+  //     rentalDate: new Date('2025-05-24T10:00:00.000Z'),
+  //     expectedReturnDate: new Date('2025-05-27T10:00:00.000Z'),
+  //     returnDate: new Date('2025-05-27T09:36:56.868Z'),
+  //   },
+  //   {
+  //     id: '2b3c4d5e6f',
+  //     userId: 'user002',
+  //     filmId: 'film002',
+  //     userName: 'Ana Gómez',
+  //     filmName: 'Inception',
+  //     price: 4.5,
+  //     bookDate: new Date('2025-05-24T09:00:00.000Z'),
+  //     rentalDate: new Date('2025-05-24T09:36:56.868Z'),
+  //     expectedReturnDate: new Date('2025-05-27T09:36:56.868Z'),
+  //     returnDate: new Date('2025-05-28T09:36:56.868Z'), // Devolución con atraso
+  //   },
+  //   {
+  //     id: '3c4d5e6f7g',
+  //     userId: 'user003',
+  //     filmId: 'film003',
+  //     userName: 'Luis Martínez',
+  //     filmName: 'Interstellar',
+  //     price: 5.0,
+  //     bookDate: new Date('2025-05-25T07:30:00.000Z'),
+  //     rentalDate: null,
+  //     expectedReturnDate: null,
+  //     returnDate: null,
+  //   },
+  //   {
+  //     id: '4d5e6f7g8h',
+  //     userId: 'user004',
+  //     filmId: 'film004',
+  //     userName: 'María López',
+  //     filmName: 'Avatar',
+  //     price: 3.5,
+  //     bookDate: new Date('2025-05-26T09:00:00.000Z'),
+  //     rentalDate: null,
+  //     expectedReturnDate: null,
+  //     returnDate: null,
+  //   },
+  //   {
+  //     id: '434e6f7g8h',
+  //     userId: 'user004',
+  //     filmId: 'film004',
+  //     userName: 'María López',
+  //     filmName: 'Armaggedon',
+  //     price: 3.5,
+  //     bookDate: new Date('2025-05-26T09:00:00.000Z'),
+  //     rentalDate: new Date('2025-05-24T09:36:56.868Z'),
+  //     expectedReturnDate: new Date('2025-05-26T09:36:56.868Z'),
+  //     returnDate: null,
+  //   },
+  //   {
+  //     id: '434e6f7g8h',
+  //     userId: 'user004',
+  //     filmId: 'film004',
+  //     userName: 'María López',
+  //     filmName: 'Iron Fist',
+  //     price: 3.5,
+  //     bookDate: new Date('2025-05-23T09:00:00.000Z'),
+  //     rentalDate: new Date('2025-05-24T09:36:56.868Z'),
+  //     expectedReturnDate: new Date('2025-05-29T09:36:56.868Z'),
+  //     returnDate: null,
+  //   },
+  // ];
 
   authService = inject(AuthService);
   rentalsService = inject(RentalsService);
@@ -114,9 +114,9 @@ export class UserProfileComponent {
 
   ngOnInit() {
     // Cargar las peliculas al iniciar el componente
-    // this.loadRentals();
+    this.loadRentals();
 
-    this.rentalsService.userRentals.set(this.rentalsMock); //! Mock de prueba
+    // this.rentalsService.userRentals.set(this.rentalsMock); //! Mock de prueba
     console.log(this.rentals());
   }
 

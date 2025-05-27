@@ -100,7 +100,7 @@
           ><b>Ver más</b></a
         >
         @if (movie.stock > 0) {
-        <a class="btn btn-outline-light btn-sm" type="button">
+        <a class="btn btn-outline-light btn-sm" type="button" (click)="onReservarClick(movie)">
           <b>Reservar</b>
         </a>
         }
@@ -109,3 +109,20 @@
     }
   </div>
 </div>
+
+
+@if(guardadoOk()){
+
+<div class="alert alert-success position-fixed bottom-0 end-0 m-4" style="width: 300px;">
+  <span>Datos Actualizados Correctamente</span>
+</div>
+}
+
+
+
+@if(guardadoError()){
+
+<div class="alert alert-danger position-fixed bottom-0 end-0 m-4" style="width: 300px;">
+  <span>{{guardadoError()}}</span>
+</div>
+}

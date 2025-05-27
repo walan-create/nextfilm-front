@@ -1,6 +1,6 @@
 <div class="container py-2">
   <!--  -->
-  <h2 class="text-secondary-emphasis mt-4"><b>Tu perfil *Nombre de Usuario* {{ authService.user()?.name }}</b></h2>
+  <h2 class="text-secondary-emphasis mt-4"><b>Tu perfil  {{ authService.user()?.name }}</b></h2>
   <hr class="mt-0 mb-3 border-4 border-secondary-emphasis border-1 opacity-50"/>
 
   <!-- Cabecera de la tabla con los botones y búsqueda en una sola fila -->
@@ -84,7 +84,7 @@
       <div class="card-footer bg-transparent border-0 my-2 text-center">
         <a
           class="btn btn-outline-light btn-sm me-2"
-          [routerLink]="['/movies/info/', rental.id]"
+          [routerLink]="['/movies/info/', rental._id]"
           ><b>Ver Info</b></a
         >
       </div>
