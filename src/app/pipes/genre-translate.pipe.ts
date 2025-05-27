@@ -18,6 +18,6 @@ export class GenreTranslatePipe implements PipeTransform {
 
   transform(value: string): string {
     // Devuelve la traducción o el valor original con la primera letra en mayúscula
-    return this.genreMap[value] || (value.charAt(0).toUpperCase() + value.slice(1));
+    return this.genreMap[value.toLowerCase()] || (value.charAt(0).toUpperCase() + value.slice(1));
   }
 }

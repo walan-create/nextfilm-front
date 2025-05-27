@@ -16,17 +16,17 @@ import { TitleCasePipe } from '@angular/common';
 export class MovieInfoComponent {
 
   // Pelicula de prueba (MOCK)
-  testMovie: Movie = {
-    _id: '3',
-    title: '28 días después',
-    genre: MovieGenre.Horror,
-    release: new Date('1972-03-24'),
-    director: 'danny boyle',
-    duration: 113,
-    stock: 8,
-    rental_price: 4.99,
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta nam molestias...'
-  }
+  // testMovie: Movie = {
+  //   _id: '3',
+  //   title: '28 días después',
+  //   genre: MovieGenre.Horror,
+  //   release: new Date('1972-03-24'),
+  //   director: 'danny boyle',
+  //   duration: 113,
+  //   stock: 8,
+  //   rental_price: 4.99,
+  //   description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta nam molestias...'
+  // }
 
 
   moviesService = inject(MoviesService);
@@ -45,12 +45,12 @@ export class MovieInfoComponent {
   }
 
 
-  movieResourcee = this.testMovie; //cambiar este por el de abajo
-  // movieResource = rxResource({
-  //   request: () => ({ id: this.movieId() }),
-  //   loader: ({ request }) => {
-  //     return this.moviesService.getMovieById(request.id)
-  //   }
-  // })
+  // movieResourcee = this.testMovie; //cambiar este por el de abajo
+  movieResource = rxResource({
+    request: () => ({ id: this.movieId() }),
+    loader: ({ request }) => {
+      return this.moviesService.getMovieById(request.id)
+    }
+  })
 
 }

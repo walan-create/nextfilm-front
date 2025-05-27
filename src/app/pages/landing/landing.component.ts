@@ -7,4 +7,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './landing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LandingComponent { }
+export class LandingComponent {
+
+  
+
+ }

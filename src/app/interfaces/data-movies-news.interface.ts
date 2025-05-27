@@ -1,7 +1,7 @@
 import { Movie } from "./movie.interface";
 
 export interface DataMoviesNews {
-  NewestFilm: Movie;
+  LatestFilm: Movie;
   TotalFilms: number;
   OldestFilm: Movie;
   CheapestFilm: Movie;

@@ -122,14 +122,14 @@ export class MoviesService {
       return of(this.cacheHomeInfo);
     }
 
-    return this.http.get<DataMoviesNews>(`${baseUrl}/moviesNews`).pipe(
+    return this.http.get<DataMoviesNews>(`${baseUrl}/filmNews`).pipe(
       tap((data) => {
         this.cacheHomeInfo = data;
       }),
       catchError((error) => {
         console.error("Error fetcheando home data" + error);
         return of({
-          NewestFilm: emptyMovie,
+          LatestFilm: emptyMovie,
           TotalFilms: 0,
           OldestFilm: emptyMovie,
           CheapestFilm: emptyMovie,
