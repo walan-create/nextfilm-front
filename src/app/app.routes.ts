@@ -10,6 +10,7 @@ import { EditMoviePageComponent } from './pages/editMovie-page/editMovie-page.co
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { AuthenticatedGuard } from '@auth/guards/authenticated.guard';
 import { IsAdminGuard } from '@auth/guards/is-admin.guard';
+import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
