@@ -10,7 +10,7 @@
     >
       <!-- Input Busqueda Activa-->
       <div class="input-group flex-nowrap" style="max-width: 350px">
-        <span class="input-group-text" id="addon-wrapping">
+        <span class="input-group-text bg-nextblue" id="addon-wrapping">
           <i class="fa-solid fa-magnifying-glass"></i>
         </span>
         <input
@@ -24,14 +24,14 @@
       <!-- Ordenar por -->
       <div class="d-flex gap-2 align-items-center">
         <label for="orderBy" class="form-label mb-0 text-white">Ordenar:</label>
-        <select id="orderBy" class="form-select w-auto" [(ngModel)]="orderBy">
+        <select id="orderBy" class="form-select w-auto bg-nextblue" [(ngModel)]="orderBy">
           <option value="filmName">Título</option>
           <option value="price">Precio</option>
           <option value="bookDate">Fecha Reserva</option>
           <option value="rentalDate">Fecha Alquiler</option>
           <option value="returnDate">Fecha Devolución</option>
         </select>
-        <select class="form-select w-auto" [(ngModel)]="orderDirection">
+        <select class="form-select w-auto bg-nextblue" [(ngModel)]="orderDirection">
           <option value="asc">Ascendente</option>
           <option value="desc">Descendente</option>
         </select>
