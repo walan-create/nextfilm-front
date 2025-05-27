@@ -38,7 +38,7 @@ export class MoviesComponent {
       release: new Date('1972-03-24'),
       director: 'Francis Ford Coppola',
       duration: 175,
-      stock: 5,
+      stock: 7,
       rental_price: 20,
       description: 'Classic mafia movie.',
     },
@@ -110,6 +110,17 @@ export class MoviesComponent {
       rental_price: 19,
       description:
         'A jazz pianist falls for an aspiring actress in Los Angeles.',
+    },
+    {
+      _id: '8',
+      title: 'Avatar',
+      genre: MovieGenre.Drama,
+      release: new Date('1972-03-24'),
+      director: 'María López',
+      duration: 175,
+      stock: 0,
+      rental_price: 20,
+      description: 'The Best Movie of all time',
     },
   ];
 

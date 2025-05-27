@@ -7,6 +7,7 @@ import { MoviesComponent } from './pages/movies/movies.component';
 import { RentalsComponent } from './pages/rentals/rentals.component';
 import { CreateFilmPageComponent } from './pages/createFilm-page/createFilm-page.component';
 import { EditMoviePageComponent } from './pages/editMovie-page/editMovie-page.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
@@ -83,7 +84,7 @@ export const routes: Routes = [
   //* ------------------------ profile ------------------------
   {
     path: 'profile',
-    component: HomeComponent, //TODO cambiar componente cuando esté creado
+    component: UserProfileComponent, //TODO Añadir Guard  para negar acceso a ADMINS
   },
   //* ------------------------ rutas por defecto y wildcard ------------------------
   // Redirección a landing si la ruta está vacía
