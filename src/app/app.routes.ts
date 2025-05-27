@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
-import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
 import { LandingComponent } from './pages/landing/landing.component';
 import { MovieInfoComponent } from './pages/movie-info/movie-info.component';
-import { MovieComponent } from './pages/movie/movie.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MoviesAdminComponent } from './pages/movies-admin/movies-admin.component';
 import { MoviesComponent } from './pages/movies/movies.component';
@@ -85,14 +83,14 @@ export const routes: Routes = [
     children: [
       {
         path: 'new', // Para hacer un alquiler
-        component: MovieComponent, //TODO cambiar componente
+        component: HomeComponent, //TODO cambiar componente
         canMatch: [
           //NotAuthenticatedGuard,
         ],
       },
       {
-        path: 'edit/:id', // Para hacer un alquiler
-        component: MovieComponent, //TODO cambiar componente
+        path: 'edit/:id', // Para editar un alquiler
+        component: HomeComponent, //TODO cambiar componente
         canMatch: [
           //NotAuthenticatedGuard,
         ],

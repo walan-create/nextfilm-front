@@ -13,6 +13,9 @@ import { Movie } from '../../interfaces/movie.interface';
 import { MoviesService } from '../../services/movies.service';
 import { NgClass, TitleCasePipe, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { OrderByPipe } from '../../pipes/order-by.pipe';
+import { FilterByTextPipe } from '../../pipes/filter-by-text.pipe';
+import { FormsModule } from '@angular/forms';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -23,6 +26,9 @@ import { rxResource } from '@angular/core/rxjs-interop';
     NgClass,
     TitleCasePipe,
     DatePipe,
+    FormsModule,
+    OrderByPipe,
+    FilterByTextPipe
   ],
   templateUrl: './movies-admin.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -111,6 +117,12 @@ export class MoviesAdminComponent {
 
   authService = inject(AuthService);
   moviesService = inject(MoviesService);
+
+  // Variables para ordenación
+  orderBy: keyof Movie = 'title';
+  orderDirection: 'asc' | 'desc' = 'asc';
+  // Variable para busqueda activa por texto
+  searchText: string = '';
 
   // Señal computada que escucha al invitations GLOBAL del Service (Cualquier actualización se verá reflejada)
   // movies = computed(() => this.moviesService.movies());

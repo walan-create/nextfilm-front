@@ -1,10 +1,14 @@
-<div class="container py-4">
+<div class="container py-2">
+
+  <h2 class="text-secondary-emphasis mt-4">Películas</h2>
+  <hr class="mt-0 mb-3 border-4 border-secondary-emphasis border-1 opacity-50" />
+
   <!-- Cabecera de la tabla con los botones y búsqueda en una sola fila -->
   <div class="bg-dark rounded-3 d-inline-block mb-3 w-100">
     <div
-      class="d-flex justify-content-between align-items-center flex-wrap p-3"
+      class="d-flex justify-content-between align-items-center flex-wrap p-2"
     >
-      <!-- Input Busqueda Activa a la izquierda -->
+      <!-- Input Busqueda Activa-->
       <div class="input-group flex-nowrap" style="max-width: 350px">
         <span class="input-group-text" id="addon-wrapping">
           <i class="fa-solid fa-magnifying-glass"></i>
@@ -17,10 +21,10 @@
           [(ngModel)]="searchText"
         />
       </div>
-      <!-- Ordenar por a la derecha -->
+      <!-- Ordenar por -->
       <div class="d-flex gap-2 align-items-center">
         <label for="orderBy" class="form-label mb-0 text-white"
-          >Ordenar por:</label
+          >Ordenar:</label
         >
         <select id="orderBy" class="form-select w-auto" [(ngModel)]="orderBy">
           <option value="title">Título</option>
