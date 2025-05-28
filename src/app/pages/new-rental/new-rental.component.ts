@@ -73,6 +73,8 @@ checkLoaded(): void {
     this.selectedPrice = selectedMovie ? selectedMovie.rental_price : 0;
   }
 
+
+
   saveRental(): void {
   if (!this.selectedUserId || !this.selectedMovieId || !this.selectedPrice) {
     alert('Faltan datos para guardar el alquiler');

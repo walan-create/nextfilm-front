@@ -8,6 +8,7 @@ import { MoviesAdminComponent } from './pages/movies-admin/movies-admin.componen
 import { MoviesComponent } from './pages/movies/movies.component';
 import { RentalsComponent } from './pages/rentals/rentals.component';
 import { NewRentalComponent } from './pages/new-rental/new-rental.component';
+import { UpdateRentalComponent } from './pages/update-rental/update-rental.component';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
@@ -76,7 +77,7 @@ export const routes: Routes = [
       },
   {
         path: 'rentals/edit/:id', // Para hacer un alquiler
-        component: NewRentalComponent, //TODO cambiar componente
+        component: UpdateRentalComponent, //TODO cambiar componente
         canMatch: [
           //NotAuthenticatedGuard,
         ],

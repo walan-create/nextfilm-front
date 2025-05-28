@@ -60,7 +60,7 @@
           <span class="text-warning">Pendiente de entrega</span>
         </ng-template>
       </div>
-      <div class="col-md-1 text-center">
+      <div class="col-md-1 text-center d-flex flex-column gap-1">
         <button
           *ngIf="!rental.returnDate"
           class="btn btn-sm btn-info rounded-2"
@@ -68,10 +68,17 @@
           (click)="openReturnModal(rental)">
           Devolver
         </button>
+        <a
+          class="btn btn-sm btn-warning rounded-2"
+          [routerLink]="['/rentals/edit', rental._id]"
+          title="Editar alquiler">
+          Editar
+        </a>
       </div>
     </div>
   </div>
 </div>
+
 
 <!-- Modal de confirmación -->
 <reusable-modal
