@@ -15,7 +15,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./rentals.component.css']
 })
 export class RentalsComponent {
-  mostrarEntregados = signal(true);
+  mostrarEntregados = signal(false);
   selectedRental: Rental | null = null;
 
   rentals = signal<Rental[]>([]);
