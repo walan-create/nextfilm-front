@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -33,7 +34,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
   templateUrl: './movies-admin.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MoviesAdminComponent {
+export class MoviesAdminComponent implements AfterViewInit {
   // 1. Lista de películas de prueba (MOCK)
   //   testMovies: Movie[] = [
   //   {
@@ -125,39 +126,33 @@ export class MoviesAdminComponent {
   searchText: string = '';
 
   // Señal computada que escucha al invitations GLOBAL del Service (Cualquier actualización se verá reflejada)
-  // movies = computed(() => this.moviesService.movies());
-  movies = computed(() => this.moviesResource.value());
+  movies = computed(() => this.moviesService.movies());
+  // movies = computed(() => this.moviesResource.value());
   movieIdToDelete = signal<string>('');
 
   @ViewChild(ReusableModalComponent)
   reusableModal!: ReusableModalComponent;
 
-  // ngOnInit() {
-  //   // Cargar las peliculas al iniciar el componente
-  //   // this.loadMovies();
-  //   console.log(this.movies());
-  //   console.log(this.moviesService.movies());
-  //   // this.moviesService.movies.set(this.testMovies); // Mock de prueba
-  // }
+  ngAfterViewInit() {
+    // Cargar las peliculas al iniciar el componente
+    this.loadMovies();
 
-  moviesResource = rxResource({
-    request: () => ({}),
-    loader: ({ request }) => {
-      return this.moviesService.getAllMovies()
-    }
-  })
 
-  // loadMovies() {
-  //   this.moviesService.loadMovies().subscribe({
-  //     next: (movies) => {
-  //       // Actualizar el signal con las peliculas obtenidas
-  //       this.moviesService.movies.set(movies);
-  //     },
-  //     error: (err) => {
-  //       console.error('Error loading movies:', err);
-  //     },
-  //   });
-  // }
+    // this.moviesService.movies.set(this.testMovies); // Mock de prueba
+  }
+
+
+  loadMovies() {
+    this.moviesService.loadMovies().subscribe({
+      next: (movies) => {
+        // Actualizar el signal con las peliculas obtenidas
+        this.moviesService.movies.set(movies);
+      },
+      error: (err) => {
+        console.error('Error loading movies:', err);
+      },
+    });
+  }
 
   openDeleteMovieModal(movieId: string) {
     const modalElement = document.getElementById('reusableModal');
@@ -172,6 +167,7 @@ export class MoviesAdminComponent {
     this.moviesService.deletemovie(this.movieIdToDelete()).subscribe({
       next: () => {
         console.log('Movie deleted successfully');
+
       },
       error: (err) => {
         console.log('Error deleting the movie', err);

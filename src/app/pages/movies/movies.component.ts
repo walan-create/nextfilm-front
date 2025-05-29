@@ -14,7 +14,7 @@ import { MovieGenre } from '../../interfaces/movie-genre.enum';
 import { FormsModule } from '@angular/forms';
 import { OrderByPipe } from '../../pipes/order-by.pipe';
 import { FilterByTextPipe } from '../../pipes/filter-by-text.pipe';
-import { RentalsService } from '../../services/rental.service';
+import { RentalsService } from '../../services/rentals.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -154,7 +154,6 @@ export class MoviesComponent {
     });
   }
 
-
   onReservarClick(movie: Movie) {
     this.movieId.set(movie._id);
     this.rentalService.createBook(movie._id).subscribe({
@@ -166,8 +165,6 @@ export class MoviesComponent {
         }, 2000); // desactivar mensaje de guardadod a los dos segundos
       },
       error: (err) => {
-
-
         this.guardadoError.set(err.error.error); // si hay error, se activa el mensaje de error
 
         setTimeout(() => {

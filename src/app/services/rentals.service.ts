@@ -48,6 +48,12 @@ export class RentalsService {
     // Obtenemos el id por el service de sesión
     const userId = this.authService.user()?._id;
 
+    if(!userId) {
+      return of([]);
+    }
+
+    console.log('User ID:', userId);
+
     return this.http
       .get<Rental[]>(`${baseUrl}/rental/getRentalsByUser/${userId}`)
       .pipe(
@@ -174,6 +180,13 @@ export class RentalsService {
   }
 
   createBook(filmId: string): Observable<Rental> {
-    return this.http.post<Rental>(`${baseUrl}/rental/newBook/${filmId}`, {});
+    return this.http.post<Rental>(`${baseUrl}/rental/newBook/${filmId}`, {}).pipe(
+      tap((newRental) => {
+        this.rentals.update((r) => [...r, newRental]);
+      }),
+      catchError((error) => {
+        console.error('Error creating book:', error);
+        return of(emptyRental);
+      }));
   }
 }

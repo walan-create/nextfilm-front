@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -12,6 +13,8 @@ import { RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RentalFilterByTextPipe } from '../../pipes/rental-filter-by-text.pipe';
+import { MoviesService } from '../../services/movies.service';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-user-profile',
@@ -25,7 +28,7 @@ import { RentalFilterByTextPipe } from '../../pipes/rental-filter-by-text.pipe';
   templateUrl: './user-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserProfileComponent {
+export class UserProfileComponent  {
   // rentalsMock: Rental[] = [
   //   {
   //     id: '1a2b3c4d5e',
@@ -112,25 +115,34 @@ export class UserProfileComponent {
   // Variable para busqueda activa por texto
   searchText: string = '';
 
-  ngOnInit() {
+  ngAfterViewInit() {
     // Cargar las peliculas al iniciar el componente
-    this.loadRentals();
 
-    // this.rentalsService.userRentals.set(this.rentalsMock); //! Mock de prueba
-    console.log(this.rentals());
+    if(!this.authService.user()) {
+      setTimeout(() => {
+        this.moviesResource.reload();
+      }, 300); 
+    }
+
+
   }
 
-  loadRentals() {
-    this.rentalsService.loadUserRentals().subscribe({
-      next: (rentals) => {
-        // Actualizar el signal con las peliculas obtenidas
-        this.rentalsService.userRentals.set(rentals);
-      },
-      error: (err) => {
-        console.error('Error loading movies:', err);
-      },
-    });
-  }
+  // loadRentals() {
+  //   this.rentalsService.loadUserRentals().subscribe({
+  //     next: (rentals) => {
+  //       // Actualizar el signal con las peliculas obtenidas
+  //       this.rentalsService.userRentals.set(rentals);
+  //     },
+  //     error: (err) => {
+  //       console.error('Error loading movies:', err);
+  //     },
+  //   });
+  // }
+
+
+  moviesResource = rxResource({
+    loader: () => this.rentalsService.loadUserRentals(),
+  });
 
   isLateReturn(rental: Rental): boolean {
     // Si no hay fecha de devolución y la fecha esperada de devolución ya pasó, está atrasada
