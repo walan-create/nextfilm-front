@@ -24,92 +24,92 @@ import { OrderByPipe } from '../../pipes/order-by.pipe';
 })
 export class RentalsComponent {
 
-  testRentals: Rental[] = [
-  {
-    _id: 'r1',
-    userId: 'u1',
-    filmId: 'f1',
-    userName: 'Juan Pérez',
-    filmName: 'The Godfather',
-    price: 20,
-    bookDate: new Date('2024-05-01'),
-    rentalDate: new Date('2024-05-02'),
-    expectedReturnDate: new Date('2024-05-09'),
-    returnDate: null,
-  },
-  {
-    _id: 'r2',
-    userId: 'u2',
-    filmId: 'f2',
-    userName: 'Ana García',
-    filmName: 'Inception',
-    price: 18,
-    bookDate: new Date('2024-05-03'),
-    rentalDate: new Date('2024-05-04'),
-    expectedReturnDate: new Date('2024-05-11'),
-    returnDate: new Date('2024-05-10'),
-  },
-  {
-    _id: 'r3',
-    userId: 'u3',
-    filmId: 'f3',
-    userName: 'Carlos López',
-    filmName: 'Avengers: Endgame',
-    price: 22,
-    bookDate: new Date('2024-05-05'),
-    rentalDate: new Date('2024-05-06'),
-    expectedReturnDate: new Date('2024-05-13'),
-    returnDate: null,
-  },
-  {
-    _id: 'r4',
-    userId: 'u4',
-    filmId: 'f4',
-    userName: 'Lucía Fernández',
-    filmName: 'The Hangover',
-    price: 15,
-    bookDate: new Date('2024-05-07'),
-    rentalDate: new Date('2024-05-08'),
-    expectedReturnDate: new Date('2024-05-15'),
-    returnDate: null,
-  },
-  {
-    _id: 'r5',
-    userId: 'u5',
-    filmId: 'f5',
-    userName: 'Miguel Torres',
-    filmName: 'Friday the 13th',
-    price: 17,
-    bookDate: new Date('2024-05-09'),
-    rentalDate: new Date('2024-05-10'),
-    expectedReturnDate: new Date('2024-05-17'),
-    returnDate: new Date('2024-05-16'),
-  },
-  {
-    _id: 'r6',
-    userId: 'u6',
-    filmId: 'f6',
-    userName: 'Sofía Martínez',
-    filmName: 'The Lion King',
-    price: 16,
-    bookDate: new Date('2024-05-11'),
-    rentalDate: new Date('2024-05-12'),
-    expectedReturnDate: new Date('2024-05-19'),
-    returnDate: null,
-  },
-  {
-    _id: 'r7',
-    userId: 'u7',
-    filmId: 'f7',
-    userName: 'Pedro Ramírez',
-    filmName: 'La La Land',
-    price: 19,
-    bookDate: new Date('2024-05-13'),
-    rentalDate: new Date('2024-05-14'),
-    expectedReturnDate: new Date('2024-05-21'),
-    returnDate: new Date('2024-05-22'),
-  },
-];
+//   testRentals: Rental[] = [
+//   {
+//     _id: 'r1',
+//     userId: 'u1',
+//     filmId: 'f1',
+//     userName: 'Juan Pérez',
+//     filmName: 'The Godfather',
+//     price: 20,
+//     bookDate: new Date('2024-05-01'),
+//     rentalDate: new Date('2024-05-02'),
+//     expectedReturnDate: new Date('2024-05-09'),
+//     returnDate: null,
+//   },
+//   {
+//     _id: 'r2',
+//     userId: 'u2',
+//     filmId: 'f2',
+//     userName: 'Ana García',
+//     filmName: 'Inception',
+//     price: 18,
+//     bookDate: new Date('2024-05-03'),
+//     rentalDate: new Date('2024-05-04'),
+//     expectedReturnDate: new Date('2024-05-11'),
+//     returnDate: new Date('2024-05-10'),
+//   },
+//   {
+//     _id: 'r3',
+//     userId: 'u3',
+//     filmId: 'f3',
+//     userName: 'Carlos López',
+//     filmName: 'Avengers: Endgame',
+//     price: 22,
+//     bookDate: new Date('2024-05-05'),
+//     rentalDate: new Date('2024-05-06'),
+//     expectedReturnDate: new Date('2024-05-13'),
+//     returnDate: null,
+//   },
+//   {
+//     _id: 'r4',
+//     userId: 'u4',
+//     filmId: 'f4',
+//     userName: 'Lucía Fernández',
+//     filmName: 'The Hangover',
+//     price: 15,
+//     bookDate: new Date('2024-05-07'),
+//     rentalDate: new Date('2024-05-08'),
+//     expectedReturnDate: new Date('2024-05-15'),
+//     returnDate: null,
+//   },
+//   {
+//     _id: 'r5',
+//     userId: 'u5',
+//     filmId: 'f5',
+//     userName: 'Miguel Torres',
+//     filmName: 'Friday the 13th',
+//     price: 17,
+//     bookDate: new Date('2024-05-09'),
+//     rentalDate: new Date('2024-05-10'),
+//     expectedReturnDate: new Date('2024-05-17'),
+//     returnDate: new Date('2024-05-16'),
+//   },
+//   {
+//     _id: 'r6',
+//     userId: 'u6',
+//     filmId: 'f6',
+//     userName: 'Sofía Martínez',
+//     filmName: 'The Lion King',
+//     price: 16,
+//     bookDate: new Date('2024-05-11'),
+//     rentalDate: new Date('2024-05-12'),
+//     expectedReturnDate: new Date('2024-05-19'),
+//     returnDate: null,
+//   },
+//   {
+//     _id: 'r7',
+//     userId: 'u7',
+//     filmId: 'f7',
+//     userName: 'Pedro Ramírez',
+//     filmName: 'La La Land',
+//     price: 19,
+//     bookDate: new Date('2024-05-13'),
+//     rentalDate: new Date('2024-05-14'),
+//     expectedReturnDate: new Date('2024-05-21'),
+//     returnDate: new Date('2024-05-22'),
+//   },
+// ];
 
   orderBy: keyof Rental = 'userName';
   orderDirection: 'asc' | 'desc' = 'asc';
@@ -127,9 +127,9 @@ export class RentalsComponent {
   );
 
   constructor(private rentalsService: RentalsService, private router: Router) {
-    //this.rentals = this.rentalsService.rentals;
-    this.rentals.set(this.testRentals);
-    //this.rentalsService.loadRentals().subscribe(); // carga inicial
+    this.rentals = this.rentalsService.rentals;
+    // this.rentals.set(this.testRentals);
+    this.rentalsService.loadRentals().subscribe(); // carga inicial
   }
 
   openReturnModal(rental: Rental) {
@@ -142,7 +142,7 @@ export class RentalsComponent {
   }
 
   returnMovie() {
-    console.log('Selected rental:', this.selectedRental);
+    // console.log('Selected rental:', this.selectedRental);
 
     if (this.selectedRental) {
       const rentalId =

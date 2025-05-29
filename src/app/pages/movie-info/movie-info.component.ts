@@ -5,11 +5,11 @@ import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { Movie } from '../../interfaces/movie.interface';
 import { MovieGenre } from '../../interfaces/movie-genre.enum';
-import { TitleCasePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-movie-info',
-  imports: [RouterOutlet, TitleCasePipe],
+  imports: [RouterOutlet, TitleCasePipe, DatePipe],
   templateUrl: './movie-info.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -78,7 +78,7 @@
       </div>
       <div class="col-4 col-md-2 col-lg-2 text-center p-0">
         <div class="btn-group gap-1">
-          @if (!rental.returnDate) {
+          @if (!rental.returnDate && rental.rentalDate) {
           <button class="p-1 btn btn-sm btn-primary text-white rounded-2 d-flex align-items-center gap-0" title="Devolver"
             (click)="openReturnModal(rental)">
             <span><b>Devolver</b></span>

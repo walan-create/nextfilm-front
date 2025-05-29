@@ -16,7 +16,6 @@ export class FormErrorLabelComponent {
   get errorMessage() {
     const error = this.control().errors || {};
 
-    console.log('if', this.control().touched && Object.keys(error).length > 0);
 
     return this.control().touched && Object.keys(error).length > 0
       ? FormUtils.getTextError(error)

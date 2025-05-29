@@ -57,7 +57,7 @@ export class MoviesService {
     // Si no está en el caché, realiza una petición HTTP
     return this.http.get<Movie>(`${baseUrl}/getFilm/${id}`).pipe(
       tap((movie) => {
-        console.log(movie); // Debug: imprime la película
+        // console.log(movie); // Debug: imprime la película
         this.movies.update((movies) => [...movies, movie]); // Agrega al caché
       }),
       catchError((error) => {
@@ -79,7 +79,7 @@ export class MoviesService {
 
   updateMovie(id: string, movieData: Partial<Movie>): Observable<Movie> {
 
-    console.log(movieData);
+    // console.log(movieData);
     return this.http
       .put<Movie>(`${baseUrl}/updateFilm/${id}`, movieData)
       .pipe(

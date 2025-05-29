@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '@auth/services/auth.service';
@@ -13,6 +14,8 @@ import { MovieGenre } from '../../interfaces/movie-genre.enum';
 import { FormsModule } from '@angular/forms';
 import { OrderByPipe } from '../../pipes/order-by.pipe';
 import { FilterByTextPipe } from '../../pipes/filter-by-text.pipe';
+import { RentalsService } from '../../services/rentals.service';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-movies',
@@ -23,8 +26,8 @@ import { FilterByTextPipe } from '../../pipes/filter-by-text.pipe';
     DatePipe,
     FormsModule,
     OrderByPipe,
-    FilterByTextPipe
-],
+    FilterByTextPipe,
+  ],
   templateUrl: './movies.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -115,13 +118,18 @@ export class MoviesComponent {
 
   authService = inject(AuthService);
   moviesService = inject(MoviesService);
+  rentalService = inject(RentalsService);
+
+  movieId = signal<string | null>(null);
 
   // Variables para ordenación
-  orderBy:  keyof Movie = 'title';
+  orderBy: keyof Movie = 'title';
   orderDirection: 'asc' | 'desc' = 'asc';
   // Variable para busqueda activa por texto
   searchText: string = '';
 
+  guardadoOk = signal(false);
+  guardadoError = signal<string>('');
 
   // Señal computada que escucha al invitations GLOBAL del Service (Cualquier actualización se verá reflejada)
   movies = computed(() => this.moviesService.movies());
@@ -131,7 +139,7 @@ export class MoviesComponent {
     this.loadMovies();
 
     // this.moviesService.movies.set(this.testMovies); //! Mock de prueba
-    console.log(this.movies());
+    // console.log(this.movies());
   }
 
   loadMovies() {
@@ -142,6 +150,26 @@ export class MoviesComponent {
       },
       error: (err) => {
         console.error('Error loading movies:', err);
+      },
+    });
+  }
+
+  onReservarClick(movie: Movie) {
+    this.movieId.set(movie._id);
+    this.rentalService.createBook(movie._id).subscribe({
+      next: (rental) => {
+        this.guardadoOk.set(true); // si todo va bien, se activa el mensaje de guardado
+
+        setTimeout(() => {
+          this.guardadoOk.set(false);
+        }, 2000); // desactivar mensaje de guardadod a los dos segundos
+      },
+      error: (err) => {
+        this.guardadoError.set(err.error.error); // si hay error, se activa el mensaje de error
+
+        setTimeout(() => {
+          this.guardadoError.set('');
+        }, 2000);
       },
     });
   }

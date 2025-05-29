@@ -1,11 +1,9 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import { ServiceNameService } from './service-name.service';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
 import { ServiceNameServices } from '../../services/user.service';
 import { MoviesService } from '../../services/movies.service';
-import { MoviesServices } from './movie.service';
 import { RentalsService } from '../../services/rentals.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
@@ -61,7 +59,7 @@ export class NewRentalComponent implements OnInit {
 checkLoaded(): void {
   if (this.usersReady && this.moviesReady) {
     this.loaded = true;
-    console.log("loaded:", this.loaded);
+    // console.log("loaded:", this.loaded);
     this.cdr.detectChanges();
   }
 }

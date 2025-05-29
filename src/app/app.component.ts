@@ -4,7 +4,7 @@ import { MoviesAdminComponent } from "./pages/movies-admin/movies-admin.componen
 
 @Component({
   selector: 'app-root',
-  imports: [AppLayoutComponent, MoviesAdminComponent],
+  imports: [AppLayoutComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -46,11 +46,29 @@ export class RentalsService {
 
   getRentalsByUserId(): Observable<Rental[]> {
     // Obtenemos el id por el service de sesión
-    const userId = this.authService.user()?.id;
+    const userId = this.authService.user()?._id;
+
+    if(!userId) {
+      return of([]);
+    }
+
+    // console.log('User ID:', userId);
 
     return this.http
-      .get<Rental[]>(`${baseUrl}/getRentalsByUserId/${userId}`)
+      .get<Rental[]>(`${baseUrl}/rental/getRentalsByUser/${userId}`)
       .pipe(
+        // tap((rentals) => console.log('User Rentals:', rentals)),
+        map((rentals) =>
+          rentals.map((rental) => ({
+            ...rental,
+            expectedReturnDate: rental.expectedReturnDate
+              ? new Date(rental.expectedReturnDate)
+              : null,
+            rentalDate: rental.rentalDate ? new Date(rental.rentalDate) : null,
+            returnDate: rental.returnDate ? new Date(rental.returnDate) : null,
+            bookDate: rental.bookDate ? new Date(rental.bookDate) : null
+          }))
+        ),
         tap((rentals) => {
           this.userRentals.set(rentals);
           localStorage.setItem('userRentals', JSON.stringify(rentals));
@@ -159,5 +177,13 @@ export class RentalsService {
 
   loadUserRentals(): Observable<Rental[]> {
     return this.getRentalsByUserId();
+  }
+
+  createBook(filmId: string): Observable<Rental> {
+    return this.http.post<Rental>(`${baseUrl}/rental/newBook/${filmId}`, {}).pipe(
+      tap((newRental) => {
+        this.rentals.update((r) => [...r, newRental]);
+      })
+    );
   }
 }

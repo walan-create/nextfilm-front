@@ -66,7 +66,7 @@ export class AuthService {
       })
       .pipe(
         tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
-        tap((resp) => console.log(resp)),
+        // tap((resp) => console.log(resp)),
         map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
         catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
       );
@@ -157,6 +157,7 @@ export class AuthService {
   // Manejo de éxito en las solicitudes de autenticación
   private handleAuthSuccess(resp: AuthResponse) {
     this._user.set(resp.user); // Guarda los datos del usuario
+    // console.log('Usuario autenticado:', this._user());
     this._authStatus.set('authenticated'); // Cambia el estado a autenticado
     this._token.set(resp.token); // Guarda el token
     localStorage.setItem('token', resp.token); // Persiste el token en el almacenamiento local
