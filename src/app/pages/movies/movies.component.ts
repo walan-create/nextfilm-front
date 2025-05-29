@@ -14,7 +14,7 @@ import { MovieGenre } from '../../interfaces/movie-genre.enum';
 import { FormsModule } from '@angular/forms';
 import { OrderByPipe } from '../../pipes/order-by.pipe';
 import { FilterByTextPipe } from '../../pipes/filter-by-text.pipe';
-import { RentalsService } from '../../services/rentas.service';
+import { RentalsService } from '../../services/rental.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({

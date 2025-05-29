@@ -21,7 +21,7 @@ const emptyRental: Rental = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class RentalsService {
+export class RentalService {
   private http = inject(HttpClient);
   authService = inject(AuthService);
 
@@ -57,7 +57,7 @@ export class RentalsService {
               : null,
             rentalDate: rental.rentalDate ? new Date(rental.rentalDate) : null,
             returnDate: rental.returnDate ? new Date(rental.returnDate) : null,
-            bookDate: new Date(rental.bookDate),
+            bookDate: rental.bookDate ? new Date(rental.bookDate) : null
           }))
         ),
         tap((rentals) => {

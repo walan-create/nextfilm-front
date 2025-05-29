@@ -7,7 +7,7 @@ export interface Rental {
   filmName: string;
 
   price: number;
-  bookDate: Date;
+  bookDate: Date | null; // formato ISO (YYYY-MM-DD)
   rentalDate: Date | null; // formato ISO (YYYY-MM-DD)
   expectedReturnDate: Date | null; // formato ISO (YYYY-MM-DD)
   returnDate: Date | null; // formato ISO (YYYY-MM-DD)

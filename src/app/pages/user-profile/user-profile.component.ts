@@ -5,7 +5,7 @@ import {
   inject,
 } from '@angular/core';
 import { Rental } from '../../interfaces/rental.interface';
-import { RentalsService } from '../../services/rentas.service';
+import { RentalsService } from '../../services/rental.service';
 import { AuthService } from '@auth/services/auth.service';
 import { OrderByPipe } from '../../pipes/order-by.pipe';
 import { RouterLink } from '@angular/router';
