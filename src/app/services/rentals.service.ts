@@ -2,44 +2,34 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { Observable, of, tap, catchError, map } from 'rxjs';
+import { Rental } from '../interfaces/rental.interface';
+import { AuthService } from '@auth/services/auth.service';
 import { Router } from '@angular/router';
-
-export interface Rental {
-  _id: string;
-  userId: string;
-  userName: string;
-  filmId: string;
-  filmName: string;
-  price: number;
-  bookDate: Date | null;
-  rentalDate: Date | null;
-  expectedReturnDate: Date | string | null;
-  returnDate: Date | string | null;
-}
-
 
 const baseUrl = environment.baseUrl;
 
 const emptyRental: Rental = {
   _id: '',
   userId: '',
-  userName: '',
   filmId: '',
+  userName: '',
   filmName: '',
   price: 0,
   bookDate: new Date(),
-  rentalDate: new Date(),
-  expectedReturnDate: new Date(),
+  rentalDate: null,
+  expectedReturnDate: null,
   returnDate: null,
 };
 
 
 @Injectable({ providedIn: 'root' })
 export class RentalsService {
-  private http = inject(HttpClient);
   private router = inject(Router);
+  private http = inject(HttpClient);
+  authService = inject(AuthService);
 
   rentals = signal<Rental[]>([]);
+  userRentals = signal<Rental[]>([]); // Rentals del user en sesión
 
   getAllRentals(): Observable<Rental[]> {
     return this.http.get<Rental[]>(`${baseUrl}/rental/getRentals`).pipe(
@@ -54,8 +44,26 @@ export class RentalsService {
     );
   }
 
+  getRentalsByUserId(): Observable<Rental[]> {
+    // Obtenemos el id por el service de sesión
+    const userId = this.authService.user()?.id;
+
+    return this.http
+      .get<Rental[]>(`${baseUrl}/getRentalsByUserId/${userId}`)
+      .pipe(
+        tap((rentals) => {
+          this.userRentals.set(rentals);
+          localStorage.setItem('userRentals', JSON.stringify(rentals));
+        }),
+        catchError((error) => {
+          console.error('Error loading rentals:', error);
+          return of([]);
+        })
+      );
+  }
+
   getRentalById(id: string): Observable<Rental> {
-    const cached = this.rentals().find(r => r._id === id);
+    const cached = this.rentals().find((r) => r._id === id);
     if (cached) return of(cached);
 
     return this.http.get<Rental>(`${baseUrl}/rental/getRental/${id}`).pipe(
@@ -70,7 +78,7 @@ export class RentalsService {
         return rental;
       }),
       tap((rental) => {
-        this.rentals.update(r => [...r, rental]);
+        this.rentals.update((r) => [...r, rental]);
       }),
 
       catchError((error) => {
@@ -83,9 +91,9 @@ export class RentalsService {
   createRental(data: Partial<Rental>): Observable<Rental> {
     return this.http.post<Rental>(`${baseUrl}/rental/newRental`, data).pipe(
       tap((newRental) => {
-        this.rentals.update(r => [...r, newRental]);
-        alert('Alquiler creado')
-        this.router.navigate(['/rentals'])
+        this.rentals.update((r) => [...r, newRental]);
+        alert('Alquiler creado');
+    this.router.navigate(['/rentals']);
       }),
       catchError((error) => {
         console.error('Error creating rental:', error);
@@ -98,8 +106,8 @@ export class RentalsService {
   updateRental(id: string, data: Partial<Rental>): Observable<Rental> {
     return this.http.put<Rental>(`${baseUrl}/rental/updateRental/${id}`, data).pipe(
       tap((updated) => {
-        this.rentals.update(r =>
-          r.map(item => item._id === id ? updated : item)
+        this.rentals.update((r) =>
+          r.map((item) => (item._id === id ? updated : item))
         );
       }),
       catchError((error) => {
@@ -114,7 +122,7 @@ export class RentalsService {
   deleteRental(id: string): Observable<void> {
     return this.http.delete<void>(`${baseUrl}/rental/deleteRental/${id}`).pipe(
       tap(() => {
-        this.rentals.update(r => r.filter(item => item._id !== id));
+        this.rentals.update((r) => r.filter((item) => item._id !== id));
         localStorage.setItem('rentals', JSON.stringify(this.rentals()));
       })
     );
@@ -142,5 +150,14 @@ export class RentalsService {
 
   loadRentals(): Observable<Rental[]> {
     return this.getAllRentals();
+  }
+
+  getUserLocalRentals(): Rental[] {
+    const data = localStorage.getItem('userRentals');
+    return data ? JSON.parse(data) : [];
+  }
+
+  loadUserRentals(): Observable<Rental[]> {
+    return this.getRentalsByUserId();
   }
 }

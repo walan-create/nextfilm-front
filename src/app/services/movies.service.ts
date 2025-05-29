@@ -23,7 +23,7 @@ const baseUrl = environment.baseUrl;
 
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
-  
+
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
@@ -68,7 +68,7 @@ export class MoviesService {
   }
 
   createMovie(movieData: Partial<Movie>): Observable<Movie> {
-    return this.http.post<Movie>(`${baseUrl}/newMovie`, movieData).pipe(
+    return this.http.post<Movie>(`${baseUrl}/newFilm`, movieData).pipe(
       tap((movie) => this.movies().push(movie)),
       catchError((error) => {
         console.error('Error creating the movie:', error);
@@ -122,14 +122,14 @@ export class MoviesService {
       return of(this.cacheHomeInfo);
     }
 
-    return this.http.get<DataMoviesNews>(`${baseUrl}/moviesNews`).pipe(
+    return this.http.get<DataMoviesNews>(`${baseUrl}/filmNews`).pipe(
       tap((data) => {
         this.cacheHomeInfo = data;
       }),
       catchError((error) => {
         console.error("Error fetcheando home data" + error);
         return of({
-          NewestFilm: emptyMovie,
+          LatestFilm: emptyMovie,
           TotalFilms: 0,
           OldestFilm: emptyMovie,
           CheapestFilm: emptyMovie,

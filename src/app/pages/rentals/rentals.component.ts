@@ -2,19 +2,29 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReusableModalComponent } from '../../components/reusable-modal/reusable-modal.component';
-import { RentalsService, Rental } from '../../services/rentals.service';
+import { RentalsService} from '../../services/rentals.service';
 import { Router, RouterModule } from '@angular/router';
 import { catchError, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Rental } from '../../interfaces/rental.interface';
+import { FilterRentalByTextPipe } from '../../pipes/filter-rental-by-text.pipe';
+import { OrderByPipe } from "../../pipes/order-by.pipe";
+
 
 @Component({
   selector: 'app-rentals',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReusableModalComponent, RouterModule,],
+  imports: [CommonModule, FormsModule, ReusableModalComponent, RouterModule, FilterRentalByTextPipe, OrderByPipe],
   templateUrl: './rentals.component.html',
   styleUrls: ['./rentals.component.css']
 })
 export class RentalsComponent {
+
+
+   orderBy:  keyof Rental = 'userName';
+    orderDirection: 'asc' | 'desc' = 'asc';
+    // Variable para busqueda activa por texto
+    searchText: string = '';
   mostrarEntregados = signal(false);
   selectedRental: Rental | null = null;
 
@@ -44,7 +54,7 @@ export class RentalsComponent {
   console.log('Selected rental:', this.selectedRental);
 
   if (this.selectedRental) {
-    const rentalId = this.selectedRental._id || (this as any).selectedRental._id;
+    const rentalId = this.selectedRental._id || (this as any).selectedRental.id;
 
     this.rentalsService.returnRental(rentalId).subscribe({
       next: () => {
@@ -73,9 +83,4 @@ returnRentalAsync(id: string, returnDate: string): Promise<Rental> {
 }
 
 
-
-
-  newRental() {
-    this.router.navigate(['/rentals/new']);
-  }
 }

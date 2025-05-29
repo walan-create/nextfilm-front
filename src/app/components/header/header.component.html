@@ -1,16 +1,27 @@
-  <nav class="navbar navbar-dark bg-dark border-danger border-body">
-    <div class="container-xxl">
-
-     <!-- Logo + Botones juntos -->
-    <div class="d-flex align-items-center ">
+<nav class="navbar navbar-dark bg-dark border-danger border-body">
+  <div class="container-xxl">
+    <!-- Logo + Botones juntos -->
+    <div class="d-flex align-items-center">
       <div class="navbar-brand ms-3">
-        <a [routerLink]="'/'" class="d-flex align-items-center no-decoration" href="#">
-          <img src="assets/images/nextfilm-logo.png" alt="Bootstrap" height="50" class="me-2">
+        <a
+          [routerLink]="'/'"
+          class="d-flex align-items-center no-decoration"
+          href="#"
+        >
+          <img
+            src="assets/images/nextfilm-logo.png"
+            alt="Bootstrap"
+            height="50"
+            class="me-2"
+          />
         </a>
       </div>
 
-      @if (!currentRoute().startsWith('/landing') && !currentRoute().startsWith('/auth')) {
-        <!-- Botones de navegación pequeños pegados al logo -->
+
+
+      @if (!currentRoute().startsWith('/landing') &&
+      !currentRoute().startsWith('/auth')) {
+      <!-- Botones de navegación pequeños pegados al logo -->
       <!-- <div class="d-flex gap-3 d-none d-md-block">
         <a [routerLink]="'/home'" class="btn btn-sm btn-outline-primary me-2" routerLinkActive="btn-primary text-white" activa><b>Inicio</b></a>
         <a [routerLink]="'/movies'" class="btn btn-sm btn-outline-primary me-2" routerLinkActive="btn-primary text-white" activa><b>Peliculas</b></a>
@@ -19,72 +30,88 @@
         <a [routerLink]="'/rent'" class="btn btn-sm btn-outline-secondary me-2" routerLinkActive="btn-secondary text-white" activa><b>Alquileres</b></a>
       </div> -->
 
+
       <div class="d-flex d-none d-md-flex flex-row gap-1">
-        <a [routerLink]="'/home'" class="btn btn-sm btn-outline-primary d-flex px-2 py-2" routerLinkActive="btn-primary text-white">
-          <i class="fa-solid fa-home fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
-          <p class="my-0 ms-0 align-items-center d-flex"><b>Inicio</b></p>
+        <a [routerLink]="'/home'" class="btn btn-sm btn-outline-primary d-flex px-1 py-2" routerLinkActive="btn-primary text-white">
+          <i class="fa-solid fa-home me-1 fs-5 d-flex align-items-center justify-content-center" style="width:30px;"></i>
+          <p class="my-0 me-1 align-items-center d-flex"><b>Inicio</b></p>
         </a>
-        <a [routerLink]="'/movies'" class="btn btn-sm btn-outline-primary d-flex px-2 py-2" routerLinkActive="btn-primary text-white" [routerLinkActiveOptions]="{ exact: true }">
-            <i class="fa-solid fa-film fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
-            <p class="my-0 ms-0 align-items-center d-flex"><b>Películas</b></p>
+        <!-- !Añadir el id del usuario de forma reactiva y pasarlo en la URL /movies/:idUser -->
+        <a [routerLink]="'/movies'" class="btn btn-sm btn-outline-primary d-flex px-1 py-2" routerLinkActive="btn-primary text-white" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa-solid fa-film me-1 fs-5 d-flex align-items-center justify-content-center" style="width:30px;"></i>
+            <p class="my-0 me-1 align-items-center d-flex"><b>Películas</b></p>
         </a>
-        <a [routerLink]="'/profile/:idUser'" class="btn btn-sm btn-outline-primary d-flex px-2 py-2" routerLinkActive="btn-primary text-white">
-            <i class="fa-solid fa-user fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
-            <p class="my-0 ms-0 align-items-center d-flex"><b>Mi Perfil</b></p>
+        <a [routerLink]="'/profile'" class="btn btn-sm btn-outline-primary d-flex px-1 py-2" routerLinkActive="btn-primary text-white">
+            <i class="fa-solid fa-user me-1 fs-5 d-flex align-items-center justify-content-center" style="width:30px;"></i>
+            <p class="my-0 me-1 align-items-center d-flex"><b>Mi Perfil</b></p>
         </a>
-        <a [routerLink]="'/movies/admin'" class="btn btn-sm btn-outline-secondary d-flex px-2 py-2" routerLinkActive="btn-secondary text-white">
-            <i class="fa-solid fa-clapperboard fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
-            <p class="my-0 ms-0 align-items-center d-flex"><b>Stock</b></p>
+
+        @if (authService.user()?.isAdmin) {
+
+
+        <a [routerLink]="'/movies/admin'" class="btn btn-sm btn-outline-nextblue d-flex px-1 py-2" routerLinkActive="btn-nextblue text-white">
+            <i class="fa-solid fa-clapperboard me-1 fs-5 d-flex align-items-center justify-content-center" style="width:30px;"></i>
+            <p class="my-0 me-1 align-items-center d-flex"><b>Inventario</b></p>
         </a>
-        <a [routerLink]="'/rent'" class="btn btn-sm btn-outline-secondary d-flex px-2 py-2" routerLinkActive="btn-secondary text-white">
-            <i class="fa-solid fa-user-tag fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
-            <p class="my-0 ms-0 align-items-center d-flex"><b>Alquileres</b></p>
+        <a [routerLink]="'/rentals'" class="btn btn-sm btn-outline-nextblue d-flex px-1 py-2" routerLinkActive="btn-nextblue text-white">
+            <i class="fa-solid fa-user-tag me-1 fs-5 d-flex align-items-center justify-content-center" style="width:30px;"></i>
+            <p class="my-0 me-1 align-items-center d-flex"><b>Alquileres</b></p>
         </a>
+        }
       </div>
 
       }
     </div>
 
+    <!-- Botón para el desplegable -->
+    <button
+      class="navbar-toggler d-md-none"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#navbarOffcanvasLg"
+      aria-controls="navbarOffcanvasLg"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
+    <!-- Botón Cerrar Sesión -->
+    <div class="justify-content-end d-none d-md-flex">
+      <!--  -->
+      <a
+        [routerLink]="'/landing'"
+        (click)="authService.logout()"
+        class="btn btn-sm btn-outline-danger d-flex px-2 py-2"
+      >
+        <i
+          class="fa-solid fa-arrow-right-from-bracket fs-5 ms-1 d-flex align-items-center"
+          style="width: 32px"
+        ></i>
+        <p class="my-0 ms-0 align-items-center d-flex"><b>Salir</b></p>
+      </a>
+    </div>
 
-      <!-- Botón para el desplegable -->
-      <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <!-- ---------- Desplegable ---------- -->
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="navbarOffcanvasLg"
+      aria-labelledby="navbarOffcanvasLgLabel"
+      style="width: 330px"
+    >
+      <!-- Encabezado del Desplegable -->
+      <div
+        class="offcanvas-header align-items-center px-4"
+        style="height: 90px"
+      >
+    <h1> {{ authService.user()?.name }}</h1>
+  </div>
 
-      <!-- Botón Cerrar Sesión -->
-      <div class="justify-content-end d-none d-md-flex">
+      <!-- Línea horizontal -->
+      <hr class="my-0 border border-primary border-1 opacity-50" />
 
-        <!--  -->
-        <a [routerLink]="'/landing'" (click)="authService.logout()" class="btn btn-sm btn-outline-danger d-flex px-2 py-2">
-              <i class="fa-solid fa-arrow-right-from-bracket fs-5 ms-1 d-flex align-items-center" style="width:32px;"></i>
-              <p class="my-0 ms-0 align-items-center d-flex"> <b>Salir</b> </p>
-        </a>
-        <!-- Botones Iniciar Sesión y Registrarse -->
-        <!-- @else if (authService.authStatus() === 'not-authenticated' && currentRoute().startsWith('/landing')){
-          <div class="d-flex gap-2">
-            <a [routerLink]="'/auth/login'" class="btn btn-outline-primary d-flex py-2 px-3">
-              <i class="fa-solid fa-user fs-3 m-0 d-flex align-items-center"></i>
-              <p class="my-0 ms-2 align-items-center d-flex"> <b>Iniciar Sesión</b> </p>
-            </a>
-            <a [routerLink]="'/auth/register'" class="btn btn-outline-secondary d-flex py-2 px-3">
-              <i class="fa-solid fa-pen-to-square fs-3 m-0 d-flex align-items-center"></i>
-              <p class="my-0 ms-2 align-items-center d-flex"> <b>Registrarse</b> </p>
-            </a>
-          </div>
-        } -->
-      </div>
-
-      <!-- ---------- Desplegable ---------- -->
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel" style="width: 330px;">
-
-        <!-- Encabezado del Desplegable -->
-        <div class="offcanvas-header align-items-center px-4" style="height: 90px;">
-
-        </div>
-
-        <!-- Línea horizontal -->
-        <hr class="my-0 border border-primary border-1 opacity-50">
+      <!-- Cuerpo del desplegable -->
+      <div class="offcanvas-body px-4 d-flex flex-column">
 
         <!-- Cuerpo del desplegable -->
         <div class="offcanvas-body px-4 d-flex flex-column">
@@ -100,33 +127,34 @@
                 <i class="fa-solid fa-film fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
                 <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Peliculas</b> </p>
               </a>
-
-              <a [routerLink]="'/profile/:idUser'" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
-                <i class="fa-solid fa-ticket fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
-                <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Perfil</b> </p>
+              <!-- !Añadir el id del usuario de forma reactiva y pasarlo en la URL /movies/:idUser -->
+              <a [routerLink]="'/profile'" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
+                <i class="fa-solid fa-user fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
+                <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Mi Perfil</b> </p>
               </a>
 
+              @if (true) {
               <a routerLink="/movies/admin" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
                 <i class="fa-solid fa-clapperboard fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
-                <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Stock</b> </p>
+                <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Inventario</b> </p>
               </a>
 
               <a routerLink="/rentals" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
                 <i class="fa-solid fa-user-tag fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
                 <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Alquileres</b> </p>
               </a>
-
+              }
             </div>
 
             <div class="d-flex flex-column mb-2 mt-auto">
-              <a routerLink="/rent" (click)="authService.logout()" class="btn btn-lg btn-danger w-100 d-flex mb-2">
+              <a routerLink="/landing" (click)="authService.logout()" class="btn btn-lg btn-danger w-100 d-flex mb-2">
                 <i class="fa-solid fa-arrow-right-from-bracket fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
                 <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Salir</b> </p>
               </a>
             </div>
 
         </div>
-
       </div>
     </div>
-  </nav>
+  </div>
+</nav>

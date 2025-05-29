@@ -132,11 +132,11 @@ export class MovieDetailsPageComponent {
     console.log(movieLike);
     //obtengo los  datos de el formulario ya formateados
 
-    if (this.movie()._id === 'new') {
+    if (this.movie()._id === '') {
       const product = await firstValueFrom(
         this.movieService.createMovie(movieLike)
       ); // si es new creo el producto y navego a la dirección del producto creado
-      this.router.navigate(['/movie/info', product._id]);
+      this.router.navigate(['/movies/info', product._id]);
     } else
       await firstValueFrom(
         this.movieService.updateMovie(this.movie()._id, movieLike)

@@ -92,7 +92,6 @@ checkLoaded(): void {
     this.selectedUserId = this.selectedUserId;
     this.selectedMovieId = this.selectedMovieId;
     this.selectedPrice = this.selectedPrice;
-
   },
   error: (err) => {
     if (err.status === 400 && err.error?.error) {

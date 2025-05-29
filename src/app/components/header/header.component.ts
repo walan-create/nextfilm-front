@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,11 @@ export class HeaderComponent {
 
   // Señal para almacenar la ruta actual
   currentRoute = signal<string>('');
+
+
+  checkStatusResource = rxResource({
+    loader: () => this.authService.checkStatus()
+  })
 
   ngOnInit(): void {
     // Detectar cambios en la ruta

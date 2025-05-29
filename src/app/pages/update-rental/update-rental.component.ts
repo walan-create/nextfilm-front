@@ -2,9 +2,10 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceNameServices } from '../../services/user.service';
 import { MoviesService } from '../../services/movies.service';
-import { RentalsService, Rental } from '../../services/rentals.service';
+import { RentalsService } from '../../services/rentals.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Rental } from '../../interfaces/rental.interface';
 
 @Component({
   selector: 'app-update-rental',
