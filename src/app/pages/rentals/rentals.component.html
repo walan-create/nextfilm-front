@@ -48,13 +48,13 @@
 <div class="list-group mb-1">
   <div class="list-group-item bg-secondary-subtle fw-bold">
     <div class="row align-items-center">
-      <div class="col-md-3">Usuario</div>
-      <div class="col-md-3">Película</div>
-      <div class="col-md-1 text-center">Precio</div>
-      <div class="col-md-1 text-center">Fecha Reserva</div>
-      <div class="col-md-1 text-center">Fecha a Devolver</div>
-      <div class="col-md-1 text-center">Fecha Devuelto</div>
-      <div class="col-md-2 text-center">Entregar</div>
+      <div class="col-4 col-md-2 col-lg-3">Usuario</div>
+      <div class="col-4 col-md-2">Película</div>
+      <div class="col-md-2 col-lg-1 d-none d-md-block text-center">Precio</div>
+      <div class="col-lg-1 d-none d-lg-block text-center">Alquilado</div>
+      <div class="col-md-2 col-lg-2 d-none d-md-block text-center">Fecha a Devolver</div>
+      <div class="col-md-2 col-lg-1 d-none d-md-block text-center">Devuelto</div>
+      <div class="col-4 col-md-2 col-lg-2 text-center p-0">Acciones</div>
     </div>
   </div>
 </div>
@@ -64,26 +64,24 @@
 <div class="list-group mb-1">
   <div class="list-group-item list-group-item-dark">
     <div class="row align-items-center">
-      <div class="col-md-3">{{ rental.userName }}</div>
-      <div class="col-md-3">{{ rental.filmName }}</div>
-      <div class="col-md-1 text-center">{{ rental.price | currency:'EUR' }}</div>
-      <div class="col-md-1 text-center">{{ rental.bookDate | date }}</div>
-      <div class="col-md-1 text-center">{{ rental.expectedReturnDate | date }}</div>
-      <div class="col-md-1 text-center">
+      <div class="col-4 col-md-2 col-lg-3">{{ rental.userName }}</div>
+      <div class="col-4 col-md-2">{{ rental.filmName }}</div>
+      <div class="col-md-2 col-lg-1 d-none d-md-block text-center">{{ rental.price | currency:'EUR' }}</div>
+      <div class="col-lg-1 d-none d-lg-block text-center">{{ rental.rentalDate | date:'MM/dd/yy' }}</div>
+      <div class="col-md-2 col-lg-2 d-none d-md-block text-center">{{ rental.expectedReturnDate | date:'MM/dd/yy' }}</div>
+      <div class="col-md-2 col-lg-1 d-none d-md-block text-center">
         @if (rental.returnDate) {
-        <ng-container>{{ rental.returnDate | date:'short' }}</ng-container>
+        <ng-container>{{ rental.returnDate | date:'MM/dd/yy' }}</ng-container>
         } @else {
         <span class="text-warning">Pendiente</span>
         }
       </div>
-      <!-- AQUÍ DEBEN ESTAR LOS BOTONES -->
-      <div class="col-md-2 text-center">
+      <div class="col-4 col-md-2 col-lg-2 text-center p-0">
         <div class="btn-group gap-1">
           @if (!rental.returnDate) {
-          <button class="btn btn-sm btn-info rounded-2 d-flex align-items-center gap-2" title="Devolver"
+          <button class="p-1 btn btn-sm btn-primary text-white rounded-2 d-flex align-items-center gap-0" title="Devolver"
             (click)="openReturnModal(rental)">
-            <i class="fa-solid fa-right-to-bracket"></i>
-            <span>Devolver</span>
+            <span><b>Devolver</b></span>
           </button>
 
           }
@@ -104,4 +102,4 @@
 
 
 <!-- Modal de confirmación -->
-<reusable-modal [modalText]="'¿Deseas entregar la película?'" (accepted)="returnMovie()"></reusable-modal>
+<reusable-modal [modalText]="'¿Deseas devolver la película al stock?'" (accepted)="returnMovie()"></reusable-modal>
