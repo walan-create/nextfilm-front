@@ -11,6 +11,8 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { AuthenticatedGuard } from '@auth/guards/authenticated.guard';
 import { IsAdminGuard } from '@auth/guards/is-admin.guard';
 import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
+import { NewRentalComponent } from './pages/new-rental/new-rental.component';
+import { UpdateRentalComponent } from './pages/update-rental/update-rental.component';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
@@ -82,23 +84,18 @@ export const routes: Routes = [
   {
     path: 'rentals',
     component: RentalsComponent, //TODO cambiar componente
-    children: [
-      {
-        path: 'new', // Para hacer un alquiler
-        component: HomeComponent, //TODO cambiar componente
-        canMatch: [
-          //NotAuthenticatedGuard,
-        ],
-      },
-      {
-        path: 'edit/:id', // Para editar un alquiler
-        component: HomeComponent, //TODO cambiar componente
-        canMatch: [
-          //NotAuthenticatedGuard,
-        ],
-      },
-    ],
   },
+   {
+    path: 'rentals/new',
+    component: NewRentalComponent, //TODO cambiar componente
+  },
+   {
+    path: 'rentals/edit/:id',
+    component: UpdateRentalComponent, //TODO cambiar componente
+  },
+
+
+
 
   //* ------------------------ profile ------------------------
   {
@@ -113,4 +110,4 @@ export const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
   // Redirección a landing si la ruta no existe
   { path: '**', redirectTo: 'landing' },
-];
+]

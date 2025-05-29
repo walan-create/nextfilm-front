@@ -16,10 +16,10 @@ export class RentalFilterByTextPipe implements PipeTransform {
       (movie) =>
         movie.filmName.toLowerCase().includes(lower) ||
         movie.price.toString().includes(lower) ||
-        movie.bookDate.toString().includes(lower) ||
+        movie.bookDate?.toString().includes(lower) ||
         (movie.rentalDate ? movie.rentalDate.toString().includes(lower) : false) ||
         (movie.expectedReturnDate ? movie.expectedReturnDate.toString().includes(lower) : false) ||
-        (movie.returnDate ? movie.returnDate.toString().includes(lower) : false) 
+        (movie.returnDate ? movie.returnDate.toString().includes(lower) : false)
     );
   }
 }

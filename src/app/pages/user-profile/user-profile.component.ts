@@ -5,7 +5,7 @@ import {
   inject,
 } from '@angular/core';
 import { Rental } from '../../interfaces/rental.interface';
-import { RentalsService } from '../../services/rentas.service';
+import { RentalsService } from '../../services/rentals.service';
 import { AuthService } from '@auth/services/auth.service';
 import { OrderByPipe } from '../../pipes/order-by.pipe';
 import { RouterLink } from '@angular/router';
@@ -28,7 +28,7 @@ import { RentalFilterByTextPipe } from '../../pipes/rental-filter-by-text.pipe';
 export class UserProfileComponent {
   rentalsMock: Rental[] = [
     {
-      id: '1a2b3c4d5e',
+      _id: '1a2b3c4d5e',
       userId: 'user001',
       filmId: 'film001',
       userName: 'Juan Pérez',
@@ -40,7 +40,7 @@ export class UserProfileComponent {
       returnDate: new Date('2025-05-27T09:36:56.868Z'),
     },
     {
-      id: '2b3c4d5e6f',
+      _id: '2b3c4d5e6f',
       userId: 'user002',
       filmId: 'film002',
       userName: 'Ana Gómez',
@@ -52,7 +52,7 @@ export class UserProfileComponent {
       returnDate: new Date('2025-05-28T09:36:56.868Z'), // Devolución con atraso
     },
     {
-      id: '3c4d5e6f7g',
+      _id: '3c4d5e6f7g',
       userId: 'user003',
       filmId: 'film003',
       userName: 'Luis Martínez',
@@ -64,7 +64,7 @@ export class UserProfileComponent {
       returnDate: null,
     },
     {
-      id: '4d5e6f7g8h',
+      _id: '4d5e6f7g8h',
       userId: 'user004',
       filmId: 'film004',
       userName: 'María López',
@@ -76,7 +76,7 @@ export class UserProfileComponent {
       returnDate: null,
     },
     {
-      id: '434e6f7g8h',
+      _id: '434e6f7g8h',
       userId: 'user004',
       filmId: 'film004',
       userName: 'María López',
@@ -88,7 +88,7 @@ export class UserProfileComponent {
       returnDate: null,
     },
     {
-      id: '434e6f7g8h',
+      _id: '434e6f7g8h',
       userId: 'user004',
       filmId: 'film004',
       userName: 'María López',
