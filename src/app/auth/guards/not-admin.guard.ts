@@ -17,7 +17,6 @@ export const NotAdminGuard: CanMatchFn = async (
 
   const isAdmin =  authService.user()?.isAdmin;
 
-  console.log('isAdmin', isAdmin);
 
   if(isAdmin) {
 

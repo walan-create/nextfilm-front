@@ -99,7 +99,7 @@
           [routerLink]="['/movies/info/', movie._id]"
           ><b>Ver más</b></a
         >
-        @if (movie.stock > 0) {
+        @if (movie.stock > 0 && !authService.user()?.isAdmin) {
         <a class="btn btn-outline-light btn-sm" type="button" (click)="onReservarClick(movie)">
           <b>Reservar</b>
         </a>

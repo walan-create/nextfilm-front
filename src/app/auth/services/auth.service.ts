@@ -66,7 +66,7 @@ export class AuthService {
       })
       .pipe(
         tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
-        tap((resp) => console.log(resp)),
+        // tap((resp) => console.log(resp)),
         map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
         catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
       );

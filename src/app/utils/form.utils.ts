@@ -102,7 +102,7 @@ export class FormUtils {
   static async checkingServerResponse(
     control: AbstractControl
   ): Promise<ValidationErrors | null> {
-    console.log('Validando contra servidor');
+    // console.log('Validando contra servidor');
 
     await sleep(); // 2 segundos y medio
 

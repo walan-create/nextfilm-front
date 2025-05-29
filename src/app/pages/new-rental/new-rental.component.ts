@@ -59,7 +59,7 @@ export class NewRentalComponent implements OnInit {
 checkLoaded(): void {
   if (this.usersReady && this.moviesReady) {
     this.loaded = true;
-    console.log("loaded:", this.loaded);
+    // console.log("loaded:", this.loaded);
     this.cdr.detectChanges();
   }
 }

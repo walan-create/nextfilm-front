@@ -52,12 +52,12 @@ export class RentalsService {
       return of([]);
     }
 
-    console.log('User ID:', userId);
+    // console.log('User ID:', userId);
 
     return this.http
       .get<Rental[]>(`${baseUrl}/rental/getRentalsByUser/${userId}`)
       .pipe(
-        tap((rentals) => console.log('User Rentals:', rentals)),
+        // tap((rentals) => console.log('User Rentals:', rentals)),
         map((rentals) =>
           rentals.map((rental) => ({
             ...rental,

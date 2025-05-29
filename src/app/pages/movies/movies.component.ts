@@ -139,7 +139,7 @@ export class MoviesComponent {
     this.loadMovies();
 
     // this.moviesService.movies.set(this.testMovies); //! Mock de prueba
-    console.log(this.movies());
+    // console.log(this.movies());
   }
 
   loadMovies() {

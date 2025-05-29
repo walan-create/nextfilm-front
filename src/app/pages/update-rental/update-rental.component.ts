@@ -63,7 +63,7 @@ export class UpdateRentalComponent implements OnInit {
       next: (rental: Rental) => {
         this.selectedUserId = rental.userId;
         this.selectedMovieId = rental.filmId;
-        console.log(rental)
+        // console.log(rental)
         this.selectedPrice = rental.price;
         // this.updatePrice();
         const fecha = new Date(rental.expectedReturnDate?? Date.now() + (2 * 7 * 24 * 60 * 60 * 1000));

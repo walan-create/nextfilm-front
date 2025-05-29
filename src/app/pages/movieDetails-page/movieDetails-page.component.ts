@@ -114,7 +114,7 @@ export class MovieDetailsPageComponent {
       release: new Date(formValue.release ?? ''),
     }
 
-    console.log(movieLike);
+    // console.log(movieLike);
 
     if (this.movie()._id === '') { // SI NO TENGO ID ES NUEVO
       const product = await firstValueFrom(
