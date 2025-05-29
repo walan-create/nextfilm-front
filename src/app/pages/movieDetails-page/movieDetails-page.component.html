@@ -75,9 +75,8 @@
     <app-form-error-label [control]="movieForm.get('duration')!" />
   </div>
 
-  <!-- Tercera fila: Precio y Stock -->
   <div class="row mb-3">
-    <div class="col-6">
+    <div class="col-4">
       <label for="rental_price" class="form-label">Precio</label>
       <input
         id="rental_price"
@@ -90,7 +89,7 @@
       <app-form-error-label [control]="movieForm.get('rental_price')!" [valido]="cambiado()"/>
     </div>
 
-    <div class="col-6">
+    <div class="col-4">
       <label for="stock" class="form-label">Inventario</label>
       <input
         id="stock"
@@ -101,6 +100,18 @@
         [class.is-invalid]="movieForm.get('stock')?.errors ?? false"
       />
       <app-form-error-label [control]="movieForm.get('stock')!" [valido]="cambiado()"/>
+    </div>
+    <div class="col-4">
+      <label for="duration" class="form-label">Duración</label>
+      <input
+        id="duration"
+        type="number"
+        placeholder="Duración"
+        class="form-control"
+        formControlName="duration"
+        [class.is-invalid]="movieForm.get('duration')?.errors ?? false"
+      />
+      <app-form-error-label [control]="movieForm.get('duration')!" [valido]="cambiado()"/>
     </div>
   </div>
 
