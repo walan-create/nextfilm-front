@@ -65,7 +65,8 @@ export class UpdateRentalComponent implements OnInit {
         this.selectedMovieId = rental.filmId;
         console.log(rental)
         this.selectedPrice = rental.price;
-        const fecha = new Date(rental.expectedReturnDate!);
+        // this.updatePrice();
+        const fecha = new Date(rental.expectedReturnDate?? Date.now() + (2 * 7 * 24 * 60 * 60 * 1000));
         this.expectedReturnDate = this.formatDateToInput(fecha).toString();
 
         // '2025-05-28' ;

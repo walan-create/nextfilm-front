@@ -13,6 +13,7 @@ import { IsAdminGuard } from '@auth/guards/is-admin.guard';
 import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
 import { NewRentalComponent } from './pages/new-rental/new-rental.component';
 import { UpdateRentalComponent } from './pages/update-rental/update-rental.component';
+import { NotAdminGuard } from '@auth/guards/not-admin.guard';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
@@ -102,7 +103,7 @@ export const routes: Routes = [
     path: 'profile',
     component: UserProfileComponent, //TODO Añadir Guard  para negar acceso a ADMINS
     canMatch: [
-      // AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      NotAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   //* ------------------------ rutas por defecto y wildcard ------------------------

@@ -183,10 +183,7 @@ export class RentalsService {
     return this.http.post<Rental>(`${baseUrl}/rental/newBook/${filmId}`, {}).pipe(
       tap((newRental) => {
         this.rentals.update((r) => [...r, newRental]);
-      }),
-      catchError((error) => {
-        console.error('Error creating book:', error);
-        return of(emptyRental);
-      }));
+      })
+    );
   }
 }

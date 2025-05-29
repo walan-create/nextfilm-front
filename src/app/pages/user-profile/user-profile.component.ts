@@ -118,10 +118,10 @@ export class UserProfileComponent  {
   ngAfterViewInit() {
     // Cargar las peliculas al iniciar el componente
 
-    if(!this.authService.user()) {
+    while(!this.authService.user()) { // espera a que coja los datos del usuario
       setTimeout(() => {
         this.moviesResource.reload();
-      }, 300); 
+      }, 300);
     }
 
 
