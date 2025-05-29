@@ -1,0 +1,68 @@
+@if (loaded) {
+  <div class="container-lg my-5">
+    <form class="row g-4">
+      <h2 class="h3 fw-bold mb-3">Nuevo Alquiler</h2>
+
+      <!-- Usuarios -->
+      <div class="mb-3">
+        <label for="userSelect" class="form-label">Seleccionar usuario</label>
+        <select
+          id="userSelect"
+          class="form-select"
+          [(ngModel)]="selectedUserId"
+          name="userSelect"
+        >
+          @for (user of users; track user._id) {
+            <option [value]="user._id">
+              {{ user.name }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- Películas -->
+      <div class="mb-3">
+        <label for="movieSelect" class="form-label">Seleccionar película</label>
+        <select
+          id="movieSelect"
+          class="form-select"
+          [(ngModel)]="selectedMovieId"
+          (change)="updatePrice()"
+          name="movieSelect"
+        >
+          @for (movie of movies; track movie._id) {
+            <option [value]="movie._id">
+              {{ movie.title }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- Precio -->
+      <div class="row mb-3">
+        <div class="col-md-4 mx-auto">
+          <label class="form-label">Precio (€)</label>
+          <input
+            type="number"
+            class="form-control"
+            step="0.01"
+            min="0"
+            [value]="selectedPrice"
+            readonly
+          />
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="button" class="btn btn-success btn-lg px-5" (click)="saveRental()">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+} @else {
+  <div class="text-center mt-5 text-light">
+    <div class="spinner-border" role="status"></div>
+    <p class="mt-3">Cargando usuarios y películas...</p>
+  </div>
+}

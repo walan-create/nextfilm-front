@@ -11,6 +11,8 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { AuthenticatedGuard } from '@auth/guards/authenticated.guard';
 import { IsAdminGuard } from '@auth/guards/is-admin.guard';
 import { NotAuthenticatedGuard } from '@auth/guards/not-authenticated.guard';
+import { NewRentalComponent } from './pages/new-rental/new-rental.component';
+import { UpdateRentalComponent } from './pages/update-rental/update-rental.component';
 
 // ------------------------ Definición de rutas principales ------------------------
 export const routes: Routes = [
@@ -37,7 +39,7 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     canMatch: [
-      AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
 
@@ -46,7 +48,7 @@ export const routes: Routes = [
     path: 'movies',
     component: MoviesComponent,
      canMatch: [
-      AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
 
   },
@@ -54,58 +56,53 @@ export const routes: Routes = [
     path: 'movies/admin',
     component: MoviesAdminComponent,
     canMatch: [
-      IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   {
     path: 'movies/info/:id',
     component: MovieInfoComponent,
      canMatch: [
-      AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   {
     path: 'movies/edit/:id',
     component:  EditMoviePageComponent,
     canMatch: [
-      IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   {
     path: 'movies/create',
     component: CreateFilmPageComponent,
     canMatch: [
-      IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // IsAdminGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   //* ------------------------ Rent ------------------------
   {
     path: 'rentals',
     component: RentalsComponent, //TODO cambiar componente
-    children: [
-      {
-        path: 'new', // Para hacer un alquiler
-        component: HomeComponent, //TODO cambiar componente
-        canMatch: [
-          //NotAuthenticatedGuard,
-        ],
-      },
-      {
-        path: 'edit/:id', // Para editar un alquiler
-        component: HomeComponent, //TODO cambiar componente
-        canMatch: [
-          //NotAuthenticatedGuard,
-        ],
-      },
-    ],
   },
+   {
+    path: 'rentals/new',
+    component: NewRentalComponent, //TODO cambiar componente
+  },
+   {
+    path: 'rentals/edit/:id',
+    component: UpdateRentalComponent, //TODO cambiar componente
+  },
+
+
+
 
   //* ------------------------ profile ------------------------
   {
     path: 'profile',
     component: UserProfileComponent, //TODO Añadir Guard  para negar acceso a ADMINS
     canMatch: [
-      AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
+      // AuthenticatedGuard, // Aseguramos que el usuario esté autenticado para acceder a esta ruta
     ],
   },
   //* ------------------------ rutas por defecto y wildcard ------------------------
@@ -113,4 +110,4 @@ export const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
   // Redirección a landing si la ruta no existe
   { path: '**', redirectTo: 'landing' },
-];
+]

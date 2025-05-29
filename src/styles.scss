@@ -2,15 +2,17 @@
 // 1. Importamos funciones y variables necesarias de Bootstrap
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
-@import "bootstrap/scss/bootstrap.scss";
 // 1. Sobrescribimos variables antes de importar Bootstrap
+$primary: #1189d9; // Sobreescribimos el color primary
 $nextblue: #164c87; // Color Personalizado de nuestra App
 
 $theme-colors: map-merge(
+  $theme-colors,
   (
+    "primary": $primary,
     "nextblue": $nextblue,
   ),
-  $theme-colors
 );
 
 // 3. Importa Bootstrap
+@import "bootstrap/scss/bootstrap.scss";

@@ -1,53 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReusableModalComponent } from '../../components/reusable-modal/reusable-modal.component';
+import { RentalsService} from '../../services/rentals.service';
+import { Router, RouterModule } from '@angular/router';
+import { catchError, Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Rental } from '../../interfaces/rental.interface';
+import { FilterRentalByTextPipe } from '../../pipes/filter-rental-by-text.pipe';
+import { OrderByPipe } from "../../pipes/order-by.pipe";
 
-interface Rental {
-  user: string;
-  film: string;
-  price: number;
-  rentalDate: Date;
-  expectedReturnDate: Date;
-  returnDate: Date | null;
-}
 
 @Component({
   selector: 'app-rentals',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReusableModalComponent],
+  imports: [CommonModule, FormsModule, ReusableModalComponent, RouterModule, FilterRentalByTextPipe, OrderByPipe],
   templateUrl: './rentals.component.html',
   styleUrls: ['./rentals.component.css']
 })
 export class RentalsComponent {
-  rentals: Rental[] = [
-    {
-      user: 'Maria Lopez',
-      film: 'The Godfather',
-      price: 3.99,
-      rentalDate: new Date('2025-05-01'),
-      expectedReturnDate: new Date('2025-05-15'),
-      returnDate: new Date('2025-05-12')
-    },
-    {
-      user: 'Carlos Ruiz',
-      film: 'Inception',
-      price: 2.49,
-      rentalDate: new Date('2025-05-10'),
-      expectedReturnDate: new Date('2025-05-24'),
-      returnDate: null
-    }
-  ];
 
-  mostrarEntregados = true;
+
+   orderBy:  keyof Rental = 'userName';
+    orderDirection: 'asc' | 'desc' = 'asc';
+    // Variable para busqueda activa por texto
+    searchText: string = '';
+  mostrarEntregados = signal(false);
   selectedRental: Rental | null = null;
 
-  get rentalsFiltrados(): Rental[] {
-    if (this.mostrarEntregados) {
-      return this.rentals;
-    } else {
-      return this.rentals.filter(r => !r.returnDate);
-    }
+  rentals = signal<Rental[]>([]);
+
+  rentalsFiltrados = computed(() =>
+    this.rentals().filter(rental =>
+      this.mostrarEntregados() ? true : !rental.returnDate
+    )
+  );
+
+  constructor(private rentalsService: RentalsService, private router: Router) {
+    this.rentals = this.rentalsService.rentals;
+    this.rentalsService.loadRentals().subscribe(); // carga inicial
   }
 
   openReturnModal(rental: Rental) {
@@ -59,10 +50,37 @@ export class RentalsComponent {
     }
   }
 
-  returnMovie() {
-    if (this.selectedRental) {
-      this.selectedRental.returnDate = new Date();
-      this.selectedRental = null;
-    }
+    returnMovie() {
+  console.log('Selected rental:', this.selectedRental);
+
+  if (this.selectedRental) {
+    const rentalId = this.selectedRental._id || (this as any).selectedRental.id;
+
+    this.rentalsService.returnRental(rentalId).subscribe({
+      next: () => {
+        this.selectedRental = null;
+      },
+      error: (err) => {
+        console.error('Error devolviendo la película:', err);
+      }
+    });
   }
+}
+
+
+
+
+
+
+
+returnRentalAsync(id: string, returnDate: string): Promise<Rental> {
+  return new Promise((resolve, reject) => {
+    this.rentalsService.updateRental(id, { returnDate }).subscribe({
+      next: (updatedRental) => resolve(updatedRental),
+      error: (err) => reject(err)
+    });
+  });
+}
+
+
 }
