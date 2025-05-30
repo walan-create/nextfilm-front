@@ -5,7 +5,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 
 import { User } from '../interfaces/user.interface';
 import { AuthResponse } from '../interfaces/auth-response.interface';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 // Definimos un tipo para representar los posibles estados de autenticación
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated';

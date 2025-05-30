@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { Observable, of, tap, catchError, map } from 'rxjs';
 import { Rental } from '../interfaces/rental.interface';
 import { AuthService } from '@auth/services/auth.service';
