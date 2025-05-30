@@ -17,8 +17,9 @@ export class FormUtils {
   // Expresiones regulares
   static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
   static emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+  // Cambia la longitud mínima a 5 si lo deseas
   static passwordPattern =
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$';
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{5,}$';
 
   static getTextError(errors: ValidationErrors) {
     for (const key of Object.keys(errors)) {
@@ -33,23 +34,23 @@ export class FormUtils {
           return `Valor mínimo de ${errors['min'].min}`;
 
         case 'email':
-          return `El valor ingresado no es un correo electrónico`;
+          return 'El valor ingresado no es un correo electrónico';
 
         case 'emailTaken':
-          return `El correo electrónico ya está siendo usado por otro usuario`;
-
+          return 'El correo electrónico ya está siendo usado por otro usuario';
 
         case 'pattern':
           if (errors['pattern'].requiredPattern === FormUtils.emailPattern) {
             return 'El valor ingresado no es un correo electrónico';
           }
           if (errors['pattern'].requiredPattern === FormUtils.passwordPattern) {
-            return 'El valor ingresado no cumple con los requisitos de contraseña';
+            return `La contraseña debe tener al menos:<br>
+                      -  5 caracteres<br>
+                      - una mayúscula<br>
+                      - un carácter especial (@$!%*?&)<br>
+                      - un número`;
           }
-
           return 'El valor ingresado no es un nombre completo';
-
-
 
         default:
           return `Error de validación no controlado ${key}`;
@@ -102,8 +103,6 @@ export class FormUtils {
   static async checkingServerResponse(
     control: AbstractControl
   ): Promise<ValidationErrors | null> {
-    // console.log('Validando contra servidor');
-
     await sleep(); // 2 segundos y medio
 
     const formValue = control.value;

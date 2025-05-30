@@ -1,4 +1,4 @@
 @if(valido() || !valido()){
-  <span class="text-danger"> {{errorMessage}}</span>
+  <span class="text-danger" [innerHTML]="errorMessage"></span>
 }
 

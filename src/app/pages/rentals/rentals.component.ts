@@ -115,7 +115,7 @@ export class RentalsComponent {
   orderDirection: 'asc' | 'desc' = 'asc';
   // Variable para busqueda activa por texto
   searchText: string = '';
-  mostrarEntregados = signal(false);
+  mostrarEntregados = signal(true);
   selectedRental: Rental | null = null;
 
   rentals = signal<Rental[]>([]);

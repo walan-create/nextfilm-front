@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -13,7 +12,6 @@ import { RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RentalFilterByTextPipe } from '../../pipes/rental-filter-by-text.pipe';
-import { MoviesService } from '../../services/movies.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
