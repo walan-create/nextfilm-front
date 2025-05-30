@@ -1,4 +1,4 @@
 export const environment = {
 
-  baseUrl: 'http://localhost:3000/api',
+  baseUrl: 'https://nextfilm-back.onrender.com/api',
 };

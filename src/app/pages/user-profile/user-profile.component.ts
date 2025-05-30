@@ -125,19 +125,6 @@ export class UserProfileComponent  {
 
   }
 
-  // loadRentals() {
-  //   this.rentalsService.loadUserRentals().subscribe({
-  //     next: (rentals) => {
-  //       // Actualizar el signal con las peliculas obtenidas
-  //       this.rentalsService.userRentals.set(rentals);
-  //     },
-  //     error: (err) => {
-  //       console.error('Error loading movies:', err);
-  //     },
-  //   });
-  // }
-
-
   moviesResource = rxResource({
     loader: () => this.rentalsService.loadUserRentals(),
   });

@@ -118,7 +118,7 @@ export class MoviesComponent {
 
   authService = inject(AuthService);
   moviesService = inject(MoviesService);
-  rentalService = inject(RentalsService);
+  rentalsService = inject(RentalsService);
 
   movieId = signal<string | null>(null);
 
@@ -137,10 +137,14 @@ export class MoviesComponent {
   ngOnInit() {
     // Cargar las peliculas al iniciar el componente
     this.loadMovies();
-
+    this.moviesResource.reload();
     // this.moviesService.movies.set(this.testMovies); //! Mock de prueba
     // console.log(this.movies());
   }
+
+  moviesResource = rxResource({
+    loader: () => this.rentalsService.loadUserRentals(),
+  });
 
   loadMovies() {
     this.moviesService.loadMovies().subscribe({
@@ -154,15 +158,26 @@ export class MoviesComponent {
     });
   }
 
-  onReservarClick(movie: Movie) {
+  hasActiveReservation(movieId: string): boolean {
+    // Busca si hay una reserva activa (sin returnDate) para la película y el usuario actual
+    const userRentals = this.rentalsService.userRentals();
+    return userRentals.some(
+      (rental) => rental.filmId === movieId && rental.returnDate === null // o !rental.returnDate
+    );
+  }
+
+  onReserveClick(movie: Movie) {
     this.movieId.set(movie._id);
-    this.rentalService.createBook(movie._id).subscribe({
+    this.rentalsService.createBook(movie._id).subscribe({
       next: (rental) => {
+        // Recarga las reservas del usuario para refrescar el botón y mostrarlo desactivado
+        this.rentalsService.loadUserRentals().subscribe();
+
         this.guardadoOk.set(true); // si todo va bien, se activa el mensaje de guardado
 
         setTimeout(() => {
           this.guardadoOk.set(false);
-        }, 2000); // desactivar mensaje de guardadod a los dos segundos
+        }, 2000); 
       },
       error: (err) => {
         this.guardadoError.set(err.error.error); // si hay error, se activa el mensaje de error

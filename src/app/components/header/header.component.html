@@ -115,7 +115,7 @@
 
           <div class="list-unstyled" id="list-tab" role="tablist">
 
-              <a routerLink="/home" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
+              <a routerLink="/home" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2 text-hover-white">
                 <i class="fa-solid fa-home fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
                 <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Inicio</b> </p>
               </a>
@@ -124,7 +124,7 @@
                 <i class="fa-solid fa-film fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>
                 <p class="my-0 mx-4 align-items-center justify-content-center d-flex text-white"><b>Peliculas</b> </p>
               </a>
-              <!-- !Añadir el id del usuario de forma reactiva y pasarlo en la URL /movies/:idUser -->
+              
               @if (!authService.user()?.isAdmin) {
               <a [routerLink]="'/profile'" routerLinkActive="btn-primary" class="btn btn-lg w-100 d-flex mb-2">
                 <i class="fa-solid fa-user fs-2 m-0 ms-2 d-flex align-items-center justify-content-center text-white" style="width:32px;"></i>

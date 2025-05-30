@@ -95,14 +95,18 @@
       </div>
       <div class="card-footer bg-transparent border-0 my-2 text-center">
         <a
-          class="btn btn-outline-light btn-sm me-2"
+          class="btn btn-outline-nextblue btn-sm me-2"
           [routerLink]="['/movies/info/', movie._id]"
           ><b>Ver más</b></a
         >
-        @if (movie.stock > 0 && !authService.user()?.isAdmin) {
-        <a class="btn btn-outline-light btn-sm" type="button" (click)="onReservarClick(movie)">
-          <b>Reservar</b>
-        </a>
+        @if (movie.stock > 0 && !authService.user()?.isAdmin && !hasActiveReservation(movie._id)) {
+          <a class="btn btn-outline-primary btn-sm" type="button" (click)="onReserveClick(movie)">
+            <b>Reservar</b>
+          </a>
+        }@else if(hasActiveReservation(movie._id)){
+          <a class="btn btn-outline-secondary btn-sm disabled" type="button" (click)="onReserveClick(movie)">
+            <b>Ya reservada</b>
+          </a>
         }
       </div>
     </div>

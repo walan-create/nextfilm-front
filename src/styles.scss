@@ -13,6 +13,14 @@ $theme-colors: map-merge(
     "nextblue": $nextblue,
   ),
 );
+.btn-outline-primary:hover,
+.text-hover-white:hover i,
+.text-hover-white:hover p,
+.text-hover-white:focus i,
+.text-hover-white:focus p
+.btn-outline-primary:focus {
+  color: #fff !important;
+}
 
 // 3. Importa Bootstrap
 @import "bootstrap/scss/bootstrap.scss";
