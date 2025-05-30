@@ -90,14 +90,4 @@ export class HomeComponent {
 
   }
 
-
-
-
-
-
-
-
-
 }
-
- 
