@@ -1,0 +1,152 @@
+<div class="container py-2">
+  <h2 class="text-secondary-emphasis mt-4"><b>Inventario - Panel Admin</b></h2>
+  <hr
+    class="mt-0 mb-3 border-4 border-secondary-emphasis border-1 opacity-50"
+  />
+
+  <div class="bg-dark rounded-3 d-inline-block mb-3 w-100">
+    <div
+      class="d-flex justify-content-between align-items-center flex-wrap p-2 gap-2"
+    >
+      <!-- Input Busqueda Activa-->
+      <div class="input-group flex-nowrap" style="max-width: 350px">
+        <span class="input-group-text bg-nextblue" id="addon-wrapping">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Busca por Titulo, stock, duración..."
+          aria-describedby="addon-wrapping"
+          [(ngModel)]="searchText"
+        />
+      </div>
+      <!-- Ordenar por-->
+      <div class="d-flex gap-2 align-items-center">
+        <label for="orderBy" class="form-label mb-0 text-white"
+          >Ordenar:</label
+        >
+        <select id="orderBy" class="form-select w-auto bg-nextblue" [(ngModel)]="orderBy">
+          <option value="title">Título</option>
+          <option value="genre">Género</option>
+          <option value="release">Estreno</option>
+          <option value="director">Director</option>
+          <option value="duration">Duración</option>
+          <option value="stock">Stock</option>
+          <option value="rental_price">Precio</option>
+        </select>
+        <select class="form-select w-auto bg-nextblue" [(ngModel)]="orderDirection">
+          <option value="asc">Asc</option>
+          <option value="desc">Desc</option>
+        </select>
+      </div>
+
+      <!--  Botón de Nueva película -->
+      <button
+        [routerLink]="'/movies/create'"
+        class="btn btn-success d-flex align-items-center justify-content-center"
+        style="height: 40px"
+      >
+        <i class="fa-solid fa-plus fs-4"></i>
+        <h5 class="m-0 ms-2">Nueva Película</h5>
+      </button>
+    </div>
+  </div>
+  <!-- Aqui va la cabecera de la tabla con las acciones -->
+  <div class="bg-dark rounded-3 d-inline-block mb-3"></div>
+
+  @if (movies()){
+
+  <!-- Cabecera de la tabla de películas -->
+  <div class="list-group mb-1">
+    <div class="list-group-item bg-secondary-subtle fw-bold">
+      <div class="row align-items-center">
+        <!-- Columna 1: Título -->
+        <div class="col-4 col-md-3 text-start">Titulo</div>
+        <!-- Columna 2: Stock -->
+        <div class="col-4 col-md-1 text-center">Stock</div>
+        <!-- Columna 3: Duración -->
+        <div class="d-none d-md-block col-md-2 text-center">Precio</div>
+        <!-- Columna 4: Estreno -->
+        <div class="d-none d-md-block col-md-2 text-center">Estreno</div>
+        <!-- Columna 5: Género -->
+        <div class="d-none d-md-block col-md-2 text-center">Género</div>
+        <!-- Columna 6: Botones -->
+        <div class="col-4 col-md-2 text-end text-center">Acciones</div>
+      </div>
+    </div>
+  </div>
+
+  @for (movie of movies()! | filterByText:searchText |
+  orderBy:orderBy:orderDirection; track movie._id) {
+
+  <div class="list-group mb-1">
+    <div class="list-group-item list-group-item-light">
+      <div class="row align-items-center">
+        <!-- Columna 1: Titulo-->
+        <div class="col-4 col-md-3 text-start">{{ movie.title }}</div>
+        <!-- Columna 2: Stock -->
+        <div class="col-4 col-md-1 fw-bold text-center">{{ movie.stock }}</div>
+        <!-- Columna 3: Duración -->
+        <div class="d-none d-md-block col-md-2 fw-bold text-center">
+          {{ movie.rental_price }}€
+        </div>
+        <!-- Columna 4: Estreno -->
+        <div class="d-none d-md-block col-md-2 fw-bold text-center">
+          {{ movie.release | date : "dd/MM/yyyy" }}
+        </div>
+        <!-- Columna 5: Género -->
+        <div class="d-none d-md-block col-md-2 text-center">
+          <span
+            class="badge"
+            [ngClass]="{
+              'bg-dark ': movie.genre === 'action',
+              'bg-danger': movie.genre === 'horror',
+              'bg-warning': movie.genre === 'comedy',
+              'bg-success': movie.genre === 'sci-fi',
+              'bg-info': movie.genre === 'drama',
+              'bg-light text-dark': movie.genre === 'animated',
+              'bg-primary': movie.genre === 'musical'
+            }"
+          >
+            {{ movie.genre | titlecase }}
+          </span>
+        </div>
+
+        <!-- Columna 6: Botones -->
+        <div class="col-4 col-md-2 text-center">
+          <div class="btn-group gap-1">
+            <button
+              class="btn btn-sm btn-info rounded-2"
+              title="Info"
+              [routerLink]="['/movies/info/', movie._id]"
+            >
+              <i class="fa-solid fa-circle-info" style="width: 15px"></i>
+            </button>
+            <button
+              class="btn btn-sm btn-warning rounded-2"
+              title="Editar"
+              [routerLink]="['/movies/edit/', movie._id]"
+            >
+              <i class="fa-solid fa-pen" style="width: 15px"></i>
+            </button>
+            <button
+              (click)="openDeleteMovieModal(movie._id)"
+              class="btn btn-sm btn-danger rounded-2"
+              title="Eliminar"
+            >
+              <i class="fa-solid fa-trash" style="width: 15px"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Repite este bloque o usa *ngFor para cada película -->
+  </div>
+  } }
+
+  <reusable-modal
+    [modalText]="'¿Deseas eliminar la película de forma permanente?'"
+    (accepted)="handleDeleteMovie()"
+  ></reusable-modal>
+</div>

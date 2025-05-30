@@ -1,0 +1,45 @@
+<div class="modal fade" id="reusableModal" tabindex="-1" aria-labelledby="reusableModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered text-primary">
+    <div class="modal-content p-3">
+
+      <div class="modal-header border-0 position-relative">
+        <h5 class="modal-title fw-bold text-center w-100" id="reusableModalLabel">Confirmación</h5>
+        <button
+          type="button"
+          class="d-flex justify-content-center align-items-center bg-danger border-0 rounded-5 position-absolute"
+          style="top: 0; right: 0; margin: 0.5rem;"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          <i class="text-white fa-solid fa-xmark fs-3"></i>
+        </button>
+      </div>
+
+      <div class="modal-body p-0 my-1">
+        <p class="text-center mb-4">{{ modalText }}</p>
+      </div>
+
+      <div class=" d-flex gap-2">
+        <button
+          type="button"
+          data-bs-dismiss="modal"
+          class="btn btn-nextblue d-flex justify-content-center align-items-center w-50"
+          (click)="onCancel()"
+        >
+          <i class="fa-solid fa-xmark p-0 m-0 fs-6"></i>
+          <p class="p-0 m-0 ms-2 text-center"><b>Cancelar</b></p>
+        </button>
+        <button
+          type="button"
+          data-bs-dismiss="modal"
+          class="btn btn-primary d-flex justify-content-center align-items-center w-50"
+          (click)="onAccept()"
+        >
+          <i class="fa-solid fa-check p-0 m-0 fs-6 text-white"></i>
+          <p class="p-0 m-0 ms-2 text-center text-white"><b>Aceptar</b></p>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

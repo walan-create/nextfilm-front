@@ -1,0 +1,109 @@
+<h2 class="text-secondary-emphasis mt-4"><b>Alquileres</b></h2>
+<hr class="mt-0 mb-3 border-4 border-secondary-emphasis border-1 opacity-50" />
+
+
+<!-- Cabecera de la tabla con los botones y búsqueda en una sola fila -->
+<div class="bg-dark rounded-3 d-inline-block mb-3 w-100">
+  <div class="d-flex justify-content-between align-items-center flex-wrap p-2 gap-2">
+
+    <!-- Input Busqueda Activa-->
+    <div class="input-group flex-nowrap" style="max-width: 350px">
+      <span class="input-group-text bg-nextblue" id="addon-wrapping">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </span>
+      <input type="text" class="form-control" placeholder="Buscar película, director, género..."
+        aria-describedby="addon-wrapping" [(ngModel)]="searchText" />
+    </div>
+    <!-- Switch Mostrar entregados -->
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="toggleDelivered" [(ngModel)]="mostrarEntregados" />
+      <label class="form-check-label text-light" for="toggleDelivered">
+        Mostrar entregados
+      </label>
+    </div>
+    <!-- Ordenar por -->
+    <div class="d-flex gap-2 align-items-center">
+      <label for="orderBy" class="form-label mb-0 text-white">Ordenar:</label>
+      <select id="orderBy" class="form-select w-auto bg-nextblue" [(ngModel)]="orderBy">
+        <option value="userName">Usuario</option>
+        <option value="filmName">Película</option>
+        <option value="price">Precio</option>
+        <option value="rentalDate">F. Reserva</option>
+        <option value="expectedReturnDate">F. a Devolver</option>
+        <option value="returnDate">F. Devuelto</option>
+      </select>
+      <select class="form-select w-auto bg-nextblue" [(ngModel)]="orderDirection">
+        <option value="asc">Asc</option>
+        <option value="desc">Desc</option>
+      </select>
+    </div>
+    <!-- Botón Nuevo Alquiler -->
+    <button [routerLink]="'/rentals/new'" class="btn btn-success d-flex align-items-center justify-content-center"
+      style="height: 40px">
+      <i class="fa-solid fa-plus fs-4"></i>
+      <h5 class="m-0 ms-2">Nuevo Alquiler</h5>
+    </button>
+
+  </div>
+</div>
+
+
+<!-- Cabecera de tabla -->
+<div class="list-group mb-1">
+  <div class="list-group-item bg-secondary-subtle fw-bold">
+    <div class="row align-items-center">
+      <div class="col-4 col-md-2 col-lg-3">Usuario</div>
+      <div class="col-4 col-md-2">Película</div>
+      <div class="col-md-2 col-lg-1 d-none d-md-block text-center">Precio</div>
+      <div class="col-lg-1 d-none d-lg-block text-center">Alquilado</div>
+      <div class="col-md-2 col-lg-2 d-none d-md-block text-center">Fecha a Devolver</div>
+      <div class="col-md-2 col-lg-1 d-none d-md-block text-center">Devuelto</div>
+      <div class="col-4 col-md-2 col-lg-2 text-center p-0">Acciones</div>
+    </div>
+  </div>
+</div>
+
+<!-- Alquileres -->
+@for (rental of rentalsFiltrados() | filterRentalByText:searchText | orderBy:orderBy:orderDirection; track $index) {
+<div class="list-group mb-1">
+  <div class="list-group-item list-group-item-light">
+    <div class="row align-items-center">
+      <div class="col-4 col-md-2 col-lg-3">{{ rental.userName }}</div>
+      <div class="col-4 col-md-2">{{ rental.filmName }}</div>
+      <div class="col-md-2 col-lg-1 d-none d-md-block text-center">{{ rental.price | currency:'EUR' }}</div>
+      <div class="col-lg-1 d-none d-lg-block text-center">{{ rental.rentalDate | date:'MM/dd/yy' }}</div>
+      <div class="col-md-2 col-lg-2 d-none d-md-block text-center">{{ rental.expectedReturnDate | date:'MM/dd/yy' }}</div>
+      <div class="col-md-2 col-lg-1 d-none d-md-block text-center">
+        @if (rental.returnDate) {
+        <ng-container>{{ rental.returnDate | date:'MM/dd/yy' }}</ng-container>
+        } @else {
+        <span class="text-warning">Pendiente</span>
+        }
+      </div>
+      <div class="col-4 col-md-2 col-lg-2 text-center p-0">
+        <div class="btn-group gap-1">
+          @if (!rental.returnDate && rental.rentalDate) {
+          <button class="p-1 btn btn-sm btn-primary text-white rounded-2 d-flex align-items-center gap-0" title="Devolver"
+            (click)="openReturnModal(rental)">
+            <span><b>Devolver</b></span>
+          </button>
+
+          }
+          <button class="btn btn-sm btn-warning rounded-2" title="Editar" [routerLink]="['/rentals/edit/', rental._id]">
+            <i class="fa-solid fa-pen" style="width: 15px"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+
+
+
+
+
+
+<!-- Modal de confirmación -->
+<reusable-modal [modalText]="'¿Deseas devolver la película al stock?'" (accepted)="returnMovie()"></reusable-modal>

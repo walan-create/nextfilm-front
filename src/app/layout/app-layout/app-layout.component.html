@@ -1,0 +1,18 @@
+
+
+
+  @if (!currentRoute().startsWith('/landing') && !currentRoute().startsWith('/auth')) {
+  <app-header></app-header>
+  }
+
+  <!-- Caja contenedora donde van las distintas vistas /landing /login /movies etc -->
+
+  <main style="flex: 1;" class="" [ngClass]="{
+              'container-lg': !currentRoute().startsWith('/landing') && !currentRoute().startsWith('/auth'),
+            }">
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-footer></app-footer>
+
+

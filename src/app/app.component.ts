@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { AppLayoutComponent } from "./layout/app-layout/app-layout.component";
+import { MoviesAdminComponent } from "./pages/movies-admin/movies-admin.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [AppLayoutComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

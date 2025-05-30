@@ -1,0 +1,68 @@
+@if (movieResource.isLoading()){
+<div class="text-center text-primary">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Cargando...</span>
+  </div>
+</div>
+}
+
+ @if(movieResource.hasValue()){
+
+
+
+<div class="container-lg my-5">
+  <div class="row justify-content-center align-items-start g-4 flex-column flex-md-row">
+    <!-- Columna izquierda con texto -->
+    <div class="col-12 col-md-7 order-1 order-md-0">
+      <h1 class="text-center fs-1 fw-bold text-primary mb-4 mt-3">
+        {{ movieResource.value().title | titlecase }}
+      </h1>
+      <div class="mb-3">
+        <div class="mb-2">
+          <h3 class="text-info">Duración:</h3>
+          <p class="fs-5">{{ movieResource.value().duration }} minutos</p>
+        </div>
+        <hr>
+        <div class="mb-2">
+          <h3 class="text-info">Estreno:</h3>
+          <p class="fs-5">{{ movieResource.value().release | date}}</p>
+        </div>
+        <hr>
+        <div class="mb-2">
+          <h3 class="text-info">Director:</h3>
+          <p class="fs-5">{{ movieResource.value().director | titlecase }}</p>
+        </div>
+        <hr>
+        <div class="mb-2">
+          <h3 class="text-info">Género:</h3>
+          <p class="fs-5">{{ movieResource.value().genre | titlecase }}</p>
+        </div>
+        <hr>
+        <div class="mb-2">
+          <h3 class="text-info">Descripción:</h3>
+          <p class="fs-5 text-break">{{ movieResource.value().description }}</p>
+        </div>
+      </div>
+      <hr>
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-3">
+        <div>
+          <h3 class="text-info">Precio alquiler:</h3>
+          <p class="fs-5">{{ movieResource.value().rental_price }} €</p>
+        </div>
+        <div>
+          <h3 class="text-info">Stock:</h3>
+          <p class="fs-5">{{ movieResource.value().stock }} unidades</p>
+        </div>
+      </div>
+    </div>
+    <!-- Columna derecha con imagen -->
+    <!-- <div class="col-12 col-md-5 d-flex justify-content-center align-items-center order-0 order-md-1 mb-4 mb-md-0">
+      <img src="../../../assets/images/portadas/28.webp" alt="Portada de la película"
+        class="img-fluid rounded shadow w-100" style="max-width: 350px; max-height: 500px; object-fit: cover;" />
+    </div> -->
+  </div>
+</div>
+
+}
+
+<router-outlet />
