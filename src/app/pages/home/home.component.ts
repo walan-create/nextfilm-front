@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MoviesService } from '../../services/movies.service';
-import { DataMoviesNews } from '../../interfaces/data-movies-news.interface';
-import { MovieGenre } from '../../interfaces/movie-genre.enum';
 import { SlicePipe, TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { rxResource } from '@angular/core/rxjs-interop';
+
 
 
 @Component({
@@ -76,25 +75,19 @@ export class HomeComponent {
   // };
 
   moviesService = inject(MoviesService);
-
   // dataHome = signal<DataMoviesNews| null>(null);
   // movieMockResponse = this.mockDataHome;//cambiarlo por el de abajo
 
-
   movieNewsResource = rxResource({
-    request: () => ({}),
-    loader: () => {
-      return this.moviesService.getHomeInfo()
-    }
-  });
+      request: () => ({}),
+      loader: () => {
+        return this.moviesService.getHomeInfo()
+      }
+    });
 
+  ngOnInit() {
+    this.movieNewsResource;
 
-
-
-
-
-
-
-
+  }
 
 }
