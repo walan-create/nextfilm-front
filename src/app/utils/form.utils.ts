@@ -19,7 +19,7 @@ export class FormUtils {
   static emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
   // Cambia la longitud mínima a 5 si lo deseas
   static passwordPattern =
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{5,}$';
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,15}$';
 
   static getTextError(errors: ValidationErrors) {
     for (const key of Object.keys(errors)) {
@@ -45,7 +45,7 @@ export class FormUtils {
           }
           if (errors['pattern'].requiredPattern === FormUtils.passwordPattern) {
             return `La contraseña debe tener al menos:<br>
-                      -  5 caracteres<br>
+                      -  8 - 15 caracteres<br>
                       - una mayúscula<br>
                       - un carácter especial (@$!%*?&)<br>
                       - un número`;
