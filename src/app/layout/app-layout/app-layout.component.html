@@ -7,7 +7,7 @@
 
   <!-- Caja contenedora donde van las distintas vistas /landing /login /movies etc -->
 
-  <main style="flex: 1;" class="" [ngClass]="{
+  <main style="flex: 1;" [ngClass]="{
               'container-lg': !currentRoute().startsWith('/landing') && !currentRoute().startsWith('/auth'),
             }">
     <router-outlet></router-outlet>
