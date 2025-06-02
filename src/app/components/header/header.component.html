@@ -67,7 +67,7 @@
 
     <!-- Botón Cerrar Sesión -->
     <div class="justify-content-end align-items-center d-none d-lg-flex">
-      <h6 class="me-2"><b>{{ authService.user()?.name }}</b></h6>
+      <h6 class="me-2"><b>{{ authService.user()?.name | titlecase }}</b></h6>
       <!--  -->
       <a
         [routerLink]="'/landing'"
