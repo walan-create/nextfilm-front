@@ -3,9 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@auth/services/auth.service';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { FormUtils } from '@utils/form.utils';
 import { FormErrorLabelComponent } from '../../../components/form-error-label/form-error-label.component';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-login-page',
@@ -46,11 +44,14 @@ export class LoginPageComponent {
 
     if (!isValid) return;
 
-    const { email = '', password = '' } = this.loginForm.value;
+    const { email , password  } = this.loginForm.value;
 
     this.authService.login(email!, password!).subscribe((isAuth) => {
+      // console.log('isAuth', isAuth);
       if (isAuth) {
+        // console.log('Login successful');
         this.router.navigateByUrl('/home');
+        return;
       }
 
       this.mostrarError();
