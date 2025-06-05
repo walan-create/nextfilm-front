@@ -22,8 +22,6 @@ const authResponse1: AuthResponse = {
   },
 };
 
-// const authResponseError: AuthResponse =
-
 fdescribe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
@@ -65,8 +63,93 @@ fdescribe('AuthService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+
+    expect(service.user()).toBeNull();
+    expect(service.token()).toBeNull();
+    expect(service.authStatus()).toBe('checking');
   });
 
+  describe('login', () => {
+    it('should login successfully', () => {
+      service.login('test@example', 'password123').subscribe((result) => {
+        expect(result).toBeTrue();
+      });
+      const req = httpMock.expectOne(`${baseUrl}/auth/login`);
+      expect(req.request.method).toBe('POST');
+      req.flush(authResponse1);
+
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'token',
+        authResponse1.token
+      );
+
+      expect(service.user()).toEqual(authResponse1.user);
+      expect(service.token()).toBe(authResponse1.token);
+      expect(service.authStatus()).toBe('authenticated');
+    });
+
+    it('should handle login error', () => {
+      const errorResponse = { status: 401, statusText: 'Unauthorized' };
+
+      service.login('test@example', 'wrongpassword').subscribe({
+        next: (result) => {
+          expect(result).toBeFalse();
+        },
+        error: () => fail('Expected false return value, not an error'),
+      });
+
+      const req = httpMock.expectOne(`${baseUrl}/auth/login`);
+      expect(req.request.method).toBe('POST');
+      req.flush(null, errorResponse);
+
+      expect(localStorage.setItem).not.toHaveBeenCalled();
+
+      expect(service.user()).toBeNull();
+      expect(service.token()).toBeNull();
+      expect(service.authStatus()).toBe('not-authenticated');
+    });
+  });
+
+  describe('register', () => {
+    it('should register successfully', () => {
+      service
+        .register('hola@correo.com', 'password123', 'New User')
+        .subscribe((result) => {
+          expect(result).toBeTrue();
+        });
+      const req = httpMock.expectOne(`${baseUrl}/auth/register`);
+      expect(req.request.method).toBe('POST');
+      req.flush(authResponse1);
+
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'token',
+        authResponse1.token
+      );
+      expect(service.user()).toEqual(authResponse1.user);
+      expect(service.token()).toBe(authResponse1.token);
+      expect(service.authStatus()).toBe('authenticated');
+    });
+
+    it('should handle registration error', () => {
+      const errorResponse = { status: 400, statusText: 'Bad Request' };
+
+      service.register('hola@correo.com', 'password123', 'New User').subscribe({
+        next: (result) => {
+          expect(result).toBeFalse();
+        },
+        error: () => fail('Expected false return value, not an error'),
+      });
+
+      const req = httpMock.expectOne(`${baseUrl}/auth/register`);
+      expect(req.request.method).toBe('POST');
+      req.flush(null, errorResponse);
+
+      expect(localStorage.setItem).not.toHaveBeenCalled();
+      expect(service.user()).toBeNull();
+      expect(service.token()).toBeNull();
+      expect(service.authStatus()).toBe('not-authenticated');
+    });
+  });
 
   describe('checkStatus', () => {
     it('no token in localStorage', () => {
@@ -108,11 +191,14 @@ fdescribe('AuthService', () => {
 
           expect(service.user()).toEqual(authResponse1.user);
           expect(service.token()).toBe(authResponse1.token);
+          expect(service.authStatus()).toBe('authenticated');
         });
 
         it('should go On if token is invalid', () => {
-          service['checkStatusCache'].set(authResponse1,
-             Date.now() - (15 * 60 * 1000) - 100); //  expired token, hace 15 minutos o más
+          service['checkStatusCache'].set(
+            authResponse1,
+            Date.now() - 15 * 60 * 1000 - 100
+          ); //  expired token, hace 15 minutos o más
 
           service.checkStatus().subscribe((status) => {
             expect(status).toBeTrue();
@@ -131,6 +217,7 @@ fdescribe('AuthService', () => {
           expect(storage['token']).toBe(authResponse1.token);
           expect(service.user()).toEqual(authResponse1.user);
           expect(service.token()).toBe(authResponse1.token);
+          expect(service.authStatus()).toBe('authenticated');
         });
       });
 
@@ -168,6 +255,7 @@ fdescribe('AuthService', () => {
           expect(localStorage.setItem).not.toHaveBeenCalled();
           expect(service.user()).toBeNull();
           expect(service.token()).toBeNull();
+          expect(service.authStatus()).toBe('not-authenticated');
         });
       });
     });
