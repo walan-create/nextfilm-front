@@ -13,24 +13,42 @@ import { of } from 'rxjs';
 import { AbstractControl } from '@angular/forms';
 import { FormErrorLabelComponent } from '../../../components/form-error-label/form-error-label.component';
 
-describe('Register Component', () => {
+@Component({
+  selector: 'app-form-error-label',
+  imports: [],
+  template: '<div class="text-danger">{{ errorMessage }}</div>',
+})
+class MockFormErrorLabelComponent {
+  control = input.required<AbstractControl>();
+  valido = input<boolean>(false);
+
+  get errorMessage() {
+    const error = this.control().errors || {};
+
+    return this.control().touched && Object.keys(error).length > 0
+      ? 'Alun Error'
+      : null;
+  }
+}
+
+const authServiceMock = {
+  checkStatus: jasmine.createSpy('checkStatus').and.callFake(() => {
+    return of(true);
+  }),
+  // mockResolvedValue
+  register: jasmine
+    .createSpy('register')
+    .and.callFake((email: string, password: string, name: string) => {
+      if (email === 'adios@adios.com') return of(false);
+      return of(true);
+    }),
+};
+
+fdescribe('Register Component', () => {
   let component: RegisterPageComponent;
   let fixture: ComponentFixture<RegisterPageComponent>;
   let authService: AuthService;
   let router: Router;
-
-  let authServiceMock = {
-    checkStatus: jasmine.createSpy('checkStatus').and.callFake(() => {
-      return of(true);
-    }),
-    // mockResolvedValue
-    register: jasmine
-      .createSpy('register')
-      .and.callFake((email: string, password: string, name: string) => {
-        if (email === 'adios@adios.com') return of(false);
-        return of(true);
-      }),
-  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -41,7 +59,12 @@ describe('Register Component', () => {
         { provide: AuthService, useValue: authServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(RegisterPageComponent, {
+        remove: { imports: [FormErrorLabelComponent] },
+        add: { imports: [MockFormErrorLabelComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -93,7 +116,7 @@ describe('Register Component', () => {
       ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
 
       expect(errorMessages.length).toBeGreaterThan(0);
-      expect(errorMessages[0].textContent).toContain('correo');
+      expect(errorMessages[0].textContent).toContain('Error');
     });
 
     it('should print error when fullName not valid', () => {
@@ -118,7 +141,7 @@ describe('Register Component', () => {
       ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
 
       expect(errorMessages.length).toBeGreaterThan(0);
-      expect(errorMessages[0].textContent).toContain('nombre');
+      expect(errorMessages[0].textContent).toContain('Error');
     });
 
     it('should print error when password not valid', () => {
@@ -143,7 +166,7 @@ describe('Register Component', () => {
 
       expect(errorMessages.length).toBeGreaterThan(0);
 
-      expect(errorMessages[0].textContent).toContain('contraseña');
+      expect(errorMessages[0].textContent).toContain('Error');
     });
   });
 

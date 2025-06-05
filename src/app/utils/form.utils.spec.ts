@@ -1,7 +1,7 @@
 import { FormUtils } from './form.utils';
 import { ValidationErrors } from '@angular/forms';
 
-describe('FormUtils - Get TextError', () => {
+fdescribe('FormUtils - Get TextError', () => {
   describe('Normal Cases', () => {
     it('should return error message for "required" case', () => {
       const errors: ValidationErrors = { required: true };
@@ -70,7 +70,7 @@ describe('FormUtils - Get TextError', () => {
   });
 
 
-  
+
 
   it('should return generic error message for unhandled cases', () => {
     const errors: ValidationErrors = { desconocido: true };

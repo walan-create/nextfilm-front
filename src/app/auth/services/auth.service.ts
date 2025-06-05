@@ -47,7 +47,7 @@ export class AuthService {
 
   // Método para iniciar sesión
   login(email: string, password: string): Observable<boolean> {
-    
+
     return this.http
       .post<AuthResponse>(`${baseUrl}/auth/login`, {
         email: email,
@@ -100,18 +100,7 @@ export class AuthService {
         catchError((error: any) => this.handleAuthError()) // Manejo de errores
       );
 
-    // const auth: AuthResponse = {
-    //   token: 'hola',
-    //   user: {
-    //     email: '',
-    //     id: '',
-    //     name: '',
-    //     isAdmin: false,
-    //   },
-    // };
-
-    // this.handleAuthSuccess(auth);
-    // return of(true);
+  
   }
 
   private comprobarCache(token: string) {

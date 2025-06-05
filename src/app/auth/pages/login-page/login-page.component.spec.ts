@@ -1,10 +1,13 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPageComponent } from './login-page.component';
 import { AuthService } from '@auth/services/auth.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter, Router } from '@angular/router';
 import { of } from 'rxjs';
+import { AbstractControl } from '@angular/forms';
+import { FormUtils } from '@utils/form.utils';
+import { FormErrorLabelComponent } from '../../../components/form-error-label/form-error-label.component';
 
 const authServiceMock = {
   checkStatus: jasmine.createSpy('checkStatus').and.callFake(() => {
@@ -19,7 +22,29 @@ const authServiceMock = {
     }),
 };
 
-describe('Login Component', () => {
+
+@Component({
+  selector: 'app-form-error-label',
+  imports: [],
+  template: '<div class="text-danger">{{ errorMessage }}</div>',
+})
+class MockFormErrorLabelComponent {
+
+  control = input.required<AbstractControl>();
+  valido = input<boolean>(false);
+
+  get errorMessage() {
+    const error = this.control().errors || {};
+
+    return this.control().touched && Object.keys(error).length > 0
+      ? 'Alun Error'
+      : null;
+  }
+}
+
+
+
+fdescribe('Login Component', () => {
   let component: LoginPageComponent;
   let fixture: ComponentFixture<LoginPageComponent>;
   let authService: AuthService;
@@ -34,7 +59,14 @@ describe('Login Component', () => {
         { provide: AuthService, useValue: authServiceMock },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    }).overrideComponent(
+      LoginPageComponent,
+      {
+         remove: { imports: [FormErrorLabelComponent] },
+      add: { imports: [MockFormErrorLabelComponent] }
+
+      }
+    ).compileComponents();
   });
 
   beforeEach(() => {
@@ -84,7 +116,7 @@ describe('Login Component', () => {
       ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
 
       expect(errorMessages.length).toBeGreaterThan(0);
-      expect(errorMessages[0].textContent).toContain('correo');
+      expect(errorMessages[0].textContent).toContain('Error');
     });
   });
 

@@ -67,25 +67,6 @@ fdescribe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  // checkStatus(): Observable<boolean> {
-  //     const token = localStorage.getItem('token');
-  //     if (!token) {
-  //       this.logout();
-  //       return of(false);
-  //     }
-
-  //     const resp = this.comprobarCache(token);
-
-  //     if(resp != false){
-  //       this.handleAuthSuccess(resp);
-  //       return of(true);
-  //     }
-
-  //     return this.http.post<AuthResponse>(`${baseUrl}/auth/checkStatus`,{token:token}).pipe(
-  //       tap(resp => this.checkStatusCache.set(resp, new Date().getTime() )),
-  //       map((resp) => this.handleAuthSuccess(resp)), // Manejo de éxito
-  //       catchError((error: any) => this.handleAuthError(error)) // Manejo de errores
-  //     );
 
   describe('checkStatus', () => {
     it('no token in localStorage', () => {
