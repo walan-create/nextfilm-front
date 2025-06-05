@@ -1,10 +1,19 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  input,
+  NO_ERRORS_SCHEMA,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegisterPageComponent } from './register-page.component';
 import { AuthService } from '@auth/services/auth.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { of } from 'rxjs';
+import { AbstractControl } from '@angular/forms';
+import { FormErrorLabelComponent } from '../../../components/form-error-label/form-error-label.component';
+
+
 
 fdescribe('Register Component', () => {
   let component: RegisterPageComponent;
@@ -136,8 +145,6 @@ fdescribe('Register Component', () => {
     expect(errorMessages[0].textContent).toContain('contraseña');
   });
 
-  
-
   it('should print error when credentials not valid', () => {
     component.registerForm.setValue({
       email: 'adios@adios.com',
@@ -164,7 +171,6 @@ fdescribe('Register Component', () => {
     const spyNavigate = spyOn(router, 'navigateByUrl');
 
     component.onSubmit();
-
 
     const errorMessages = Array.from(
       fixture.nativeElement.querySelectorAll(
