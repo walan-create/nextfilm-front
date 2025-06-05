@@ -13,9 +13,7 @@ import { of } from 'rxjs';
 import { AbstractControl } from '@angular/forms';
 import { FormErrorLabelComponent } from '../../../components/form-error-label/form-error-label.component';
 
-
-
-fdescribe('Register Component', () => {
+describe('Register Component', () => {
   let component: RegisterPageComponent;
   let fixture: ComponentFixture<RegisterPageComponent>;
   let authService: AuthService;
@@ -60,129 +58,135 @@ fdescribe('Register Component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load checkStatusResource correctly', async () => {
-    expect(authService.checkStatus).toHaveBeenCalled();
+  describe('Check Status Resource', () => {
+    it('should load checkStatusResource correctly', async () => {
+      expect(authService.checkStatus).toHaveBeenCalled();
 
-    // Esperar a que se resuelva el recurso
-    await fixture.whenStable();
+      // Esperar a que se resuelva el recurso
+      await fixture.whenStable();
 
-    const result = component.checkStatusResource.value();
-    expect(result).toBe(true);
+      const result = component.checkStatusResource.value();
+      expect(result).toBe(true);
+    });
   });
 
-  it('should print error when email not valid', () => {
-    component.registerForm.setValue({
-      email: 'hola@',
-      password: '!Qazghfdsnjw29',
-      fullName: 'Hola Mundo',
+  describe('Form Validations', () => {
+    it('should print error when email not valid', () => {
+      component.registerForm.setValue({
+        email: 'hola@',
+        password: '!Qazghfdsnjw29',
+        fullName: 'Hola Mundo',
+      });
+
+      // Simular un valor de email inválido
+      expect(component.registerForm.valid).toBeFalse();
+
+      component.onSubmit();
+
+      fixture.detectChanges();
+
+      // Verificar que el mensaje de error
+      const errorMessages = Array.from(
+        fixture.nativeElement.querySelectorAll(
+          '.text-danger'
+        ) as NodeListOf<HTMLElement>
+      ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
+
+      expect(errorMessages.length).toBeGreaterThan(0);
+      expect(errorMessages[0].textContent).toContain('correo');
     });
 
-    // Simular un valor de email inválido
-    expect(component.registerForm.valid).toBeFalse();
+    it('should print error when fullName not valid', () => {
+      component.registerForm.setValue({
+        email: 'hola@hola.com',
+        password: '!Qazghfdsnjw29',
+        fullName: 'Hola',
+      });
 
-    component.onSubmit();
+      // Simular un valor de email inválido
+      expect(component.registerForm.valid).toBeFalse();
 
-    fixture.detectChanges();
+      component.onSubmit();
 
-    // Verificar que el mensaje de error
-    const errorMessages = Array.from(
-      fixture.nativeElement.querySelectorAll(
-        '.text-danger'
-      ) as NodeListOf<HTMLElement>
-    ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
+      fixture.detectChanges();
 
-    expect(errorMessages.length).toBeGreaterThan(0);
-    expect(errorMessages[0].textContent).toContain('correo');
+      // Verificar que el mensaje de error
+      const errorMessages = Array.from(
+        fixture.nativeElement.querySelectorAll(
+          '.text-danger'
+        ) as NodeListOf<HTMLElement>
+      ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
+
+      expect(errorMessages.length).toBeGreaterThan(0);
+      expect(errorMessages[0].textContent).toContain('nombre');
+    });
+
+    it('should print error when password not valid', () => {
+      component.registerForm.setValue({
+        email: 'hola@hola.com',
+        password: '123',
+        fullName: 'Hola Mundo',
+      });
+
+      // Simular un valor de email inválido
+      expect(component.registerForm.valid).toBeFalse();
+
+      component.onSubmit();
+
+      fixture.detectChanges();
+
+      const errorMessages = Array.from(
+        fixture.nativeElement.querySelectorAll(
+          '.text-danger'
+        ) as NodeListOf<HTMLElement>
+      ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
+
+      expect(errorMessages.length).toBeGreaterThan(0);
+
+      expect(errorMessages[0].textContent).toContain('contraseña');
+    });
   });
 
-  it('should print error when fullName not valid', () => {
-    component.registerForm.setValue({
-      email: 'hola@hola.com',
-      password: '!Qazghfdsnjw29',
-      fullName: 'Hola',
+  describe('Register', () => {
+    it('should print error when credentials not valid', () => {
+      component.registerForm.setValue({
+        email: 'adios@adios.com',
+        password: '!Qazghfdsnjw29',
+        fullName: 'Adios Mundo',
+      });
+
+      component.onSubmit();
+
+      expect(authService.register).toHaveBeenCalled();
+      expect(component.hasError()).toBeTrue();
+
+      setTimeout(() => {
+        expect(component.hasError()).toBeFalse();
+      }, 2000);
     });
 
-    // Simular un valor de email inválido
-    expect(component.registerForm.valid).toBeFalse();
+    it('should do register with valid credentials', () => {
+      component.registerForm.setValue({
+        email: 'hola@hola.com',
+        password: '!Qazghfdsnjw29',
+        fullName: 'Hola Mundo',
+      });
+      const spyNavigate = spyOn(router, 'navigateByUrl');
 
-    component.onSubmit();
+      component.onSubmit();
 
-    fixture.detectChanges();
+      const errorMessages = Array.from(
+        fixture.nativeElement.querySelectorAll(
+          '.text-danger'
+        ) as NodeListOf<HTMLElement>
+      ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
 
-    // Verificar que el mensaje de error
-    const errorMessages = Array.from(
-      fixture.nativeElement.querySelectorAll(
-        '.text-danger'
-      ) as NodeListOf<HTMLElement>
-    ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
+      expect(errorMessages.length).toBe(0);
 
-    expect(errorMessages.length).toBeGreaterThan(0);
-    expect(errorMessages[0].textContent).toContain('nombre');
-  });
+      expect(authService.register).toHaveBeenCalled();
 
-  it('should print error when password not valid', () => {
-    component.registerForm.setValue({
-      email: 'hola@hola.com',
-      password: '123',
-      fullName: 'Hola Mundo',
+      // comprobar que se redirige a la página de inicio
+      expect(spyNavigate).toHaveBeenCalledWith('/home');
     });
-
-    // Simular un valor de email inválido
-    expect(component.registerForm.valid).toBeFalse();
-
-    component.onSubmit();
-
-    fixture.detectChanges();
-
-    const errorMessages = Array.from(
-      fixture.nativeElement.querySelectorAll(
-        '.text-danger'
-      ) as NodeListOf<HTMLElement>
-    ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
-
-    expect(errorMessages.length).toBeGreaterThan(0);
-
-    expect(errorMessages[0].textContent).toContain('contraseña');
-  });
-
-  it('should print error when credentials not valid', () => {
-    component.registerForm.setValue({
-      email: 'adios@adios.com',
-      password: '!Qazghfdsnjw29',
-      fullName: 'Adios Mundo',
-    });
-
-    component.onSubmit();
-
-    expect(authService.register).toHaveBeenCalled();
-    expect(component.hasError()).toBeTrue();
-
-    setTimeout(() => {
-      expect(component.hasError()).toBeFalse();
-    }, 2000);
-  });
-
-  it('should do register with valid credentials', () => {
-    component.registerForm.setValue({
-      email: 'hola@hola.com',
-      password: '!Qazghfdsnjw29',
-      fullName: 'Hola Mundo',
-    });
-    const spyNavigate = spyOn(router, 'navigateByUrl');
-
-    component.onSubmit();
-
-    const errorMessages = Array.from(
-      fixture.nativeElement.querySelectorAll(
-        '.text-danger'
-      ) as NodeListOf<HTMLElement>
-    ).filter((el: HTMLElement) => el.textContent?.trim() !== '');
-
-    expect(errorMessages.length).toBe(0);
-
-    expect(authService.register).toHaveBeenCalled();
-
-    // comprobar que se redirige a la página de inicio
-    expect(spyNavigate).toHaveBeenCalledWith('/home');
   });
 });

@@ -9,11 +9,10 @@ import {
   signal,
 } from '@angular/core';
 
-
-fdescribe('FormErrorLabelComponent', () => {
+describe('FormErrorLabelComponent', () => {
   let component: FormErrorLabelComponent;
   let fixture: ComponentFixture<FormErrorLabelComponent>;
-  
+
   let FormUtilsMock = {
     getTextError: jasmine
       .createSpy('getTextError')
@@ -22,9 +21,6 @@ fdescribe('FormErrorLabelComponent', () => {
         return 'Unknown error';
       }),
   };
-
-
-
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -38,7 +34,9 @@ fdescribe('FormErrorLabelComponent', () => {
     fixture = TestBed.createComponent(FormErrorLabelComponent);
     component = fixture.componentInstance;
     const control = new FormControl('', [Validators.required]);
-    component.control = signal(control) as unknown  as InputSignal<AbstractControl>;
+    component.control = signal(
+      control
+    ) as unknown as InputSignal<AbstractControl>;
 
     fixture.detectChanges();
   });
@@ -47,14 +45,21 @@ fdescribe('FormErrorLabelComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return error message for required field', () => {
-    expect(component.errorMessage).toBe(null); // no Touched
-  });
+  describe('errorMessage', () => {
+    it('should return error message for required field', () => {
+      expect(component.errorMessage).toBe(null); // no Touched
+    });
 
-  it('should return error message for email field', () => {
-    const control = new FormControl('hola', [Validators.required, Validators.email]);
-    control.markAsTouched();
-    component.control = signal(control) as unknown  as InputSignal<AbstractControl>;
-    expect(component.errorMessage).toContain('correo');
+    it('should return error message for email field', () => {
+      const control = new FormControl('hola', [
+        Validators.required,
+        Validators.email,
+      ]);
+      control.markAsTouched();
+      component.control = signal(
+        control
+      ) as unknown as InputSignal<AbstractControl>;
+      expect(component.errorMessage).toContain('correo');
+    });
   });
 });
