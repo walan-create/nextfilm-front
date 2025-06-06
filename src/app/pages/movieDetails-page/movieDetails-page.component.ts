@@ -27,7 +27,7 @@ export class MovieDetailsPageComponent {
 
   private movieService = inject(MoviesService);
 
-  private genre = signal<MovieGenre>(MovieGenre.Action);
+
 
   genres = [
     MovieGenre.Action,
@@ -67,29 +67,7 @@ export class MovieDetailsPageComponent {
   // AÑADE LOS DATOS DE LA PELICULA QUE NOS PASAN AL FORMULARIO
   private setFormValue(formLike: Movie) {
     this.movieForm.patchValue(formLike as any);
-
-
-
-  if (formLike.release) {
-
-    let releaseDate: Date =  new Date(formLike.release);
-
-
-    if (!isNaN(releaseDate.getTime())) { // SI LA FECHA ES VÁLIDA
-      const year = releaseDate.getFullYear();
-      const month = String(releaseDate.getMonth() + 1).padStart(2, '0');
-      const day = String(releaseDate.getDate()).padStart(2, '0');
-
-      this.movieForm.patchValue({ // AÑADE LA FECHA A EL FORMULARIO
-        release: `${year}-${month}-${day}`
-      });
-    } else {
-      // SI LA FECHA NO ES VÁLIDA, LIMPIA EL CAMPO
-      this.movieForm.patchValue({ release: '' });
-      console.warn('Invalid release date received:', formLike.release);
-    }
-  }
-
+    this.movieForm.patchValue({release: formLike.release.toISOString().split('T')[0]});
   }
 
   ngOnInit(): void {
@@ -111,7 +89,7 @@ export class MovieDetailsPageComponent {
     // CREA UN OBJETO PARCIAL DE PELICULA CON LOS VALORES DEL FORMULARIO
     const movieLike : Partial<Movie>= {
       ...formValue as any,
-      release: new Date(formValue.release ?? ''),
+        release: new Date(formValue.release! ),
     }
 
     // console.log(movieLike);
@@ -134,8 +112,6 @@ export class MovieDetailsPageComponent {
   }
 
   onGenreClick(genre: string) {
-    this.genre.set(genre as MovieGenre);
-
     this.movieForm.patchValue({ genre: genre });
   }
 }
