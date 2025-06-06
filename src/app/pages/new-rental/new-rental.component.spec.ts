@@ -1,23 +1,23 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { NewRentalComponent } from './new-rental.component';
+import { NewRentalComponent } from './new-rental.component';
 
-// describe('NewRentalComponent', () => {
-//   let component: NewRentalComponent;
-//   let fixture: ComponentFixture<NewRentalComponent>;
+describe('NewRentalComponent', () => {
+  let component: NewRentalComponent;
+  let fixture: ComponentFixture<NewRentalComponent>;
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       imports: [NewRentalComponent]
-//     })
-//     .compileComponents();
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [NewRentalComponent]
+    })
+    .compileComponents();
 
-//     fixture = TestBed.createComponent(NewRentalComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+    fixture = TestBed.createComponent(NewRentalComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
