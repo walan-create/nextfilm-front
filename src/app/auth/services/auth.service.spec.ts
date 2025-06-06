@@ -22,7 +22,7 @@ const authResponse1: AuthResponse = {
   },
 };
 
-fdescribe('AuthService', () => {
+describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
 

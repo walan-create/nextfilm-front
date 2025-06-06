@@ -9,7 +9,7 @@ import {
   signal,
 } from '@angular/core';
 
-fdescribe('FormErrorLabelComponent', () => {
+describe('FormErrorLabelComponent', () => {
   let component: FormErrorLabelComponent;
   let fixture: ComponentFixture<FormErrorLabelComponent>;
 

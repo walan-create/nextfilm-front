@@ -44,7 +44,7 @@ const authServiceMock = {
     }),
 };
 
-fdescribe('Register Component', () => {
+describe('Register Component', () => {
   let component: RegisterPageComponent;
   let fixture: ComponentFixture<RegisterPageComponent>;
   let authService: AuthService;

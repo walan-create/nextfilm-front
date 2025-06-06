@@ -44,7 +44,7 @@ class MockFormErrorLabelComponent {
 
 
 
-fdescribe('Login Component', () => {
+describe('Login Component', () => {
   let component: LoginPageComponent;
   let fixture: ComponentFixture<LoginPageComponent>;
   let authService: AuthService;

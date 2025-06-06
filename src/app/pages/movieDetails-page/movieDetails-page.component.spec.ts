@@ -68,7 +68,7 @@ const mockMovieService = {
   }),
 };
 
-fdescribe('Movie Details Component', () => {
+describe('Movie Details Component', () => {
   let component: MovieDetailsPageComponent;
   let fixture: ComponentFixture<MovieDetailsPageComponent>;
   let router: Router;
