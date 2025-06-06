@@ -32,89 +32,6 @@ import { rxResource } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MoviesComponent {
-  // 1. Lista de películas de prueba (MOCK)
-  // testMovies: Movie[] = [
-  //   {
-  //     _id: '1',
-  //     title: 'The Godfather',
-  //     genre: MovieGenre.Drama,
-  //     release: new Date('1972-03-24'),
-  //     director: 'Francis Ford Coppola',
-  //     duration: 175,
-  //     stock: 5,
-  //     rental_price: 20,
-  //     description: 'Classic mafia movie.',
-  //   },
-  //   {
-  //     _id: '2',
-  //     title: 'Inception',
-  //     genre: MovieGenre.SciFi,
-  //     release: new Date('1972-03-24'),
-  //     director: 'Christopher Nolan',
-  //     duration: 148,
-  //     stock: 3,
-  //     rental_price: 18,
-  //     description: 'A mind-bending thriller.',
-  //   },
-  //   {
-  //     _id: '3',
-  //     title: 'Avengers: Endgame',
-  //     genre: MovieGenre.Action,
-  //     release: new Date('1972-03-24'),
-  //     director: 'Russo Brothers',
-  //     duration: 181,
-  //     stock: 7,
-  //     rental_price: 22,
-  //     description: 'Epic superhero finale.',
-  //   },
-  //   {
-  //     _id: '4',
-  //     title: 'The Hangover',
-  //     genre: MovieGenre.Comedy,
-  //     release: new Date('1972-03-24'),
-  //     director: 'Todd Phillips',
-  //     duration: 100,
-  //     stock: 4,
-  //     rental_price: 15,
-  //     description: 'A wild bachelor party in Las Vegas.',
-  //   },
-  //   {
-  //     _id: '5',
-  //     title: 'Friday the 13th',
-  //     genre: MovieGenre.Horror,
-  //     release: new Date('1972-03-24'),
-  //     director: 'Sean S. Cunningham',
-  //     duration: 95,
-  //     stock: 6,
-  //     rental_price: 17,
-  //     description:
-  //       'Camp counselors are stalked by a masked killer at Crystal Lake.',
-  //   },
-  //   {
-  //     _id: '6',
-  //     title: 'The Lion King',
-  //     genre: MovieGenre.Animated,
-  //     release: new Date('1972-03-24'),
-  //     director: 'Roger Allers',
-  //     duration: 88,
-  //     stock: 8,
-  //     rental_price: 16,
-  //     description:
-  //       'A young lion prince flees his kingdom only to learn the true meaning of responsibility and bravery.',
-  //   },
-  //   {
-  //     _id: '7',
-  //     title: 'La La Land',
-  //     genre: MovieGenre.Musical,
-  //     release: new Date('1972-03-24'),
-  //     director: 'Damien Chazelle',
-  //     duration: 128,
-  //     stock: 5,
-  //     rental_price: 19,
-  //     description:
-  //       'A jazz pianist falls for an aspiring actress in Los Angeles.',
-  //   },
-  // ];
 
   authService = inject(AuthService);
   moviesService = inject(MoviesService);
@@ -146,19 +63,7 @@ export class MoviesComponent {
     loader: () => this.rentalsService.loadUserRentals(),
   });
 
-  loadMovies() {
-    this.moviesService.loadMovies().subscribe({
-      next: (movies) => {
-        // Actualizar el signal con las peliculas obtenidas
-        this.moviesService.movies.set(movies);
-      },
-      error: (err) => {
-        console.error('Error loading movies:', err);
-      },
-    });
-  }
-
-  hasActiveReservation(movieId: string): boolean {
+  public hasActiveReservation(movieId: string): boolean {
     // Busca si hay una reserva activa (sin returnDate) para la película y el usuario actual
     const userRentals = this.rentalsService.userRentals();
     return userRentals.some(
@@ -166,7 +71,7 @@ export class MoviesComponent {
     );
   }
 
-  onReserveClick(movie: Movie) {
+  public onReserveClick(movie: Movie) {
     this.movieId.set(movie._id);
     this.rentalsService.createBook(movie._id).subscribe({
       next: (rental) => {
@@ -185,6 +90,18 @@ export class MoviesComponent {
         setTimeout(() => {
           this.guardadoError.set('');
         }, 2000);
+      },
+    });
+  }
+
+    private loadMovies() {
+    this.moviesService.loadMovies().subscribe({
+      next: (movies) => {
+        // Actualizar el signal con las peliculas obtenidas
+        this.moviesService.movies.set(movies);
+      },
+      error: (err) => {
+        console.error('Error loading movies:', err);
       },
     });
   }

@@ -51,17 +51,14 @@ export class RegisterPageComponent {
     this.cambiado.set(!this.cambiado());
 
     if (!isValid) return;
-    const {
-      email = '',
-      password = '',
-      fullName = '',
-    } = this.registerForm.value;
+    const { email, password, fullName } = this.registerForm.value;
 
     this.authService
       .register(email!, password!, fullName!)
       .subscribe((isAuth) => {
         if (isAuth) {
           this.router.navigateByUrl('/home');
+          return;
         }
         this.mostrarError();
       });
