@@ -75,8 +75,6 @@ export class HomeComponent {
   // };
 
   moviesService = inject(MoviesService);
-  // dataHome = signal<DataMoviesNews| null>(null);
-  // movieMockResponse = this.mockDataHome;//cambiarlo por el de abajo
 
   movieNewsResource = rxResource({
       request: () => ({}),
@@ -84,10 +82,5 @@ export class HomeComponent {
         return this.moviesService.getHomeInfo()
       }
     });
-
-  ngOnInit() {
-    this.movieNewsResource;
-
-  }
 
 }

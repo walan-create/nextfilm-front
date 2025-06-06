@@ -12,12 +12,10 @@ import { rxResource } from '@angular/core/rxjs-interop';
 })
 export class HeaderComponent {
   authService = inject(AuthService);
-
   router = inject(Router);
 
   // Señal para almacenar la ruta actual
   currentRoute = signal<string>('');
-
 
   checkStatusResource = rxResource({
     loader: () => this.authService.checkStatus()
