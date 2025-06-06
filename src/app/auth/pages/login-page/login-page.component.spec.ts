@@ -76,6 +76,9 @@ fdescribe('Login Component', () => {
 
     component = fixture.componentInstance;
 
+    authServiceMock.checkStatus.calls.reset();
+    authServiceMock.login.calls.reset();
+
     fixture.detectChanges();
   });
 

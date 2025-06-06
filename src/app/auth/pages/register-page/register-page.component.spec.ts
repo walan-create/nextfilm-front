@@ -74,6 +74,9 @@ fdescribe('Register Component', () => {
 
     component = fixture.componentInstance;
 
+    authServiceMock.checkStatus.calls.reset();
+    authServiceMock.register.calls.reset();
+
     fixture.detectChanges();
   });
 
