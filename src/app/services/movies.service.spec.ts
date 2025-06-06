@@ -63,7 +63,7 @@ const mockMovies: Movie[] = [
   },
 ];
 
-fdescribe('Movies Service', () => {
+describe('Movies Service', () => {
   let service: MoviesService;
   let httpMock: HttpTestingController;
 

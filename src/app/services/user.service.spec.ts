@@ -27,7 +27,7 @@ const mockUsers: User[] = [
   },
 ];
 
-fdescribe('UserService', () => {
+describe('UserService', () => {
   let service: ServiceNameServices;
   let httpMock: HttpTestingController;
 
