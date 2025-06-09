@@ -4,10 +4,12 @@ import { provideHttpClient } from '@angular/common/http';
 import { MoviesService } from '../../services/movies.service';
 import { RentalsService } from '../../services/rentals.service';
 import { Movie } from '../../interfaces/movie.interface';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, signal } from '@angular/core';
-import { async, of, throwError } from 'rxjs';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, Pipe, PipeTransform, signal } from '@angular/core';
+import { of, throwError } from 'rxjs';
 import { MovieGenre } from '../../interfaces/movie-genre.enum';
 import { Rental } from '../../interfaces/rental.interface';
+import { OrderByPipe } from '../../pipes/order-by.pipe';
+import { FilterByTextPipe } from '../../pipes/filter-by-text.pipe';
 
 //Mocks de los servicios de MoviesComponent
 const mockMovies: Movie[] = [
@@ -39,6 +41,24 @@ const mockRentals: Rental[] = [
   }
 ];
 
+@Pipe({
+  name: 'orderBy'
+})
+export class MockOrderByPipe implements PipeTransform {
+  transform(value: any, ...args: any[]): any {
+    return value
+  }
+}
+
+@Pipe({
+  name: 'filterByText'
+})
+export class MockFliterByTextPipe implements PipeTransform {
+  transform(value: any, ...args: any[]): any {
+    return value
+  }
+}
+
 class MoviesServiceMock {
   movies = signal<Movie[]>([])
   loadMovies = jasmine.createSpy('loadMovies').and.returnValue(of([]))
@@ -61,11 +81,13 @@ describe('MoviesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MoviesComponent],
+      imports: [MoviesComponent, MockOrderByPipe, MockFliterByTextPipe],
       providers: [
         provideHttpClient(),
         {provide: MoviesService, useClass: MoviesServiceMock },
         {provide: RentalsService, useClass: RentalsServiceMock },
+        {provide: OrderByPipe, useValue: MockOrderByPipe},
+        {provide: FilterByTextPipe, useValue: MockFliterByTextPipe}
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();

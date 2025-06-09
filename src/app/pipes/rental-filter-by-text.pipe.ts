@@ -17,8 +17,8 @@ export class RentalFilterByTextPipe implements PipeTransform {
         movie.filmName.toLowerCase().includes(lower) ||
         movie.price.toString().includes(lower) ||
         movie.bookDate?.toString().includes(lower) ||
-        (movie.rentalDate ? movie.rentalDate.toString().includes(lower) : false) ||
-        (movie.expectedReturnDate ? movie.expectedReturnDate.toString().includes(lower) : false) ||
+        (movie.rentalDate ? movie.rentalDate.toISOString().slice(0 ,10).includes(lower) : false) ||
+        (movie.expectedReturnDate ? movie.expectedReturnDate.toISOString().slice(0, 10).includes(lower) : false) ||
         (movie.returnDate ? movie.returnDate.toString().includes(lower) : false)
     );
   }

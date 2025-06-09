@@ -15,9 +15,9 @@ export class FilterRentalByTextPipe implements PipeTransform {
       rental.userName.toLowerCase().includes(lower) ||
       rental.filmName.toLowerCase().includes(lower) ||
       rental.price.toString().includes(lower) ||
-      rental.rentalDate?.toString().includes(lower) ||
-      rental.returnDate?.toString().includes(lower) ||
-      rental.expectedReturnDate?.toString().includes(lower)
+      rental.rentalDate?.toISOString().slice(0, 10).includes(lower) ||
+      rental.returnDate?.toString().slice(0, 10).includes(lower) ||
+      rental.expectedReturnDate?.toISOString().slice(0, 10).includes(lower)
     );
   }
 }
