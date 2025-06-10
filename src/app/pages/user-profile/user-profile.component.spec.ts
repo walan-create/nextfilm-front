@@ -6,7 +6,7 @@ import { RentalsService } from '../../services/rentals.service';
 import { Rental } from '../../interfaces/rental.interface';
 import { of, BehaviorSubject } from 'rxjs';
 
-fdescribe('UserProfileComponent', () => {
+describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
   let rentalsServiceSpy: jasmine.SpyObj<RentalsService>;
