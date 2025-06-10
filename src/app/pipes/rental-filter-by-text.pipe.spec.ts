@@ -113,9 +113,4 @@ describe('RentalFilterByTextPipe', () => {
     }])
   })
 
-    it('should return false when date is not found', () => {
-      const data = mockRentals
-      const result = pipe.transform(data, '2046-09-09')
-  })
-
 })
