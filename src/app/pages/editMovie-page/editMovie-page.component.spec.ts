@@ -2,8 +2,6 @@ import { provideHttpClient } from "@angular/common/http";
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { MoviesService } from "../../services/movies.service";
-import { RentalsService } from "../../services/rentals.service";
-import { MovieDetailsPageComponent } from "../movieDetails-page/movieDetails-page.component";
 import { MovieGenre } from "../../interfaces/movie-genre.enum";
 import { Movie } from "../../interfaces/movie.interface";
 import { of } from "rxjs";
@@ -59,15 +57,15 @@ describe('EditMoviePageComponent', () => {
 
     it('should load the resource correctly', async() => {
         moviesService.getMovieById.and.returnValue(of(mockMovie));
-        
+
         fixture.detectChanges()
-    
+
         component.movieResource.reload();
-    
+
         await fixture.whenStable();
-    
+
         expect(moviesService.getMovieById).toHaveBeenCalled();
-    
+
         const result = component.movieResource.value();
         expect(result).toEqual(mockMovie);
     })
