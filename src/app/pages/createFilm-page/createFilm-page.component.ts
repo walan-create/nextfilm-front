@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/cor
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { MoviesService } from '../../services/movies.service';
-import { MovieDetailsPageComponent } from "../movieDetails-page/movieDetails-page.component";
+import { MovieDetailsComponent } from '../../components/movieDetails/movieDetails.component';
 
 @Component({
   selector: 'app-create-film-page',
-  imports: [MovieDetailsPageComponent],
+  imports: [MovieDetailsComponent],
   templateUrl: './createFilm-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

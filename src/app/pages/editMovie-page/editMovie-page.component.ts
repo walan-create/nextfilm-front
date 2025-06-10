@@ -3,13 +3,11 @@ import { toSignal, rxResource } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { MoviesService } from '../../services/movies.service';
-import { MovieDetailsPageComponent } from "../movieDetails-page/movieDetails-page.component";
-import { MovieGenre } from '../../interfaces/movie-genre.enum';
-import { Movie } from '../../interfaces/movie.interface';
+import { MovieDetailsComponent } from "../../components/movieDetails/movieDetails.component";
 
 @Component({
   selector: 'app-edit-movie-page',
-  imports: [MovieDetailsPageComponent],
+  imports: [ MovieDetailsComponent],
   templateUrl: './editMovie-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

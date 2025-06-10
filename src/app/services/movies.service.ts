@@ -23,7 +23,6 @@ const baseUrl = environment.baseUrl;
 
 @Injectable({ providedIn: 'root' })
 export class MoviesService {
-
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
@@ -78,22 +77,19 @@ export class MoviesService {
   }
 
   updateMovie(id: string, movieData: Partial<Movie>): Observable<Movie> {
-
     // console.log(movieData);
-    return this.http
-      .put<Movie>(`${baseUrl}/updateFilm/${id}`, movieData)
-      .pipe(
-        tap((updatedMovie) => {
-          // Actualiza el caché local con el hotel actualizado
-          this.movies.update((movies) =>
-            movies.map((movie) => (movie._id === id ? updatedMovie : movie))
-          );
-        }),
-        catchError((error) => {
-          console.error('Error updating the movie:', error);
-          throw error;
-        })
-      );
+    return this.http.put<Movie>(`${baseUrl}/updateFilm/${id}`, movieData).pipe(
+      tap((updatedMovie) => {
+        // Actualiza el caché local con el hotel actualizado
+        this.movies.update((movies) =>
+          movies.map((movie) => (movie._id === id ? updatedMovie : movie))
+        );
+      }),
+      catchError((error) => {
+        console.error('Error fetching the movie:', error);
+        return of(emptyMovie);
+      })
+    );
   }
 
   deletemovie(movieId: string): Observable<void> {
@@ -127,17 +123,16 @@ export class MoviesService {
         this.cacheHomeInfo = data;
       }),
       catchError((error) => {
-        console.error("Error fetcheando home data" + error);
+        console.error('Error fetcheando home data' + error);
         return of({
           LatestFilm: emptyMovie,
           TotalFilms: 0,
           OldestFilm: emptyMovie,
           CheapestFilm: emptyMovie,
           LonguestFilm: emptyMovie,
-          ExpensiveFilm: emptyMovie
+          ExpensiveFilm: emptyMovie,
         });
       })
-    )
+    );
   }
-
 }

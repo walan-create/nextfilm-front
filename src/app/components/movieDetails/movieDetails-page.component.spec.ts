@@ -40,6 +40,18 @@ class MockFormErrorLabelComponent {
   }
 }
 
+const emptyMovie: Movie = {
+  _id: '',
+  title: '',
+  genre: MovieGenre.Action,
+  release: new Date(),
+  director: '',
+  duration: 0,
+  stock: 0,
+  rental_price: 0,
+  description: '',
+};
+
 const mockMovie: Movie = {
   _id: '123abc',
   title: 'Pelicula de prueba',
@@ -65,12 +77,19 @@ const mockMovieNueva: Movie = {
 };
 
 const mockMovieService = {
-  createMovie: jasmine.createSpy('createMovie').and.callFake(() => {
-    return of(mockMovie);
-  }),
-  updateMovie: jasmine.createSpy('updateMovie').and.callFake(() => {
-    return of(mockMovie);
-  }),
+  createMovie: jasmine
+    .createSpy('createMovie')
+    .and.callFake((newMovie: Partial<Movie>) => {
+      if (newMovie.title === 'Hola') return of(emptyMovie);
+      return of(mockMovie);
+    }),
+  updateMovie: jasmine
+    .createSpy('updateMovie')
+    .and.callFake((id: string, newMovie: Partial<Movie>) => {
+      if (newMovie.title === 'Hola') return of(emptyMovie);
+
+      return of(mockMovie);
+    }),
 };
 
 describe('Movie Details Component', () => {
@@ -130,51 +149,98 @@ describe('Movie Details Component', () => {
   });
 
   describe('Form Submission', () => {
-    it('should call createMovie when the form is valid and _id is not provided (new movie)', fakeAsync(() => {
-      component.movie = signal(mockMovieNueva) as unknown as InputSignal<Movie>;
-      component.ngOnInit();
-      fixture.detectChanges();
+    describe('whenCreating a new movie', () => {
+      it('should call createMovie when the form is valid and _id is not provided (new movie)', async () => {
+        component.movie = signal(
+          mockMovieNueva
+        ) as unknown as InputSignal<Movie>;
+        component.ngOnInit();
+        fixture.detectChanges();
 
-      component.onSubmit().then(() => {
+        spyOn(router, 'navigate');
+
+        await component.onSubmit();
         expect(mockMovieService.createMovie).toHaveBeenCalledWith({
           ...component.movieForm.value,
           release: new Date(component.movieForm.value.release ?? ''),
         });
-        expect(component.wasSaved()).toBeTrue();
-
-        tick(2001);
-
-        expect(component.wasSaved()).toBeFalse();
-      });
-    }));
-
-    it('should call updateMovie when the form is valid and movie is provided', fakeAsync(() => {
-      component.movieForm.setValue({
-        title: 'Pelicula Actualizada',
-        genre: MovieGenre.Drama,
-        release: '2023-10-01',
-        director: 'Nuevo Director',
-        duration: 150,
-        stock: 20,
-        rental_price: 10,
-        description: 'Nueva descripcion',
-      });
-
-      component.onSubmit().then(() => {
-        expect(mockMovieService.updateMovie).toHaveBeenCalledWith(
+        expect(router.navigate).toHaveBeenCalledWith([
+          '/movies/info',
           mockMovie._id,
-          {
-            ...component.movieForm.value,
-            release: new Date(component.movieForm.value.release ?? ''),
-          }
-        );
-        expect(component.wasSaved()).toBeTrue();
-
-        tick(2001);
-
-        expect(component.wasSaved()).toBeFalse();
+        ]);
       });
-    }));
+
+      it('should show error message if form submission fails', fakeAsync(() => {
+        component.movie = signal(
+          mockMovieNueva
+        ) as unknown as InputSignal<Movie>;
+        component.ngOnInit();
+        fixture.detectChanges();
+
+        component.movieForm.setValue({
+          title: 'Hola',
+          genre: MovieGenre.Action,
+          release: '2023-10-01',
+          director: 'Director',
+          duration: 120,
+          stock: 10,
+          rental_price: 5,
+          description: 'Description',
+        });
+        component.onSubmit().then(() => {
+          expect(component.notSaved()).toBeTrue();
+
+          tick(2001);
+
+          expect(component.notSaved()).toBeFalse();
+        });
+      }));
+    });
+
+    describe('whenUpdating an existing movie', () => {
+      it('should call updateMovie when the form is valid and movie is provided', fakeAsync(() => {
+        component.movieForm.setValue({
+          title: 'Pelicula Actualizada',
+          genre: MovieGenre.Drama,
+          release: '2023-10-01',
+          director: 'Nuevo Director',
+          duration: 150,
+          stock: 20,
+          rental_price: 10,
+          description: 'Nueva descripcion',
+        });
+
+        component.onSubmit().then(() => {
+          expect(mockMovieService.updateMovie).toHaveBeenCalledWith(
+            mockMovie._id,
+            {
+              ...component.movieForm.value,
+              release: new Date(component.movieForm.value.release ?? ''),
+            }
+          );
+        });
+      }));
+
+      it('should show error message if form submission fails', fakeAsync(() => {
+        component.movieForm.setValue({
+          title: 'Hola',
+          genre: MovieGenre.Action,
+          release: '2023-10-01',
+          director: 'Director',
+          duration: 120,
+          stock: 10,
+          rental_price: 5,
+          description: 'Description',
+        });
+        component.onSubmit().then(() => {
+          expect(component.notSaved()).toBeTrue();
+
+          tick(2001);
+
+          expect(component.notSaved()).toBeFalse();
+        });
+      }));
+    });
 
     it('should not submit the form if its invalid', async () => {
       component.movieForm.get('title')?.setValue('');

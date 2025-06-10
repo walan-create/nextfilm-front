@@ -273,11 +273,8 @@ describe('Movies Service', () => {
       };
 
       service.updateMovie(id, updatedMovie).subscribe({
-        next: () => fail('Expected error, not success'),
-        error: (error) => {
-          // La prueba pasa si llegamos aquí
-          expect(error).toBeTruthy();
-        },
+        next: (movie) => expect(movie).toEqual(mockMovies[0]),
+        error: () => fail('Expected an error, not movies'),
       });
 
       const req = httpMock.expectOne(`${baseUrl}/updateFilm/${id}`);

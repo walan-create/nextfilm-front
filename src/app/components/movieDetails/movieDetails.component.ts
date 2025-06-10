@@ -26,8 +26,6 @@ export class MovieDetailsComponent {
 
   private movieService = inject(MoviesService);
 
-
-
   genres = [
     MovieGenre.Action,
     MovieGenre.Horror,
@@ -41,20 +39,15 @@ export class MovieDetailsComponent {
   cambiado = signal(false);
 
   wasSaved = signal(false);
+  notSaved = signal(false);
 
   fb = inject(FormBuilder);
 
-
-
-// INICIALIZA EL FORMULARIO REACTIVO
+  // INICIALIZA EL FORMULARIO REACTIVO
   movieForm = this.fb.group({
     title: ['', [Validators.required], []],
     genre: ['', [Validators.required], []],
-    release: [
-      '',
-      [Validators.required],
-      [],
-    ],
+    release: ['', [Validators.required], []],
     director: ['', [Validators.required], []],
     duration: [0, [Validators.required], []],
     stock: [0, [Validators.required], []],
@@ -62,15 +55,30 @@ export class MovieDetailsComponent {
     description: ['', [Validators.required], []],
   });
 
-
   // AÑADE LOS DATOS DE LA PELICULA QUE NOS PASAN AL FORMULARIO
   private setFormValue(formLike: Movie) {
     this.movieForm.patchValue(formLike as any);
-    this.movieForm.patchValue({release: formLike.release.toISOString().split('T')[0]});
+    this.movieForm.patchValue({
+      release: formLike.release.toISOString().split('T')[0],
+    });
   }
 
   ngOnInit(): void {
     this.setFormValue(this.movie());
+  }
+
+  mostrarError() {
+    this.notSaved.set(true);
+    setTimeout(() => {
+      this.notSaved.set(false);
+    }, 2000); // desactivar mensaje de guardado a los dos segundos
+  }
+
+  mostrarGuardado() {
+    this.wasSaved.set(true); // activar mensaje de guardado
+    setTimeout(() => {
+      this.wasSaved.set(false);
+    }, 2000); // desactivar mensaje de guardado a los dos segundos
   }
 
   async onSubmit() {
@@ -83,31 +91,36 @@ export class MovieDetailsComponent {
     if (!isValid) return;
 
     //OBTINEN LOS VALORES DEL FORMULARIO
-    const formValue  = this.movieForm.value ;
+    const formValue = this.movieForm.value;
 
     // CREA UN OBJETO PARCIAL DE PELICULA CON LOS VALORES DEL FORMULARIO
-    const movieLike : Partial<Movie>= {
-      ...formValue as any,
-        release: new Date(formValue.release! ),
-    }
+    const movieLike: Partial<Movie> = {
+      ...(formValue as any),
+      release: new Date(formValue.release!),
+    };
 
     // console.log(movieLike);
 
-    if (this.movie()._id === '') { // SI NO TENGO ID ES NUEVO
-      const product = await firstValueFrom(
-        this.movieService.createMovie(movieLike) // si es new creo el producto y navego a la dirección del producto creado
+    if (this.movie()._id === '') {
+      // SI NO TENGO ID ES NUEVO
+      // si es new creo el producto y navego a la dirección del producto creado)
+      const movie = await firstValueFrom(
+        this.movieService.createMovie(movieLike)
       );
-      this.router.navigate(['/movies/info', product._id]); // navego a la dirección del producto creado
-    } else
-      await firstValueFrom(
+      if (movie._id === '')
+        this.mostrarError(); // si no se ha creado muestro el error
+      else this.router.navigate(['/movies/info', movie._id]); // navego a la dirección del producto creado
+    } else {
+      const movie = await firstValueFrom(
         this.movieService.updateMovie(this.movie()._id, movieLike) // si no es nuevo lo actualizo
       ); // si no es  nuevo sólo lo actualizo
 
-    this.wasSaved.set(true); // activar mensaje de guardado
-
-    setTimeout(() => {
-      this.wasSaved.set(false);
-    }, 2000); // desactivar mensaje de guardadod a los dos segundos
+      if (movie._id === '') {
+        this.mostrarError(); // si no se ha actualizado muestro el error
+      } else {
+        this.mostrarGuardado(); // muestro el mensaje de guardado
+      }
+    }
   }
 
   onGenreClick(genre: string) {
