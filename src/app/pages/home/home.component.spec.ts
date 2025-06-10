@@ -33,7 +33,7 @@ class MoviesServiceMock {
   getHomeInfo = jasmine.createSpy('getHomeInfo').and.returnValue(of(mockDataMoviesNews));
 }
 
-fdescribe('HomeComponent', () => {
+describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let moviesService: MoviesServiceMock;
