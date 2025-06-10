@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, input, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { LoginPageComponent } from './login-page.component';
 import { AuthService } from '@auth/services/auth.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -124,7 +124,7 @@ describe('Login Component', () => {
   });
 
   describe('Login', () => {
-    it('should print error when credentials not valid', () => {
+    it('should print error when credentials not valid', fakeAsync( () => {
       component.loginForm.setValue({
         email: 'adios@adios.com',
         password: '!Qazghfdsnjw29',
@@ -135,10 +135,14 @@ describe('Login Component', () => {
       expect(authService.login).toHaveBeenCalled();
       expect(component.hasError()).toBeTrue();
 
-      setTimeout(() => {
-        expect(component.hasError()).toBeFalse();
-      }, 2001);
-    });
+      tick(2001);
+
+      expect(component.hasError()).toBeFalse();
+
+      // setTimeout(() => {
+      //   expect(component.hasError()).toBeFalse();
+      // }, 2001);
+    }));
 
     it('should do login with valid credentials', () => {
       component.loginForm.setValue({

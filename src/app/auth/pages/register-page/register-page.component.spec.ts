@@ -4,7 +4,7 @@ import {
   input,
   NO_ERRORS_SCHEMA,
 } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { RegisterPageComponent } from './register-page.component';
 import { AuthService } from '@auth/services/auth.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -174,7 +174,7 @@ describe('Register Component', () => {
   });
 
   describe('Register', () => {
-    it('should print error when credentials not valid', () => {
+    it('should print error when credentials not valid', fakeAsync( () => {
       component.registerForm.setValue({
         email: 'adios@adios.com',
         password: '!Qazghfdsnjw29',
@@ -186,10 +186,14 @@ describe('Register Component', () => {
       expect(authService.register).toHaveBeenCalled();
       expect(component.hasError()).toBeTrue();
 
-      setTimeout(() => {
-        expect(component.hasError()).toBeFalse();
-      }, 2000);
-    });
+      tick(2001);
+
+      expect(component.hasError()).toBeFalse();
+
+      // setTimeout(() => {
+      //   expect(component.hasError()).toBeFalse();
+      // }, 2000);
+    }));
 
     it('should do register with valid credentials', () => {
       component.registerForm.setValue({
