@@ -7,7 +7,12 @@ import {
   signal,
   InputSignal,
 } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
 import { Router, provideRouter } from '@angular/router';
 import { FormErrorLabelComponent } from '../../components/form-error-label/form-error-label.component';
@@ -78,7 +83,9 @@ describe('Movie Details Component', () => {
       imports: [MovieDetailsComponent],
       providers: [
         provideHttpClientTesting(),
-        provideRouter([]),
+        provideRouter([
+          { path: 'movies/info/:id', component: {} as any }, // para crear nuevoMovie
+        ]),
         { provide: MoviesService, useValue: mockMovieService },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
@@ -123,21 +130,25 @@ describe('Movie Details Component', () => {
   });
 
   describe('Form Submission', () => {
-    it('should call createMovie when the form is valid and _id is not provided (new movie)', async () => {
+    it('should call createMovie when the form is valid and _id is not provided (new movie)', fakeAsync(() => {
       component.movie = signal(mockMovieNueva) as unknown as InputSignal<Movie>;
       component.ngOnInit();
       fixture.detectChanges();
 
-      await component.onSubmit();
+      component.onSubmit().then(() => {
+        expect(mockMovieService.createMovie).toHaveBeenCalledWith({
+          ...component.movieForm.value,
+          release: new Date(component.movieForm.value.release ?? ''),
+        });
+        expect(component.wasSaved()).toBeTrue();
 
-      expect(mockMovieService.createMovie).toHaveBeenCalledWith({
-        ...component.movieForm.value,
-        release: new Date(component.movieForm.value.release ?? ''),
+        tick(2001);
+
+        expect(component.wasSaved()).toBeFalse();
       });
-      expect(component.wasSaved()).toBeTrue();
-    });
+    }));
 
-    it('should call updateMovie when the form is valid and movie is provided', async () => {
+    it('should call updateMovie when the form is valid and movie is provided', fakeAsync(() => {
       component.movieForm.setValue({
         title: 'Pelicula Actualizada',
         genre: MovieGenre.Drama,
@@ -149,14 +160,21 @@ describe('Movie Details Component', () => {
         description: 'Nueva descripcion',
       });
 
-      await component.onSubmit();
+      component.onSubmit().then(() => {
+        expect(mockMovieService.updateMovie).toHaveBeenCalledWith(
+          mockMovie._id,
+          {
+            ...component.movieForm.value,
+            release: new Date(component.movieForm.value.release ?? ''),
+          }
+        );
+        expect(component.wasSaved()).toBeTrue();
 
-      expect(mockMovieService.updateMovie).toHaveBeenCalledWith(mockMovie._id, {
-        ...component.movieForm.value,
-        release: new Date(component.movieForm.value.release ?? ''),
+        tick(2001);
+
+        expect(component.wasSaved()).toBeFalse();
       });
-      expect(component.wasSaved()).toBeTrue();
-    });
+    }));
 
     it('should not submit the form if its invalid', async () => {
       component.movieForm.get('title')?.setValue('');
